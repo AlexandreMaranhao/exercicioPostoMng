@@ -23,13 +23,14 @@ public class Produto {
     private float preco;
     //TODO: mudar todas as FK para long
     private int categoria_id;
-    private Date validade;
+    private boolean ativo;
+
 
     public Produto(DadosCadastroProduto dados) {
         this.nome = dados.nome();
         this.preco = dados.preco();
         this.categoria_id = dados.categoria_id();
-        this.validade = dados.validade();
+        this.ativo = true;
     }
 
 
@@ -43,10 +44,14 @@ public class Produto {
         if (dados.categoria_id() != 0.0d){ //TODO: mudar todas as FK para long
             this.categoria_id = dados.categoria_id();
         }
-        if (dados.validade() != null){
-            this.validade = dados.validade();
-        }
-
-
     }
+
+    public void inativar() {
+        this.ativo = false;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
 }

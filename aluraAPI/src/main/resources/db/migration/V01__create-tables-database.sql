@@ -3,11 +3,11 @@ CREATE TABLE IF NOT EXISTS `posto`.`Produto` (
   `Nome` VARCHAR(45) NOT NULL,
   `Preco` FLOAT NULL,
   `Categoria_Id` INT NOT NULL,
-  `Validade` DATE NULL,
+  `Ativo` TINYINT NOT NULL,
 
   PRIMARY KEY (`Id`)
-
-);
+)
+;
 
 CREATE TABLE IF NOT EXISTS `posto`.`Venda` (
   `Id` INT NOT NULL AUTO_INCREMENT,

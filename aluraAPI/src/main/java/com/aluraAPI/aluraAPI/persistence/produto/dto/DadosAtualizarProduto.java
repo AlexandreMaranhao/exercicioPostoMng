@@ -12,7 +12,7 @@ public record DadosAtualizarProduto(
 
         float preco,
 
-        int categoria_id,
+        int categoria_id
 
-        Date validade) {
+) {
 }

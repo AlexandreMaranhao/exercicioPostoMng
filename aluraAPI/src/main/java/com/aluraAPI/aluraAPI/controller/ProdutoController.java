@@ -40,6 +40,7 @@ public class ProdutoController {
     @DeleteMapping("/{id}")
     @Transactional
     public void excluirProduto(@PathVariable Long id){
-        produtoRepository.getReferenceById(id);
+        var produto = produtoRepository.getReferenceById(id);
+        produto.inativar();
     }
 }

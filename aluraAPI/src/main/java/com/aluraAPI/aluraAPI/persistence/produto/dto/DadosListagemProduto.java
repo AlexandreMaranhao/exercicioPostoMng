@@ -9,10 +9,12 @@ public record DadosListagemProduto(
         String nome,
         float preco,
         int categoria_id,//TODO: Mudar modo de chamada da FK
-        Date validade) {
+        boolean ativo
+)
+{
 
     public DadosListagemProduto(Produto produto){
-        this(produto.getId(), produto.getNome(), produto.getPreco() ,produto.getCategoria_id(), produto.getValidade());
+        this(produto.getId(), produto.getNome(), produto.getPreco() ,produto.getCategoria_id(), produto.isAtivo());
     }
 
 }

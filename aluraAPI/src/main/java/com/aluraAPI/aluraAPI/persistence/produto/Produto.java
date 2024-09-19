@@ -1,5 +1,6 @@
 package com.aluraAPI.aluraAPI.persistence.produto;
 
+import com.aluraAPI.aluraAPI.persistence.categoria.Categoria;
 import com.aluraAPI.aluraAPI.persistence.produto.dto.DadosAtualizarProduto;
 import com.aluraAPI.aluraAPI.persistence.produto.dto.DadosCadastroProduto;
 import jakarta.persistence.*;
@@ -21,8 +22,9 @@ public class Produto {
     private long id;
     private String nome;
     private float preco;
-    //TODO: mudar todas as FK para long
-    private int categoria_id;
+
+    private long categoria_id;
+
     private boolean ativo;
 
 
@@ -53,5 +55,8 @@ public class Produto {
     public boolean isAtivo() {
         return ativo;
     }
+
+
+
 
 }

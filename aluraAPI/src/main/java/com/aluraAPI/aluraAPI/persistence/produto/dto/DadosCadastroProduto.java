@@ -11,6 +11,7 @@ public record DadosCadastroProduto(
 
         float preco,
         @NotNull //TODO: Adicionar @Valid quando adicionar a tabela e mudar para long
-        int categoria_id)
+        long categoria_id
+)
     {
 }

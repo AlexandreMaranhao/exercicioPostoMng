@@ -12,7 +12,7 @@ public record DadosAtualizarProduto(
 
         float preco,
 
-        long categoria_id
+        long categoria
 
 ) {
 }

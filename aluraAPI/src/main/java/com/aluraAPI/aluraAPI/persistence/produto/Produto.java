@@ -23,7 +23,9 @@ public class Produto {
     private String nome;
     private float preco;
 
-    private long categoria_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 
     private boolean ativo;
 
@@ -31,7 +33,6 @@ public class Produto {
     public Produto(DadosCadastroProduto dados) {
         this.nome = dados.nome();
         this.preco = dados.preco();
-        this.categoria_id = dados.categoria_id();
         this.ativo = true;
     }
 
@@ -43,18 +44,13 @@ public class Produto {
         if (dados.preco() != 0.0f){
             this.preco = dados.preco();
         }
-        if (dados.categoria_id() != 0.0d){ //TODO: mudar todas as FK para long
-            this.categoria_id = dados.categoria_id();
-        }
     }
 
     public void inativar() {
         this.ativo = false;
     }
 
-    public boolean isAtivo() {
-        return ativo;
-    }
+    public boolean isAtivo() {return ativo;}
 
 
 

@@ -8,7 +8,7 @@ public record DadosListagemProduto(
         long id,
         String nome,
         float preco,
-        long categoria_id,//TODO: Mudar modo de chamada da FK
+        long categoria,//TODO: Mudar modo de chamada da FK
         boolean ativo
 )
 {
@@ -17,7 +17,7 @@ public record DadosListagemProduto(
         this(produto.getId(),
                 produto.getNome(),
                 produto.getPreco(),
-                produto.getCategoria_id(),
+                produto.getCategoria().getId(),
                 produto.isAtivo()
         );
     }

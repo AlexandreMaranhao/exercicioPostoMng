@@ -1,10 +1,10 @@
 package com.aluraAPI.aluraAPI.controller;
 
 
-import com.aluraAPI.aluraAPI.persistence.vendaproduto.VendaProduto;
-import com.aluraAPI.aluraAPI.persistence.vendaproduto.VendaProdutoRepository;
-import com.aluraAPI.aluraAPI.persistence.vendaproduto.dto.DadosCadastroVendaProduto;
-import com.aluraAPI.aluraAPI.persistence.vendaproduto.dto.DadosListagemVendaProduto;
+import com.aluraAPI.aluraAPI.domain.persistence.vendaproduto.VendaProduto;
+import com.aluraAPI.aluraAPI.domain.persistence.vendaproduto.VendaProdutoRepository;
+import com.aluraAPI.aluraAPI.domain.persistence.vendaproduto.dto.DadosCadastroVendaProduto;
+import com.aluraAPI.aluraAPI.domain.persistence.vendaproduto.dto.DadosListagemVendaProduto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

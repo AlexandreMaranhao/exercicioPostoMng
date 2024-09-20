@@ -1,11 +1,11 @@
 package com.aluraAPI.aluraAPI.controller;
 
 
-import com.aluraAPI.aluraAPI.persistence.metodopagamento.MetodoPagamento;
-import com.aluraAPI.aluraAPI.persistence.metodopagamento.MetodoPagamentoRepository;
-import com.aluraAPI.aluraAPI.persistence.metodopagamento.dto.DadosAtualizaMetodoPagamento;
-import com.aluraAPI.aluraAPI.persistence.metodopagamento.dto.DadosCadastroMetodoPagamento;
-import com.aluraAPI.aluraAPI.persistence.metodopagamento.dto.DadosListagemMetodoPagamento;
+import com.aluraAPI.aluraAPI.domain.persistence.metodopagamento.MetodoPagamento;
+import com.aluraAPI.aluraAPI.domain.persistence.metodopagamento.MetodoPagamentoRepository;
+import com.aluraAPI.aluraAPI.domain.persistence.metodopagamento.dto.DadosAtualizaMetodoPagamento;
+import com.aluraAPI.aluraAPI.domain.persistence.metodopagamento.dto.DadosCadastroMetodoPagamento;
+import com.aluraAPI.aluraAPI.domain.persistence.metodopagamento.dto.DadosListagemMetodoPagamento;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("MetodoPagamento")
+@RequestMapping("metodoPagamento")
 public class MetodoPagamentoController {
 
     @Autowired
@@ -34,15 +34,15 @@ public class MetodoPagamentoController {
     @PutMapping
     @Transactional
     public void atualizarMetodoPagamento(@RequestBody @Valid DadosAtualizaMetodoPagamento dados){
-        var produto = metodoPagamentoRepository.getReferenceById(dados.id());
-        produto.atualizarDadosMetodoPagamento(dados);
+        var metodoPagamento = metodoPagamentoRepository.getReferenceById(dados.id());
+        metodoPagamento.atualizarDadosMetodoPagamento(dados);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public void excluirMetodoPagamento(@PathVariable Long id){
-        var produto = metodoPagamentoRepository.getReferenceById(id);
-        produto.inativar();
+        var metodoPagamento = metodoPagamentoRepository.getReferenceById(id);
+        metodoPagamento.inativar();
     }
 
 

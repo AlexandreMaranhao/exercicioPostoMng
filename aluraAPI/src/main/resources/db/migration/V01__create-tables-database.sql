@@ -84,7 +84,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `posto`.`Fidelidade` (
   `Id` INT NOT NULL AUTO_INCREMENT,
-  `Pontos` INT NULL,
+  `Numero` VARCHAR(45) NOT NULL,
+  `Pontos` INT NOT NULL,
+  `Ativo` TINYINT NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE INDEX `Id_UNIQUE` (`Id` ASC) VISIBLE)
 ENGINE = InnoDB;
@@ -97,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `posto`.`Cliente` (
   `Id` INT NOT NULL AUTO_INCREMENT,
   `CPF` VARCHAR(45) NOT NULL,
   `Nome` VARCHAR(45) NOT NULL,
-  `Fidelidade_Id` INT NOT NULL,
+  `Fidelidade_Id` INT NULL,
   `Ativo` TINYINT NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE INDEX `Id_UNIQUE` (`Id` ASC) VISIBLE,

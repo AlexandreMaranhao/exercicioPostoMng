@@ -21,14 +21,16 @@ public class RegisterProduct {
     @Autowired
     CategoryRepository categoryRepository;
 
-   @Autowired
-   private List<ProductValidation> validators;
+    @Autowired
+    private List<ProductValidation> validators;
 
-    public DetailProduct registerProduct(DetailProduct newProductInput){
-
+    public DetailProduct registerNewProduct(DetailProduct newProductInput){
+        if((newProductInput.name() == null) || (newProductInput.categoryId() == 0.0d)){
+            throw new GeneralException(("Name and Category are mandatory fields"));
+        }
 
         if(!categoryRepository.existsById(newProductInput.categoryId())){
-            throw new GeneralException(("Categoria informada não existe"));
+            throw new GeneralException(("Informed Category value does not exist"));
         }
 
         validators.forEach(v -> v.validate(newProductInput));

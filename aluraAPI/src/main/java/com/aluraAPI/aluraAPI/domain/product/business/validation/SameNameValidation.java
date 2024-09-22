@@ -15,15 +15,11 @@ public class SameNameValidation implements ProductValidation {
     ProductRepository productRepository;
 
     public void validate(DetailProduct inputedData){
-        System.out.println("============================================");
-        System.out.println(inputedData);
-        System.out.println("============================================");
+
         var product = productRepository.findByName(inputedData.name());
-        System.out.println("============================================");
-        System.out.println(product);
-        System.out.println("============================================");
+
         if (product != null){
-            throw new GeneralException(("Produto ja cadastrado"));
+            throw new GeneralException(("This Product is already registred"));
         }
 
     }

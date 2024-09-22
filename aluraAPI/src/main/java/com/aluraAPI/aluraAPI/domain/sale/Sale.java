@@ -3,6 +3,7 @@ package com.aluraAPI.aluraAPI.domain.sale;
 import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.deal.Deal;
+import com.aluraAPI.aluraAPI.domain.sale.dto.RegisterSale;
 import com.aluraAPI.aluraAPI.domain.user.User;
 import com.aluraAPI.aluraAPI.domain.sale.dto.UpdateSale;
 import jakarta.persistence.*;
@@ -61,6 +62,8 @@ public class Sale {
     public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, User user) {
     }
 
+    public Sale(@Valid RegisterSale newSaleInput) {
+    }
 
 
     public void updateSale(@Valid UpdateSale newSaleInput){

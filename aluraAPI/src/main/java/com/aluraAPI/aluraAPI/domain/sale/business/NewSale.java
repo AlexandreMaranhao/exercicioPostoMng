@@ -26,53 +26,53 @@ public class NewSale {
     @Autowired
     DealRepository dealRepository;
 
-    public void novaVenda(RegisterSale newSaleInput){
+    public void newSell(RegisterSale newSaleInput){
         if(!paymentMethodRepository.existsById(newSaleInput.paymentMethodId())){
-            throw new GeneralException(("Metodo de pagamento informado não existe"));
+            throw new GeneralException(("No payment method was found with id: " + newSaleInput.paymentMethodId()));
         }
         if (newSaleInput.costumerId() != 0.0d) {
             if (!costumerRepository.existsById(newSaleInput.costumerId())) {
-                throw new GeneralException(("Cliente informado não existe"));
+                throw new GeneralException(("No costumer was found with id: " + newSaleInput.costumerId()));
             }
         }
         if(!userRepository.existsById(newSaleInput.userId())){
-            throw new GeneralException(("Usuario informada não existe"));
+            throw new GeneralException(("No user was found with id: " + newSaleInput.userId()));
         }
         if (newSaleInput.dealId() != 0.0d) {
             if (!dealRepository.existsById(newSaleInput.dealId())) {
-                throw new GeneralException(("Promocao informada não existe"));
+                throw new GeneralException(("No deal was found with id: " + newSaleInput.dealId()));
             }
 
         }
-        LocalDateTime dataVenda = LocalDateTime.now();
+        LocalDateTime sellDate = LocalDateTime.now();
 
 
-        var metodoPagamento = paymentMethodRepository.findById(newSaleInput.paymentMethodId()).get();
-        var usuario = userRepository.findById(newSaleInput.userId()).get();
+        var paymentMethod = paymentMethodRepository.findById(newSaleInput.paymentMethodId()).get();
+        var user = userRepository.findById(newSaleInput.userId()).get();
 
 
         if((newSaleInput.costumerId() != 0.0d) && (newSaleInput.dealId() != 0.0d)){
-            var cliente = costumerRepository.findById(newSaleInput.costumerId()).get();
-            var promocao = dealRepository.findById(newSaleInput.dealId()).get();
+            var costumer = costumerRepository.findById(newSaleInput.costumerId()).get();
+            var deal = dealRepository.findById(newSaleInput.dealId()).get();
 
-            var venda = new Sale(dataVenda, newSaleInput.amount(), newSaleInput.invoiceNumber(), metodoPagamento, cliente, usuario, promocao);
-            saleRepository.save(venda);
+            var sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, costumer, user, deal);
+            saleRepository.save(sell);
 
         } else if ((newSaleInput.costumerId() != 0.0d) && (newSaleInput.dealId() == 0.0d)) {
-            var cliente = costumerRepository.findById(newSaleInput.costumerId()).get();
+            var costumer = costumerRepository.findById(newSaleInput.costumerId()).get();
 
-            var venda = new Sale(dataVenda, newSaleInput.amount(), newSaleInput.invoiceNumber(), metodoPagamento, cliente, usuario);
-            saleRepository.save(venda);
+            var sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, costumer, user);
+            saleRepository.save(sell);
 
         }else if ((newSaleInput.costumerId() == 0.0d) && (newSaleInput.dealId() != 0.0d)) {
-            var promocao = dealRepository.findById(newSaleInput.dealId()).get();
+            var deal = dealRepository.findById(newSaleInput.dealId()).get();
 
-            var venda = new Sale(dataVenda, newSaleInput.amount(), newSaleInput.invoiceNumber(), metodoPagamento, usuario, promocao);
-            saleRepository.save(venda);
+            var sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, user, deal);
+            saleRepository.save(sell);
 
         }else if ((newSaleInput.costumerId() == 0.0d) && (newSaleInput.dealId() == 0.0d)){
-            var venda = new Sale(dataVenda, newSaleInput.amount(), newSaleInput.invoiceNumber(), metodoPagamento, usuario);
-            saleRepository.save(venda);
+            var sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, user);
+            saleRepository.save(sell);
 
         }
 

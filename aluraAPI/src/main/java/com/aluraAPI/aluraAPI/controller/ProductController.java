@@ -1,10 +1,12 @@
 package com.aluraAPI.aluraAPI.controller;
 
+import com.aluraAPI.aluraAPI.domain.product.Product;
 import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
+import com.aluraAPI.aluraAPI.domain.product.business.RegisterProduct;
 import com.aluraAPI.aluraAPI.domain.product.dto.DetailProduct;
 import com.aluraAPI.aluraAPI.domain.product.dto.UpdateProduct;
-import com.aluraAPI.aluraAPI.domain.product.dto.RegisterProduct;
 import com.aluraAPI.aluraAPI.domain.product.dto.ListProduct;
+import com.aluraAPI.aluraAPI.exceptions.GeneralException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +20,16 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Autowired
-    private
-    com.aluraAPI.aluraAPI.domain.product.business.RegisterProduct registerProduct;
+    private RegisterProduct registerNewProduct;
 
     @PostMapping
     @Transactional
-    public ResponseEntity registerProduct(@RequestBody DetailProduct inputedData){
-        registerProduct.registerProduct(inputedData);
-        return ResponseEntity.ok(new RegisterProduct(inputedData.name(), inputedData.price(), inputedData.categoryId()));
+    public ResponseEntity registerNewProduct(@RequestBody DetailProduct newProductInput){
+        registerNewProduct.registerNewProduct(newProductInput);
+        return ResponseEntity.ok(new Product(newProductInput));
     }
 
     @GetMapping
@@ -40,17 +40,27 @@ public class ProductController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity updateProduct(@RequestBody @Valid UpdateProduct inputedData){
-        var product = productRepository.getReferenceById(inputedData.id());
-        product.updateProduct(inputedData);
-        return ResponseEntity.ok(new RegisterProduct(inputedData.name(), inputedData.price(), inputedData.categoryId()));
+    public ResponseEntity updateProduct(@RequestBody @Valid UpdateProduct updateProductInput){
+        var product = productRepository.getReferenceById(updateProductInput.id());
+        product.updateProduct(updateProductInput);
+        return ResponseEntity.ok(new Product(updateProductInput));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity disableProduct(@PathVariable Long id){
-        var produto = productRepository.getReferenceById(id);
-        produto.disable();
-        return ResponseEntity.noContent().build();
+        //var produto = productRepository.getReferenceById(id);
+        var product = productRepository.findById(id)
+                .orElseThrow(() -> new GeneralException("No registred product with id: " + id));
+        product.disable();
+        return ResponseEntity.ok(new ListProduct(product));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity findProduct(@PathVariable Long id){
+        // var product = productRepository.getReferenceById(id)
+        var product = productRepository.findById(id)
+                .orElseThrow(() -> new GeneralException("No registred product with id: " + id));
+        return ResponseEntity.ok(new ListProduct(product));
     }
 }

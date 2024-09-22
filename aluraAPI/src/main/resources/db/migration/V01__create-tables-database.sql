@@ -15,230 +15,233 @@ CREATE SCHEMA IF NOT EXISTS `posto` DEFAULT CHARACTER SET utf8 ;
 USE `posto` ;
 
 -- -----------------------------------------------------
--- Table `posto`.`Categoria`
+-- Table `posto`.`Category`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `posto`.`Categoria` (
-  `Id` INT NOT NULL AUTO_INCREMENT,
-  `Nome` VARCHAR(45) NOT NULL,
-  `Ativo` TINYINT NOT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE INDEX `Id_UNIQUE` (`Id` ASC) VISIBLE,
-  UNIQUE INDEX `Nome_UNIQUE` (`Nome` ASC) VISIBLE)
+CREATE TABLE IF NOT EXISTS `posto`.`Category` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `active` TINYINT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `Nome_UNIQUE` (`name` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `posto`.`Produto`
+-- Table `posto`.`Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `posto`.`Produto` (
-  `Id` INT NOT NULL AUTO_INCREMENT,
-  `Nome` VARCHAR(45) NOT NULL,
-  `Preco` FLOAT NULL,
-  `Categoria_Id` INT NOT NULL,
-  `Ativo` TINYINT NOT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE INDEX `Id_UNIQUE` (`Id` ASC) VISIBLE,
-  INDEX `fk_Produto_Categoria_idx` (`Categoria_Id` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `posto`.`Product` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `price` FLOAT NULL,
+  `category_id` INT NOT NULL,
+  `active` TINYINT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_Produto_Categoria_idx` (`category_id` ASC) VISIBLE,
+  UNIQUE INDEX `nome_UNIQUE` (`name` ASC) VISIBLE,
   CONSTRAINT `fk_Produto_Categoria`
-    FOREIGN KEY (`Categoria_Id`)
-    REFERENCES `posto`.`Categoria` (`Id`)
+    FOREIGN KEY (`category_id`)
+    REFERENCES `posto`.`Category` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `posto`.`Estoque`
+-- Table `posto`.`Stock`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `posto`.`Estoque` (
-  `Id` INT NOT NULL AUTO_INCREMENT,
-  `Quantidade` INT NOT NULL,
-  `Validade` DATE NOT NULL,
-  `Produto_Id` INT NOT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE INDEX `Id_UNIQUE` (`Id` ASC) VISIBLE,
-  INDEX `fk_Estoque_Produto1_idx` (`Produto_Id` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `posto`.`Stock` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `quantity` INT NOT NULL,
+  `validity` DATE NOT NULL,
+  `product_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_Estoque_Produto1_idx` (`product_id` ASC) VISIBLE,
   CONSTRAINT `fk_Estoque_Produto1`
-    FOREIGN KEY (`Produto_Id`)
-    REFERENCES `posto`.`Produto` (`Id`)
+    FOREIGN KEY (`product_id`)
+    REFERENCES `posto`.`Product` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `posto`.`MetodoPagamento`
+-- Table `posto`.`Payment_Method`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `posto`.`MetodoPagamento` (
-  `Id` INT NOT NULL AUTO_INCREMENT,
-  `Metodo` VARCHAR(45) NOT NULL,
-  `Desconto` VARCHAR(45) NULL,
-  `Ativo` TINYINT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE INDEX `Id_UNIQUE` (`Id` ASC) VISIBLE)
+CREATE TABLE IF NOT EXISTS `posto`.`Payment_Method` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `method` VARCHAR(45) NOT NULL,
+  `discount` VARCHAR(45) NULL,
+  `active` TINYINT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `metodo_UNIQUE` (`method` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `posto`.`Fidelidade`
+-- Table `posto`.`Loyalty`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `posto`.`Fidelidade` (
-  `Id` INT NOT NULL AUTO_INCREMENT,
-  `Numero` VARCHAR(45) NOT NULL,
-  `Pontos` INT NOT NULL,
-  `Ativo` TINYINT NOT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE INDEX `Id_UNIQUE` (`Id` ASC) VISIBLE)
+CREATE TABLE IF NOT EXISTS `posto`.`Loyalty` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `number` VARCHAR(45) NOT NULL,
+  `points` INT NOT NULL,
+  `active` TINYINT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `numero_UNIQUE` (`number` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `posto`.`Cliente`
+-- Table `posto`.`Costumer`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `posto`.`Cliente` (
-  `Id` INT NOT NULL AUTO_INCREMENT,
-  `CPF` VARCHAR(45) NOT NULL,
-  `Nome` VARCHAR(45) NOT NULL,
-  `Fidelidade_Id` INT NULL,
-  `Ativo` TINYINT NOT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE INDEX `Id_UNIQUE` (`Id` ASC) VISIBLE,
-  UNIQUE INDEX `CPF_UNIQUE` (`CPF` ASC) VISIBLE,
-  UNIQUE INDEX `Nome_UNIQUE` (`Nome` ASC) VISIBLE,
-  INDEX `fk_Cliente_Fidelidade1_idx` (`Fidelidade_Id` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `posto`.`Costumer` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `cpf` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `loyalty_id` INT NULL,
+  `active` TINYINT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `CPF_UNIQUE` (`cpf` ASC) VISIBLE,
+  INDEX `fk_Cliente_Fidelidade1_idx` (`loyalty_id` ASC) VISIBLE,
   CONSTRAINT `fk_Cliente_Fidelidade1`
-    FOREIGN KEY (`Fidelidade_Id`)
-    REFERENCES `posto`.`Fidelidade` (`Id`)
+    FOREIGN KEY (`loyalty_id`)
+    REFERENCES `posto`.`Loyalty` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `posto`.`Usuario`
+-- Table `posto`.`User`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `posto`.`Usuario` (
-  `Id` INT NOT NULL AUTO_INCREMENT,
-  `Nome` VARCHAR(45) NOT NULL,
-  `Usuario` VARCHAR(45) NOT NULL,
-  `Senha` VARCHAR(45) NOT NULL,
-  `Permissao` VARCHAR(45) NOT NULL,
-  `Ativo` TINYINT NOT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE INDEX `Id_UNIQUE` (`Id` ASC) VISIBLE,
-  UNIQUE INDEX `Usuario_UNIQUE` (`Usuario` ASC) VISIBLE)
+CREATE TABLE IF NOT EXISTS `posto`.`User` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `user` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `permission` VARCHAR(45) CHARACTER SET 'armscii8' NOT NULL,
+  `active` TINYINT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `Usuario_UNIQUE` (`user` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `posto`.`Promocao`
+-- Table `posto`.`Deal`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `posto`.`Promocao` (
-  `Id` INT NOT NULL AUTO_INCREMENT,
-  `Nome` VARCHAR(45) NOT NULL,
-  `Validade` DATETIME NOT NULL,
-  `Ativo` TINYINT NOT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE INDEX `idPromocao_UNIQUE` (`Id` ASC) VISIBLE)
+CREATE TABLE IF NOT EXISTS `posto`.`Deal` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `validity` DATETIME NOT NULL,
+  `active` TINYINT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `idPromocao_UNIQUE` (`id` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `posto`.`Venda`
+-- Table `posto`.`Sale`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `posto`.`Venda` (
-  `Id` INT NOT NULL AUTO_INCREMENT,
-  `Data` DATETIME NOT NULL,
-  `Valor` FLOAT NOT NULL,
-  `CupomFiscal` VARCHAR(45) NULL,
-  `MetodoPagamento_Id` INT NOT NULL,
-  `Cliente_Id` INT NULL,
-  `Usuarios_Id` INT NOT NULL,
-  `Promocao_Id` INT NULL,
-  `Extorno` TINYINT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE INDEX `Id_UNIQUE` (`Id` ASC) VISIBLE,
-  INDEX `fk_Vendas_MetodoPagamento1_idx` (`MetodoPagamento_Id` ASC) VISIBLE,
-  INDEX `fk_Vendas_Cliente1_idx` (`Cliente_Id` ASC) VISIBLE,
-  INDEX `fk_Vendas_Usuarios1_idx` (`Usuarios_Id` ASC) VISIBLE,
-  INDEX `fk_Vendas_Promocao1_idx` (`Promocao_Id` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `posto`.`Sale` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `date` DATETIME NOT NULL,
+  `amount` FLOAT NOT NULL,
+  `invoiceNumber` VARCHAR(45) NULL,
+  `payment_method_id` INT NOT NULL,
+  `costumer_id` INT NULL,
+  `user_id` INT NOT NULL,
+  `dell_id` INT NULL,
+  `refound` TINYINT NULL,
+  `loyalty_points` INT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_Vendas_MetodoPagamento1_idx` (`payment_method_id` ASC) VISIBLE,
+  INDEX `fk_Vendas_Cliente1_idx` (`costumer_id` ASC) VISIBLE,
+  INDEX `fk_Vendas_Usuarios1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_Vendas_Promocao1_idx` (`dell_id` ASC) VISIBLE,
   CONSTRAINT `fk_Vendas_MetodoPagamento1`
-    FOREIGN KEY (`MetodoPagamento_Id`)
-    REFERENCES `posto`.`MetodoPagamento` (`Id`)
+    FOREIGN KEY (`payment_method_id`)
+    REFERENCES `posto`.`Payment_Method` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Vendas_Cliente1`
-    FOREIGN KEY (`Cliente_Id`)
-    REFERENCES `posto`.`Cliente` (`Id`)
+    FOREIGN KEY (`costumer_id`)
+    REFERENCES `posto`.`Costumer` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Vendas_Usuarios1`
-    FOREIGN KEY (`Usuarios_Id`)
-    REFERENCES `posto`.`Usuario` (`Id`)
+    FOREIGN KEY (`user_id`)
+    REFERENCES `posto`.`User` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Vendas_Promocao1`
-    FOREIGN KEY (`Promocao_Id`)
-    REFERENCES `posto`.`Promocao` (`Id`)
+    FOREIGN KEY (`dell_id`)
+    REFERENCES `posto`.`Deal` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `posto`.`VendaProduto`
+-- Table `posto`.`Sale_Product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `posto`.`VendaProduto` (
-  `Id` INT NOT NULL AUTO_INCREMENT,
-  `Quantidade` FLOAT NOT NULL,
-  `Vendas_Id` INT NOT NULL,
-  `Produto_Id` INT NOT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE INDEX `Id_UNIQUE` (`Id` ASC) VISIBLE,
-  INDEX `fk_VendaProduto_Vendas1_idx` (`Vendas_Id` ASC) VISIBLE,
-  INDEX `fk_VendaProduto_Produto1_idx` (`Produto_Id` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `posto`.`Sale_Product` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `quantity` FLOAT NOT NULL,
+  `sell_id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_VendaProduto_Vendas1_idx` (`sell_id` ASC) VISIBLE,
+  INDEX `fk_VendaProduto_Produto1_idx` (`product_id` ASC) VISIBLE,
   CONSTRAINT `fk_VendaProduto_Vendas1`
-    FOREIGN KEY (`Vendas_Id`)
-    REFERENCES `posto`.`Venda` (`Id`)
+    FOREIGN KEY (`sell_id`)
+    REFERENCES `posto`.`Sale` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_VendaProduto_Produto1`
-    FOREIGN KEY (`Produto_Id`)
-    REFERENCES `posto`.`Produto` (`Id`)
+    FOREIGN KEY (`product_id`)
+    REFERENCES `posto`.`Product` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `posto`.`ControleEstoque`
+-- Table `posto`.`Stock_Control`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `posto`.`ControleEstoque` (
-  `Id` INT NOT NULL AUTO_INCREMENT,
-  `Data` DATETIME NOT NULL,
-  `Quantidade` FLOAT NOT NULL,
-  `Movimentacao` VARCHAR(45) NOT NULL,
-  `VendaProduto_Id` INT NULL,
-  `Usuarios_Id` INT NOT NULL,
-  `Estoque_Id` INT NOT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE INDEX `Id_UNIQUE` (`Id` ASC) VISIBLE,
-  INDEX `fk_ControleEstoque_VendaProduto1_idx` (`VendaProduto_Id` ASC) VISIBLE,
-  INDEX `fk_ControleEstoque_Usuarios1_idx` (`Usuarios_Id` ASC) VISIBLE,
-  INDEX `fk_ControleEstoque_Estoque1_idx` (`Estoque_Id` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `posto`.`Stock_Control` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `date` DATETIME NOT NULL,
+  `quantity` FLOAT NOT NULL,
+  `type` VARCHAR(45) NOT NULL,
+  `sell_product_id` INT NULL,
+  `user_id` INT NOT NULL,
+  `stock_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_ControleEstoque_VendaProduto1_idx` (`sell_product_id` ASC) VISIBLE,
+  INDEX `fk_ControleEstoque_Usuarios1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_ControleEstoque_Estoque1_idx` (`stock_id` ASC) VISIBLE,
   CONSTRAINT `fk_ControleEstoque_VendaProduto1`
-    FOREIGN KEY (`VendaProduto_Id`)
-    REFERENCES `posto`.`VendaProduto` (`Id`)
+    FOREIGN KEY (`sell_product_id`)
+    REFERENCES `posto`.`Sale_Product` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_ControleEstoque_Usuarios1`
-    FOREIGN KEY (`Usuarios_Id`)
-    REFERENCES `posto`.`Usuario` (`Id`)
+    FOREIGN KEY (`user_id`)
+    REFERENCES `posto`.`User` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_ControleEstoque_Estoque1`
-    FOREIGN KEY (`Estoque_Id`)
-    REFERENCES `posto`.`Estoque` (`Id`)
+    FOREIGN KEY (`stock_id`)
+    REFERENCES `posto`.`Stock` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

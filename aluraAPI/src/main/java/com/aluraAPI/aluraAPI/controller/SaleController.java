@@ -31,12 +31,13 @@ public class SaleController {
 
     @GetMapping
     public List<ListSaleDto> listarVendas(){
+
         return saleRepository.findAll().stream().map(ListSaleDto::new).toList();
     }
 
     @PutMapping
-    public void atualizarVenda(@RequestBody @Valid UpdateSaleDto inputedData){
-        var venda = saleRepository.getReferenceById(inputedData.id());
-        venda.updateSale(inputedData);
+    public void updateSale(@RequestBody @Valid UpdateSaleDto updateSaleInput){
+        var venda = saleRepository.getReferenceById(updateSaleInput.id());
+        venda.updateSale(updateSaleInput);
     }
 }

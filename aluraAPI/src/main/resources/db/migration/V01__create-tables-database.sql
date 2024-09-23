@@ -11,7 +11,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema posto
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `posto`;
+CREATE SCHEMA IF NOT EXISTS `posto` ;
 USE `posto` ;
 
 -- -----------------------------------------------------
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `posto`.`Sale` (
   INDEX `fk_Vendas_MetodoPagamento1_idx` (`payment_method_id` ASC) VISIBLE,
   INDEX `fk_Vendas_Cliente1_idx` (`costumer_id` ASC) VISIBLE,
   INDEX `fk_Vendas_Usuarios1_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_Vendas_Promocao1_idx` (`dell_id` ASC) VISIBLE,
+  INDEX `fk_Vendas_Promocao1_idx` (`deal_id` ASC) VISIBLE,
   CONSTRAINT `fk_Vendas_MetodoPagamento1`
     FOREIGN KEY (`payment_method_id`)
     REFERENCES `posto`.`Payment_Method` (`id`)
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `posto`.`Sale` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Vendas_Promocao1`
-    FOREIGN KEY (`dell_id`)
+    FOREIGN KEY (`deal_id`)
     REFERENCES `posto`.`Deal` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -221,16 +221,16 @@ CREATE TABLE IF NOT EXISTS `posto`.`Stock_Control` (
   `date` DATETIME NOT NULL,
   `quantity` FLOAT NOT NULL,
   `type` VARCHAR(45) NOT NULL,
-  `sell_product_id` INT NULL,
+  `sale_product_id` INT NULL,
   `user_id` INT NOT NULL,
   `stock_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_ControleEstoque_VendaProduto1_idx` (`sell_product_id` ASC) VISIBLE,
+  INDEX `fk_ControleEstoque_VendaProduto1_idx` (`sale_product_id` ASC) VISIBLE,
   INDEX `fk_ControleEstoque_Usuarios1_idx` (`user_id` ASC) VISIBLE,
   INDEX `fk_ControleEstoque_Estoque1_idx` (`stock_id` ASC) VISIBLE,
   CONSTRAINT `fk_ControleEstoque_VendaProduto1`
-    FOREIGN KEY (`sell_product_id`)
+    FOREIGN KEY (`sale_product_id`)
     REFERENCES `posto`.`Sale_Product` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,

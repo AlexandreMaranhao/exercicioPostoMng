@@ -66,9 +66,9 @@ public class Sale {
     }
 
 
-    public void updateSale(@Valid UpdateSaleDto newSaleInput){
-        if (newSaleInput.invoiceNumber() != null){
-            this.invoiceNumber = newSaleInput.invoiceNumber();
+    public void updateSale(@Valid UpdateSaleDto updateSaleInput){
+        if (updateSaleInput.invoiceNumber() != null){
+            this.invoiceNumber = updateSaleInput.invoiceNumber();
         }
  /*       if (dados.metodopagamentoId() != 0.0d){
             this.metodopagamentoId = dados.metodopagamentoId();

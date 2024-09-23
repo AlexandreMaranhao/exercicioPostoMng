@@ -3,7 +3,7 @@ package com.aluraAPI.aluraAPI.domain.loyalty.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record UpdateLoyalty(
+public record UpdateLoyaltyDto(
         @NotNull
         Long id,
         @NotBlank

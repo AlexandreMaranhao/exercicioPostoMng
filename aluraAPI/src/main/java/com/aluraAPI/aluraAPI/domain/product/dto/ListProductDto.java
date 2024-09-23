@@ -2,7 +2,7 @@ package com.aluraAPI.aluraAPI.domain.product.dto;
 
 import com.aluraAPI.aluraAPI.domain.product.Product;
 
-public record ListProduct(
+public record ListProductDto(
         long id,
         String name,
         float price,
@@ -11,7 +11,7 @@ public record ListProduct(
 )
 {
 
-    public ListProduct(Product productInput){
+    public ListProductDto(Product productInput){
         this(productInput.getId(),
                 productInput.getName(),
                 productInput.getPrice(),

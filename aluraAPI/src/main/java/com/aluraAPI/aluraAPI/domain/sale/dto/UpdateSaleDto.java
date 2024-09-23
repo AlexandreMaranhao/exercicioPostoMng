@@ -2,7 +2,7 @@ package com.aluraAPI.aluraAPI.domain.sale.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-public record UpdateSale(
+public record UpdateSaleDto(
         @NotNull
         long id,
 

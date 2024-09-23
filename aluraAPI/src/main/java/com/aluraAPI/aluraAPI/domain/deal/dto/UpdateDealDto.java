@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
-public record UpdateDeal(
+public record UpdateDealDto(
         @NotNull
         Long id,
         @NotBlank

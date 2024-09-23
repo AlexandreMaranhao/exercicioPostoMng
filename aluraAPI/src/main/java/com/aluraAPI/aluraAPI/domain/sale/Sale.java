@@ -3,9 +3,9 @@ package com.aluraAPI.aluraAPI.domain.sale;
 import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.deal.Deal;
-import com.aluraAPI.aluraAPI.domain.sale.dto.RegisterSale;
+import com.aluraAPI.aluraAPI.domain.sale.dto.RegisterSaleDto;
 import com.aluraAPI.aluraAPI.domain.user.User;
-import com.aluraAPI.aluraAPI.domain.sale.dto.UpdateSale;
+import com.aluraAPI.aluraAPI.domain.sale.dto.UpdateSaleDto;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -62,11 +62,11 @@ public class Sale {
     public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, User user) {
     }
 
-    public Sale(@Valid RegisterSale newSaleInput) {
+    public Sale(@Valid RegisterSaleDto newSaleInput) {
     }
 
 
-    public void updateSale(@Valid UpdateSale newSaleInput){
+    public void updateSale(@Valid UpdateSaleDto newSaleInput){
         if (newSaleInput.invoiceNumber() != null){
             this.invoiceNumber = newSaleInput.invoiceNumber();
         }

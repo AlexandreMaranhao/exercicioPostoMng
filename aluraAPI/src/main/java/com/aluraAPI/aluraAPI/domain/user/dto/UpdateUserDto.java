@@ -2,7 +2,7 @@ package com.aluraAPI.aluraAPI.domain.user.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-public record UpdateUser(
+public record UpdateUserDto(
         @NotNull
         Long id,
         String name,

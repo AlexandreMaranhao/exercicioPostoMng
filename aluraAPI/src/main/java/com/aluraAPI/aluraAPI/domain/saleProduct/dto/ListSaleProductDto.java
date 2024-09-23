@@ -1,6 +1,6 @@
 package com.aluraAPI.aluraAPI.domain.saleProduct.dto;
 
-public record ListSaleProduct(
+public record ListSaleProductDto(
         long id,
         float quantity,
         long saleId,

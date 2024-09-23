@@ -1,7 +1,7 @@
 package com.aluraAPI.aluraAPI.domain.paymentMethod;
 
-import com.aluraAPI.aluraAPI.domain.paymentMethod.dto.UpdatePaymentMethod;
-import com.aluraAPI.aluraAPI.domain.paymentMethod.dto.RegisterPaymentMethod;
+import com.aluraAPI.aluraAPI.domain.paymentMethod.dto.UpdatePaymentMethodDto;
+import com.aluraAPI.aluraAPI.domain.paymentMethod.dto.RegisterPaymentMethodDto;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.*;
@@ -21,7 +21,7 @@ public class PaymentMethod {
     private String discount;
     private boolean active;
 
-    public PaymentMethod(RegisterPaymentMethod newPaymentMethodInput) {
+    public PaymentMethod(RegisterPaymentMethodDto newPaymentMethodInput) {
         this.method = newPaymentMethodInput.method();
         this.discount = newPaymentMethodInput.discount();
         this.active = true;
@@ -29,7 +29,7 @@ public class PaymentMethod {
 
 
 
-    public void updatePaymentMethod(@Valid UpdatePaymentMethod newPaymentMethodInput) {
+    public void updatePaymentMethod(@Valid UpdatePaymentMethodDto newPaymentMethodInput) {
         if (newPaymentMethodInput.method() != null){
             this.method = newPaymentMethodInput.method();
         }

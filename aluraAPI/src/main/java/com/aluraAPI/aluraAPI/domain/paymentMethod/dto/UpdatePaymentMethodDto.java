@@ -2,7 +2,7 @@ package com.aluraAPI.aluraAPI.domain.paymentMethod.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-public record UpdatePaymentMethod(
+public record UpdatePaymentMethodDto(
         @NotNull
         long id,
 

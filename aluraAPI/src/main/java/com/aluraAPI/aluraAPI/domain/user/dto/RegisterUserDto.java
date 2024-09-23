@@ -2,7 +2,7 @@ package com.aluraAPI.aluraAPI.domain.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record RegisterUser(
+public record RegisterUserDto(
         @NotBlank
         String name,
         String user,

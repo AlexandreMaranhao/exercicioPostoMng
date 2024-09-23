@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
-public record RegisterSale(
+public record RegisterSaleDto(
         @NotNull
         Date date,
         @NotNull

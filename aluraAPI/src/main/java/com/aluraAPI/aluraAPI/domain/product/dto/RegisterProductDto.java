@@ -4,7 +4,7 @@ import com.aluraAPI.aluraAPI.domain.product.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record DetailProduct(
+public record RegisterProductDto(
         @NotNull
         long id,
         @NotBlank
@@ -13,7 +13,7 @@ public record DetailProduct(
         @NotNull
         long categoryId
 ) {
-    public DetailProduct(Product product) {
+    public RegisterProductDto(Product product) {
         this(product.getId(),
                 product.getName(),
                 product.getPrice(),

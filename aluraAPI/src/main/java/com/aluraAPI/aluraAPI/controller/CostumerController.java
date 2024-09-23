@@ -3,9 +3,9 @@ package com.aluraAPI.aluraAPI.controller;
 import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
 import com.aluraAPI.aluraAPI.domain.costumer.CostumerRepository;
 
-import com.aluraAPI.aluraAPI.domain.costumer.dto.UpdateCostumer;
-import com.aluraAPI.aluraAPI.domain.costumer.dto.RegisterCostumer;
-import com.aluraAPI.aluraAPI.domain.costumer.dto.ListCostumer;
+import com.aluraAPI.aluraAPI.domain.costumer.dto.UpdateCostumerDto;
+import com.aluraAPI.aluraAPI.domain.costumer.dto.RegisterCostumerDto;
+import com.aluraAPI.aluraAPI.domain.costumer.dto.ListCostumerDto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +21,19 @@ public class CostumerController {
 
     @PostMapping
     @Transactional
-    public void cadastrarCliente(@RequestBody @Valid RegisterCostumer inputedData){
+    public void cadastrarCliente(@RequestBody @Valid RegisterCostumerDto inputedData){
         costumerRepository.save(new Costumer(inputedData));//TODO: Resolver cliente igual ao produto
     }
 
     @GetMapping
-    public List<ListCostumer> listarCliente(){
-        return costumerRepository.findAll().stream().map(ListCostumer::new).toList();
+    public List<ListCostumerDto> listarCliente(){
+        return costumerRepository.findAll().stream().map(ListCostumerDto::new).toList();
     }
 
 
     @PutMapping
     @Transactional
-    public void atualizarCliente(@RequestBody @Valid UpdateCostumer inputedData){ //TODO: Só atualiza Fidelidade
+    public void atualizarCliente(@RequestBody @Valid UpdateCostumerDto inputedData){ //TODO: Só atualiza Fidelidade
         var cliente = costumerRepository.getReferenceById(inputedData.id());
         cliente.updateCostumer(inputedData);
     }

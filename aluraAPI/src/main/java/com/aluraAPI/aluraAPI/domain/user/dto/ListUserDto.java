@@ -2,14 +2,14 @@ package com.aluraAPI.aluraAPI.domain.user.dto;
 
 import com.aluraAPI.aluraAPI.domain.user.User;
 
-public record ListUser(
+public record ListUserDto(
         long id,
         String name,
         String user,
         String permission
 
 ) {
-    public ListUser(User newUserInput) {
+    public ListUserDto(User newUserInput) {
         this(newUserInput.getId(),
                 newUserInput.getName(),
                 newUserInput.getUser(),

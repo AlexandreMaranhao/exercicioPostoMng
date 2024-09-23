@@ -47,6 +47,7 @@ public class NewSale {
         LocalDateTime sellDate = LocalDateTime.now();
 
 
+
         var paymentMethod = paymentMethodRepository.findById(newSaleInput.paymentMethodId()).get();
         var user = userRepository.findById(newSaleInput.userId()).get();
 
@@ -56,6 +57,9 @@ public class NewSale {
             var deal = dealRepository.findById(newSaleInput.dealId()).get();
 
             var sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, costumer, user, deal);
+            System.out.println("\n\n\n =============================================\n\n\n\n");
+            System.out.println(sell.getDate());
+            System.out.println("\n\n\n =============================================\n\n\n\n");
             saleRepository.save(sell);
 
         } else if ((newSaleInput.costumerId() != 0.0d) && (newSaleInput.dealId() == 0.0d)) {

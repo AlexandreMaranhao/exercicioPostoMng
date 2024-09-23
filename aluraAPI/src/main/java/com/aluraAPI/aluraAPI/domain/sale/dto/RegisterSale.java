@@ -2,11 +2,12 @@ package com.aluraAPI.aluraAPI.domain.sale.dto;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public record RegisterSale(
-        @NotNull
-        Date date,
+
+        LocalDateTime date,
         @NotNull
         float  amount,
 

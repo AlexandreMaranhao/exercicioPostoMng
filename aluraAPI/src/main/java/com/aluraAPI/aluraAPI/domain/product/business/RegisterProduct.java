@@ -16,10 +16,10 @@ import java.util.List;
 public class RegisterProduct {
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private List<ProductValidation> validators;

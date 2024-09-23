@@ -12,8 +12,8 @@ public record ListSaleProductDto(
     public ListSaleProductDto(SaleProduct saleProduct){
         this(saleProduct.getId(),
                 saleProduct.getQuantity(),
-                saleProduct.getSaleId(),
-                saleProduct.getProductId()
+                saleProduct.getSaleId().getId(),
+                saleProduct.getProductId().getId()
       );
     }
 

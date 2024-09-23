@@ -1,8 +1,8 @@
 package com.aluraAPI.aluraAPI.controller;
 
 
-import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProduct;
 import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProductRepository;
+import com.aluraAPI.aluraAPI.domain.saleProduct.business.RegisterSaleProductItem;
 import com.aluraAPI.aluraAPI.domain.saleProduct.dto.ListSaleProductDto;
 import com.aluraAPI.aluraAPI.domain.saleProduct.dto.RegisterSaleProductDto;
 import jakarta.transaction.Transactional;
@@ -19,10 +19,14 @@ public class SaleProductController {
     @Autowired
     private SaleProductRepository saleProductRepository;
 
+    @Autowired
+    private RegisterSaleProductItem registerNewSaleProductItem;
+
     @PostMapping
     @Transactional
     public void newSaleProduct(@RequestBody @Valid RegisterSaleProductDto newSaleProductInput){
-        saleProductRepository.save(new SaleProduct(newSaleProductInput));
+        registerNewSaleProductItem.registerSaleProductItem(newSaleProductInput);
+       // saleProductRepository.save(new SaleProduct(newSaleProductInput));
     }
 
     @GetMapping

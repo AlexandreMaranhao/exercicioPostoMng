@@ -1,8 +1,10 @@
 package com.aluraAPI.aluraAPI.domain.saleProduct;
 
-import com.aluraAPI.aluraAPI.domain.saleProduct.dto.RegisterSaleProductDto;
+import com.aluraAPI.aluraAPI.domain.category.Category;
+import com.aluraAPI.aluraAPI.domain.product.Product;
+import com.aluraAPI.aluraAPI.domain.sale.Sale;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Table(name = "sale_product")
@@ -20,18 +22,25 @@ public class SaleProduct {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sale_id", referencedColumnName = "id")
-    private long saleId;
+    private Sale saleId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    private long productId;
+    private Product productId;
 
 
-    public SaleProduct(@Valid RegisterSaleProductDto saleProductInput) {
-        this.saleId = saleProductInput.saleId();
-        this.productId = saleProductInput.productId();
-        this.quantity = saleProductInput.quantity();
+    public SaleProduct(@NotNull float quantity, Sale saleId, Product productId) {
+        this.saleId = saleId;
+        this.productId = productId;
+        this.quantity = quantity;
     }
 
+    public Sale getSale() {
+        return saleId;
+    }
+
+    public Product getProduct() {
+        return productId;
+    }
 
 }

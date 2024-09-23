@@ -11,7 +11,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema posto
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `posto` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `posto`;
 USE `posto` ;
 
 -- -----------------------------------------------------

@@ -2,11 +2,12 @@ package com.aluraAPI.aluraAPI.domain.sale.dto;
 
 import com.aluraAPI.aluraAPI.domain.sale.Sale;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public record ListSaleDto(
         long id,
-        Date date,
+        LocalDateTime date,
         float amount,
         String invoiceNumber,
         long costumerId,

@@ -25,7 +25,7 @@ public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private Date date;
+    private LocalDateTime date;
     private float  amount;
     private String invoiceNumber;
 
@@ -51,15 +51,43 @@ public class Sale {
 
 
     public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, Costumer costumer, User user, Deal deal) {
+        this.date = sellDate;
+        this.amount = amount;
+        this.invoiceNumber = invoiceNumber;
+        this.paymentMethodId = paymentMethod;
+        this.costumerId = costumer;
+        this.userId = user;
+        this.dealId = deal;
+        this.refound = false;
     }
 
     public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, Costumer costumer, User user) {
+        this.date = sellDate;
+        this.amount = amount;
+        this.invoiceNumber = invoiceNumber;
+        this.paymentMethodId = paymentMethod;
+        this.costumerId = costumer;
+        this.userId = user;
+        this.refound = false;
     }
 
     public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, User user, Deal deal) {
+        this.date = sellDate;
+        this.amount = amount;
+        this.invoiceNumber = invoiceNumber;
+        this.paymentMethodId = paymentMethod;
+        this.userId = user;
+        this.dealId = deal;
+        this.refound = false;
     }
 
     public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, User user) {
+        this.date = sellDate;
+        this.amount = amount;
+        this.invoiceNumber = invoiceNumber;
+        this.paymentMethodId = paymentMethod;
+        this.userId = user;
+        this.refound = false;
     }
 
     public Sale(@Valid RegisterSaleDto newSaleInput) {

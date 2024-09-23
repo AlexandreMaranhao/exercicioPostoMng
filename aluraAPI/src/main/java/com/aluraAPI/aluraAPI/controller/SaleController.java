@@ -36,7 +36,7 @@ public class SaleController {
     }
 
     @PutMapping
-    public void updateSale(@RequestBody @Valid UpdateSaleDto updateSaleInput){
+    public void atualizarVenda(@RequestBody @Valid UpdateSaleDto updateSaleInput){
         var venda = saleRepository.getReferenceById(updateSaleInput.id());
         venda.updateSale(updateSaleInput);
     }

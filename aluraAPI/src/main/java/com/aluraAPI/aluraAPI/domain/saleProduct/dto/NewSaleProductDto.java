@@ -2,7 +2,7 @@ package com.aluraAPI.aluraAPI.domain.saleProduct.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-public record RegisterSaleProduct(
+public record NewSaleProductDto(
         @NotNull
         float quantity,
         @NotNull

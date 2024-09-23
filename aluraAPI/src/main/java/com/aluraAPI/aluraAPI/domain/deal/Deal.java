@@ -1,8 +1,8 @@
 package com.aluraAPI.aluraAPI.domain.deal;
 
 
-import com.aluraAPI.aluraAPI.domain.deal.dto.UpdateDeal;
-import com.aluraAPI.aluraAPI.domain.deal.dto.RegisterDeal;
+import com.aluraAPI.aluraAPI.domain.deal.dto.UpdateDealDto;
+import com.aluraAPI.aluraAPI.domain.deal.dto.RegisterDealDto;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.*;
@@ -25,14 +25,14 @@ public class Deal {
     private boolean active;
 
 
-    public Deal(@Valid RegisterDeal dados) {
+    public Deal(@Valid RegisterDealDto dados) {
         this.name = dados.name();
         this.validity = dados.validity();
         this.active = true;
     }
 
 
-    public void updateDeal(@Valid UpdateDeal newDealInput) {
+    public void updateDeal(@Valid UpdateDealDto newDealInput) {
         if (newDealInput.name() != null){
             this.name = newDealInput.name();
         }

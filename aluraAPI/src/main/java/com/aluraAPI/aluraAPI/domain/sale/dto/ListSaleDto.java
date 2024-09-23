@@ -4,7 +4,7 @@ import com.aluraAPI.aluraAPI.domain.sale.Sale;
 
 import java.time.LocalDateTime;
 
-public record ListSale(
+public record ListSaleDto(
         long id,
         LocalDateTime date,
         float amount,
@@ -14,7 +14,7 @@ public record ListSale(
         long dealId
 ) {
 
-    public ListSale(Sale venda){
+    public ListSaleDto(Sale venda){
         this(venda.getId(),
                 venda.getDate(),
                 venda.getAmount(),

@@ -2,7 +2,7 @@ package com.aluraAPI.aluraAPI.domain.costumer.dto;
 
 import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
 
-public record ListCostumer(
+public record ListCostumerDto(
         long id,
         String cpf,
         String name,
@@ -11,7 +11,7 @@ public record ListCostumer(
 )
 {
 
-    public ListCostumer(Costumer costumerInput){
+    public ListCostumerDto(Costumer costumerInput){
         this(costumerInput.getId(),
                 costumerInput.getCpf(),
                 costumerInput.getName(),

@@ -2,9 +2,9 @@
 
 package com.aluraAPI.aluraAPI.domain.product.business.validation;
 
-import com.aluraAPI.aluraAPI.domain.product.dto.DetailProduct;
+import com.aluraAPI.aluraAPI.domain.product.dto.DetailProductDto;
 
 public interface ProductValidation {
 
-    void validate(DetailProduct inputedData);
+    void validate(DetailProductDto inputedData);
 }

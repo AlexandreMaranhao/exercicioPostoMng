@@ -3,9 +3,9 @@ package com.aluraAPI.aluraAPI.controller;
 import com.aluraAPI.aluraAPI.domain.product.Product;
 import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
 import com.aluraAPI.aluraAPI.domain.product.business.RegisterProduct;
-import com.aluraAPI.aluraAPI.domain.product.dto.DetailProduct;
-import com.aluraAPI.aluraAPI.domain.product.dto.UpdateProduct;
-import com.aluraAPI.aluraAPI.domain.product.dto.ListProduct;
+import com.aluraAPI.aluraAPI.domain.product.dto.DetailProductDto;
+import com.aluraAPI.aluraAPI.domain.product.dto.UpdateProductDto;
+import com.aluraAPI.aluraAPI.domain.product.dto.ListProductDto;
 import com.aluraAPI.aluraAPI.exceptions.GeneralException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -27,23 +27,23 @@ public class ProductController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity registerNewProduct(@RequestBody DetailProduct newProductInput){
+    public ResponseEntity registerNewProduct(@RequestBody DetailProductDto newProductInput){
         registerNewProduct.registerNewProduct(newProductInput);
         return ResponseEntity.ok(new Product(newProductInput));
     }
 
     @GetMapping
-    public ResponseEntity<List<ListProduct>> listProduct(){
-        var list = productRepository.findAll().stream().map(ListProduct::new).toList();
+    public ResponseEntity<List<ListProductDto>> listProduct(){
+        var list = productRepository.findAll().stream().map(ListProductDto::new).toList();
         return ResponseEntity.ok(list);
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity updateProduct(@RequestBody @Valid UpdateProduct updateProductInput){
-        var product = productRepository.getReferenceById(updateProductInput.id());
-        product.updateProduct(updateProductInput);
-        return ResponseEntity.ok(new Product(updateProductInput));
+    public ResponseEntity updateProduct(@RequestBody @Valid UpdateProductDto updateProductDtoInput){
+        var product = productRepository.getReferenceById(updateProductDtoInput.id());
+        product.updateProduct(updateProductDtoInput);
+        return ResponseEntity.ok(new Product(updateProductDtoInput));
     }
 
     @DeleteMapping("/{id}")
@@ -53,7 +53,7 @@ public class ProductController {
         var product = productRepository.findById(id)
                 .orElseThrow(() -> new GeneralException("No registred product with id: " + id));
         product.disable();
-        return ResponseEntity.ok(new ListProduct(product));
+        return ResponseEntity.ok(new ListProductDto(product));
     }
 
     @GetMapping("/{id}")
@@ -61,6 +61,6 @@ public class ProductController {
         // var product = productRepository.getReferenceById(id)
         var product = productRepository.findById(id)
                 .orElseThrow(() -> new GeneralException("No registred product with id: " + id));
-        return ResponseEntity.ok(new ListProduct(product));
+        return ResponseEntity.ok(new ListProductDto(product));
     }
 }

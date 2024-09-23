@@ -1,8 +1,8 @@
 package com.aluraAPI.aluraAPI.domain.costumer;
 
 //import com.aluraAPI.aluraAPI.domain.persistence.cliente.dto.DadosAtualizaCliente;
-import com.aluraAPI.aluraAPI.domain.costumer.dto.UpdateCostumer;
-import com.aluraAPI.aluraAPI.domain.costumer.dto.RegisterCostumer;
+import com.aluraAPI.aluraAPI.domain.costumer.dto.UpdateCostumerDto;
+import com.aluraAPI.aluraAPI.domain.costumer.dto.RegisterCostumerDto;
 import com.aluraAPI.aluraAPI.domain.loyalty.Loyalty;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -29,14 +29,14 @@ public class Costumer {
     private boolean active;
 
 
-    public Costumer(@Valid RegisterCostumer newCostumerInput) {
+    public Costumer(@Valid RegisterCostumerDto newCostumerInput) {
         this.cpf = newCostumerInput.cpf();
         this.name = newCostumerInput.name();
         this.active = true;
     }
 
 
-    public void updateCostumer(@Valid UpdateCostumer newInput) { //TODO: alteracao so permite inserir fidelidade
+    public void updateCostumer(@Valid UpdateCostumerDto newInput) { //TODO: alteracao so permite inserir fidelidade
         if (newInput.name() != null){
             this.name = newInput.name();
         }

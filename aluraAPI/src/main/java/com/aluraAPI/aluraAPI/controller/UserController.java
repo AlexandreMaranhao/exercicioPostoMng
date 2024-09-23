@@ -3,9 +3,9 @@ package com.aluraAPI.aluraAPI.controller;
 import com.aluraAPI.aluraAPI.domain.user.User;
 import com.aluraAPI.aluraAPI.domain.user.UserRepository;
 
-import com.aluraAPI.aluraAPI.domain.user.dto.UpdateUser;
-import com.aluraAPI.aluraAPI.domain.user.dto.RegisterUser;
-import com.aluraAPI.aluraAPI.domain.user.dto.ListUser;
+import com.aluraAPI.aluraAPI.domain.user.dto.UpdateUserDto;
+import com.aluraAPI.aluraAPI.domain.user.dto.RegisterUserDto;
+import com.aluraAPI.aluraAPI.domain.user.dto.ListUserDto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +21,19 @@ public class UserController {
 
     @PostMapping
     @Transactional
-    public void cadastrarUsuario(@RequestBody @Valid RegisterUser inputedData){
+    public void cadastrarUsuario(@RequestBody @Valid RegisterUserDto inputedData){
         userRepository.save(new User(inputedData));
     }
 
     @GetMapping
-    public List<ListUser> listarUsuario(){
+    public List<ListUserDto> listarUsuario(){
 
-        return userRepository.findAll().stream().map(ListUser::new).toList();
+        return userRepository.findAll().stream().map(ListUserDto::new).toList();
     }
 
     @PutMapping
     @Transactional
-    public void atualizarUsuario(@RequestBody @Valid UpdateUser inputedData){
+    public void atualizarUsuario(@RequestBody @Valid UpdateUserDto inputedData){
         var usuario = userRepository.getReferenceById(inputedData.id());
         usuario.updateUser(inputedData);
     }

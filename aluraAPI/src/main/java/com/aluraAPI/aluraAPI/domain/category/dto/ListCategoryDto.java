@@ -2,11 +2,11 @@ package com.aluraAPI.aluraAPI.domain.category.dto;
 
 import com.aluraAPI.aluraAPI.domain.category.Category;
 
-public record ListCategory(
+public record ListCategoryDto(
         long id,
         String name
 ) {
-    public ListCategory(Category categoryInput) {
+    public ListCategoryDto(Category categoryInput) {
         this(categoryInput.getId(),
                 categoryInput.getName()
         );

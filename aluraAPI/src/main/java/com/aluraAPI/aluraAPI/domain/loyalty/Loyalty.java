@@ -1,7 +1,7 @@
 package com.aluraAPI.aluraAPI.domain.loyalty;
 
-import com.aluraAPI.aluraAPI.domain.loyalty.dto.UpdateLoyalty;
-import com.aluraAPI.aluraAPI.domain.loyalty.dto.RegisterLoyalty;
+import com.aluraAPI.aluraAPI.domain.loyalty.dto.UpdateLoyaltyDto;
+import com.aluraAPI.aluraAPI.domain.loyalty.dto.RegisterLoyaltyDto;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.*;
@@ -22,14 +22,14 @@ public class Loyalty {
     private boolean active;
 
 
-    public Loyalty(@Valid RegisterLoyalty newLoyaltyInput) {
+    public Loyalty(@Valid RegisterLoyaltyDto newLoyaltyInput) {
         this.number = newLoyaltyInput.number();
         this.active = true;
         this.points = 0;
     }
 
 
-    public void updateLoyalty(@Valid UpdateLoyalty newLoyaltyInput) {
+    public void updateLoyalty(@Valid UpdateLoyaltyDto newLoyaltyInput) {
         if (newLoyaltyInput.number() != null){
             this.number = newLoyaltyInput.number();
         }

@@ -2,7 +2,7 @@ package com.aluraAPI.aluraAPI.domain.paymentMethod.dto;
 
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 
-public record ListPaymentMethod(
+public record ListPaymentMethodDto(
 
         String method,
 
@@ -10,7 +10,7 @@ public record ListPaymentMethod(
 
         boolean active
 ) {
-    public ListPaymentMethod(PaymentMethod paymentMethodInput){
+    public ListPaymentMethodDto(PaymentMethod paymentMethodInput){
         this(paymentMethodInput.getMethod(),
                 paymentMethodInput.getDiscount(),
                 paymentMethodInput.isActive()

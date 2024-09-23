@@ -4,9 +4,9 @@ import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.deal.Deal;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethodRepository;
-import com.aluraAPI.aluraAPI.domain.sale.dto.RegisterSale;
+import com.aluraAPI.aluraAPI.domain.sale.dto.RegisterSaleDto;
 import com.aluraAPI.aluraAPI.domain.user.User;
-import com.aluraAPI.aluraAPI.domain.sale.dto.UpdateSale;
+import com.aluraAPI.aluraAPI.domain.sale.dto.UpdateSaleDto;
 import com.aluraAPI.aluraAPI.exceptions.GeneralException;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -92,19 +92,19 @@ public class Sale {
         this.refound = false;
     }
 
-    public Sale(@Valid RegisterSale newSaleInput) {
+    public Sale(@Valid RegisterSaleDto newSaleInput) {
     }
 
     @Autowired
     PaymentMethodRepository paymentMethodRepository;
 
-    public void updateSale(@Valid UpdateSale updateSaleInput){
-        if (updateSaleInput.invoiceNumber() != null){
-            this.invoiceNumber = updateSaleInput.invoiceNumber();
+    public void updateSale(@Valid UpdateSaleDto updateSaleDtoInput){
+        if (updateSaleDtoInput.invoiceNumber() != null){
+            this.invoiceNumber = updateSaleDtoInput.invoiceNumber();
         }
-        if (updateSaleInput.paymentMethodId() != 0.0d) {
-            PaymentMethod updatePaymentMethodId = paymentMethodRepository.findById(updateSaleInput.paymentMethodId())
-                    .orElseThrow(() -> new GeneralException("No payment method was found with id: " + updateSaleInput.paymentMethodId()));
+        if (updateSaleDtoInput.paymentMethodId() != 0.0d) {
+            PaymentMethod updatePaymentMethodId = paymentMethodRepository.findById(updateSaleDtoInput.paymentMethodId())
+                    .orElseThrow(() -> new GeneralException("No payment method was found with id: " + updateSaleDtoInput.paymentMethodId()));
             this.paymentMethodId = updatePaymentMethodId;
         }
 

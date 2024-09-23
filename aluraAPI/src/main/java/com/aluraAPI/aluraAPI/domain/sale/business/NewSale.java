@@ -8,7 +8,7 @@ import com.aluraAPI.aluraAPI.domain.deal.DealRepository;
 import com.aluraAPI.aluraAPI.domain.user.UserRepository;
 import com.aluraAPI.aluraAPI.domain.sale.Sale;
 import com.aluraAPI.aluraAPI.domain.sale.SaleRepository;
-import com.aluraAPI.aluraAPI.domain.sale.dto.RegisterSale;
+import com.aluraAPI.aluraAPI.domain.sale.dto.RegisterSaleDto;
 import com.aluraAPI.aluraAPI.exceptions.GeneralException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class NewSale {
     @Autowired
     DealRepository dealRepository;
 
-    public void newSell(RegisterSale newSaleInput){
+    public void newSell(RegisterSaleDto newSaleInput){
         if(!paymentMethodRepository.existsById(newSaleInput.paymentMethodId())){
             throw new GeneralException(("No payment method was found with id: " + newSaleInput.paymentMethodId()));
         }
@@ -57,9 +57,6 @@ public class NewSale {
             var deal = dealRepository.findById(newSaleInput.dealId()).get();
 
             var sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, costumer, user, deal);
-            System.out.println("\n\n\n =============================================\n\n\n\n");
-            System.out.println(sell.getDate());
-            System.out.println("\n\n\n =============================================\n\n\n\n");
             saleRepository.save(sell);
 
         } else if ((newSaleInput.costumerId() != 0.0d) && (newSaleInput.dealId() == 0.0d)) {

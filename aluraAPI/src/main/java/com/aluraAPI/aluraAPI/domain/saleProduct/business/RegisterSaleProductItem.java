@@ -19,9 +19,9 @@ public class RegisterSaleProductItem {
     private SaleRepository saleRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private static ProductRepository productRepository;
 
-    public boolean verifyProduct(RegisterSaleProductDto newSaleProductInput){
+    public static boolean verifyProduct(RegisterSaleProductDto newSaleProductInput){
         var product = productRepository.findById(newSaleProductInput.productId());
 
         boolean productExist = product.isPresent();

@@ -26,7 +26,7 @@ public class NewSale {
     @Autowired
     DealRepository dealRepository;
 
-    public void newSell(RegisterSaleDto newSaleInput){
+    public void newSale(RegisterSaleDto newSaleInput){
         if(!paymentMethodRepository.existsById(newSaleInput.paymentMethodId())){
             throw new GeneralException(("No payment method was found with id: " + newSaleInput.paymentMethodId()));
         }

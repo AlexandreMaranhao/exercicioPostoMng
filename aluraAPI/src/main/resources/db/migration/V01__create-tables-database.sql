@@ -198,10 +198,10 @@ CREATE TABLE IF NOT EXISTS `posto`.`Sale_Product` (
   `product_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_VendaProduto_Vendas1_idx` (`sell_id` ASC) VISIBLE,
+  INDEX `fk_VendaProduto_Vendas1_idx` (`sale_id` ASC) VISIBLE,
   INDEX `fk_VendaProduto_Produto1_idx` (`product_id` ASC) VISIBLE,
   CONSTRAINT `fk_VendaProduto_Vendas1`
-    FOREIGN KEY (`sell_id`)
+    FOREIGN KEY (`sale_id`)
     REFERENCES `posto`.`Sale` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,

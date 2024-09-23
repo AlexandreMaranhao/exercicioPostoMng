@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/aluraAPI/aluraAPI.iml" filepath="$PROJECT_DIR$/aluraAPI/aluraAPI.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/exercicioPostoMng.iml" filepath="$PROJECT_DIR$/.idea/exercicioPostoMng.iml" />
     </modules>
   </component>

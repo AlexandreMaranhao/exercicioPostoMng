@@ -29,12 +29,12 @@ public class SaleProductController {
         var newSlae = newSaleProduct(newSaleProductInput);
         return ResponseEntity.ok(new Product());
     }
-
+/*
     @GetMapping
     public List<ListSaleProductDto> listSaleProduct(){
         return saleProductRepository.findAll().stream().map(ListSaleProductDto::new).toList();
     }
-
+*/
 
 }
 

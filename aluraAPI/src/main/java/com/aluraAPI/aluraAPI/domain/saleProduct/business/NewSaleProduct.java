@@ -16,11 +16,13 @@ public class NewSaleProduct {
     SaleRepository saleRepository;
     @Autowired
     ProductRepository productRepository;
-
+/*
     public NewSaleProductDto newSaleProduct(NewSaleProductDto newSaleProductInput){
         if(newSaleProductInput.ProductId() == 0.0d){
             throw new GeneralException(("Sale can not be created without product"));
         }
 
     }
+
+ */
 }

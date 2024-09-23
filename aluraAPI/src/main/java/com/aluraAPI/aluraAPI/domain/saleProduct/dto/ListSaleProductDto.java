@@ -8,7 +8,7 @@ public record ListSaleProductDto(
         long saleId,
         long productId
 ) {
-
+/*
     public ListSaleProductDto(SaleProduct listSaleProductInput){
         this(listSaleProductInput.getId(),
                 listSaleProductInput.getQuantity(),
@@ -17,5 +17,5 @@ public record ListSaleProductDto(
       );
     }
 
-
+*/
 }

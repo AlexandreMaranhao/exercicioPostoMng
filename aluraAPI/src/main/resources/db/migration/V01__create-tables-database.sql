@@ -11,7 +11,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema posto
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `posto` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `posto`;
 USE `posto` ;
 
 -- -----------------------------------------------------
@@ -152,11 +152,11 @@ CREATE TABLE IF NOT EXISTS `posto`.`Sale` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `date` DATETIME NOT NULL,
   `amount` FLOAT NOT NULL,
-  `invoiceNumber` VARCHAR(45) NULL,
+  `invoice_number` VARCHAR(45) NULL,
   `payment_method_id` INT NOT NULL,
   `costumer_id` INT NULL,
   `user_id` INT NOT NULL,
-  `dell_id` INT NULL,
+  `deal_id` INT NULL,
   `refound` TINYINT NULL,
   `loyalty_points` INT NULL,
   PRIMARY KEY (`id`),
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `posto`.`Sale` (
   INDEX `fk_Vendas_MetodoPagamento1_idx` (`payment_method_id` ASC) VISIBLE,
   INDEX `fk_Vendas_Cliente1_idx` (`costumer_id` ASC) VISIBLE,
   INDEX `fk_Vendas_Usuarios1_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_Vendas_Promocao1_idx` (`dell_id` ASC) VISIBLE,
+  INDEX `fk_Vendas_Promocao1_idx` (`deal_id` ASC) VISIBLE,
   CONSTRAINT `fk_Vendas_MetodoPagamento1`
     FOREIGN KEY (`payment_method_id`)
     REFERENCES `posto`.`Payment_Method` (`id`)
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `posto`.`Sale` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Vendas_Promocao1`
-    FOREIGN KEY (`dell_id`)
+    FOREIGN KEY (`deal_id`)
     REFERENCES `posto`.`Deal` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

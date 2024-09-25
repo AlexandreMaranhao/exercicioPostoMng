@@ -36,8 +36,9 @@ public class ProductController {
     @PostMapping
     @Transactional
     public ResponseEntity registerNewProduct(@RequestBody RegisterProductDto newProductInput, UriComponentsBuilder uriBuilder){
-        Category category = categoryRepository.findById(newProductInput.categoryId()).get();
-        Product product = new Product(newProductInput, category);
+        Category categoryId = categoryRepository.findById(newProductInput.categoryId()).get();
+        Product product = new Product(newProductInput, categoryId);
+
         ProductDetailDto response = registerNewProduct.registerNewProduct(newProductInput);
 
         var uri = uriBuilder.path("/produtos/{id}").buildAndExpand(product.getId()).toUri();

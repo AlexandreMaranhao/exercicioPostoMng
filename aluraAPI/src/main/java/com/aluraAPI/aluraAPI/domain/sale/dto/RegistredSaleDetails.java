@@ -25,16 +25,16 @@ public record RegistredSaleDetails(
 
         boolean refound
 ) {
-    public RegistredSaleDetails(Sale sell) {
-        this(sell.getId(),
-                sell.getDate(),
-                sell.getAmount(),
-                sell.getInvoiceNumber(),
-                sell.getPaymentMethodId().getId(),
-                sell.getCostumerId().getId(),
-                sell.getUserId().getId(),
-                sell.getDealId().getId(),
-                sell.isRefound());
+    public RegistredSaleDetails(Sale thisSale) {
+        this(thisSale.getId(),
+                thisSale.getDate(),
+                thisSale.getAmount(),
+                thisSale.getInvoiceNumber(),
+                thisSale.getPaymentMethodId().getId(),
+                thisSale.getCostumerId().getId(),
+                thisSale.getUserId().getId(),
+                thisSale.getDealId().getId(),
+                thisSale.isRefound());
     }
 
     public RegistredSaleDetails(RegistredSaleDetails registeredSale) {

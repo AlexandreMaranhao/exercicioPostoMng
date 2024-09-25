@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("promocao")
-public class dealController {
+public class DealController {
 
     @Autowired
     private DealRepository dealRepository;

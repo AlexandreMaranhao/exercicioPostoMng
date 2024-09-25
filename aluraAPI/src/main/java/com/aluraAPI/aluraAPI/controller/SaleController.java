@@ -8,7 +8,6 @@ import com.aluraAPI.aluraAPI.domain.sale.SaleRepository;
 import com.aluraAPI.aluraAPI.domain.saleProduct.business.RegisterSaleProductItem;
 import com.aluraAPI.aluraAPI.domain.saleProduct.dto.RegisterSaleProductDto;
 import com.aluraAPI.aluraAPI.exceptions.GeneralException;
-import com.aluraAPI.aluraAPI.helper.SaleJsonExtractor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

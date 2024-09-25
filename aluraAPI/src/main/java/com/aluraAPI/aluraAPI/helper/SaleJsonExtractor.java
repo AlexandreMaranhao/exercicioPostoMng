@@ -14,15 +14,15 @@ public class SaleJsonExtractor {
         JsonNode rootNode = objectMapper.readTree(String.valueOf(jsonInput));
 
 
-        String cupomFiscal = rootNode.get("cupomfiscal").asText();
-        String metodoPagamentoId = rootNode.get("metodopagamento_id").asText();
-        String clienteId = rootNode.get("cliente_id").asText();
-        String usuariosId = rootNode.get("usuarios_id").asText();
-        String promocaoId = rootNode.get("promocao_id").asText();
+        String invoiceNumber = rootNode.get("invoice_number").asText();
+        String paymentMethodId = rootNode.get("payment_method_id").asText();
+        String costumerId = rootNode.get("costumer_id").asText();
+        String userId = rootNode.get("user_id").asText();
+        String dealId = rootNode.get("deal_id").asText();
 
 
-        String extractedInput = String.format("{ \"cupomfiscal\": \"%s\", \"metodopagamento_id\": \"%s\", \"cliente_id\": \"%s\", \"usuarios_id\": \"%s\", \"promocao_id\": \"%s\" }",
-                cupomFiscal, metodoPagamentoId, clienteId, usuariosId, promocaoId);
+        String extractedInput = String.format("{ \"invoice_number\": \"%s\", \"payment_method_id\": \"%s\", \"costumer_id\": \"%s\", \"user_id\": \"%s\", \"deal_id\": \"%s\" }",
+                invoiceNumber, paymentMethodId, costumerId, userId, dealId);
 
         RegisterSaleDto newOutputSale = objectMapper.readValue(extractedInput, RegisterSaleDto.class);
 

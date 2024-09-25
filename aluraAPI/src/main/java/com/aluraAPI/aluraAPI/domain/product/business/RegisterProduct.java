@@ -1,10 +1,12 @@
 package com.aluraAPI.aluraAPI.domain.product.business;
 
 
+import com.aluraAPI.aluraAPI.domain.category.Category;
 import com.aluraAPI.aluraAPI.domain.category.CategoryRepository;
 import com.aluraAPI.aluraAPI.domain.product.Product;
 import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
 import com.aluraAPI.aluraAPI.domain.product.business.validation.ProductValidation;
+import com.aluraAPI.aluraAPI.domain.product.dto.ProductDetailDto;
 import com.aluraAPI.aluraAPI.domain.product.dto.RegisterProductDto;
 import com.aluraAPI.aluraAPI.exceptions.GeneralException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,9 @@ public class RegisterProduct {
     @Autowired
     private List<ProductValidation> validators;
 
-    public RegisterProductDto registerNewProduct(RegisterProductDto newProductInput){
-        if((newProductInput.name() == null) || (newProductInput.categoryId() == 0.0d)){
+    public ProductDetailDto registerNewProduct(RegisterProductDto newProductInput){
+        Long categoryIdLong =  newProductInput.categoryId();
+        if((newProductInput.name() == null) || (categoryIdLong == null)){
             throw new GeneralException(("Name and Category are mandatory fields"));
         }
 
@@ -36,11 +39,13 @@ public class RegisterProduct {
         validators.forEach(v -> v.validate(newProductInput));
 
 
-        var categoria = categoryRepository.findById(newProductInput.categoryId()).get();
-        var product = new Product(newProductInput.name(), newProductInput.price(), categoria);
+        Category category = categoryRepository.findById(newProductInput.categoryId()).get();
+        Product product = new Product(newProductInput.name(), newProductInput.price(), category);
 
-        productRepository.save(product);
-        return new RegisterProductDto(product);
+
+        Product save = productRepository.save(product);
+
+        return new ProductDetailDto(save);
 
     }
 }

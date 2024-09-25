@@ -27,6 +27,4 @@ public record RegisterSaleDto(
     {
 
 
-
-
     }

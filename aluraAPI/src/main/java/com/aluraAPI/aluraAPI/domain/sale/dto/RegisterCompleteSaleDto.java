@@ -30,6 +30,8 @@ public record RegisterCompleteSaleDto(
 ) {
 
 
+
+
     public List<RegisterSaleProductDto> getProducts(){
         return products;
     }

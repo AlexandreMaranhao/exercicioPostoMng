@@ -35,17 +35,24 @@ public class Product {
         this.active = true;
     }
 
-    public Product(RegisterProductDto inputedData) {
+    public Product(RegisterProductDto newProductInput, Category categoryId) {
+        this.name = newProductInput.name();
+        this.price = newProductInput.price();
+        this.categoryId = categoryId;
     }
 
-    public Product(@Valid UpdateProductDto updateProductDtoInput) {
+    public Product(UpdateProductDto updateProductDtoInput) {
+        this.name = updateProductDtoInput.name();
+        this.price = updateProductDtoInput.price();
+        this.categoryId = categoryId;
     }
 
     public void updateProduct(@Valid UpdateProductDto newProductInput) {
         if (newProductInput.name() != null){
             this.name = newProductInput.name();
         }
-        if (newProductInput.price() != 0.0f){
+        Float priceLong = newProductInput.price();
+        if (priceLong != null){
             this.price = newProductInput.price();
         }
     }

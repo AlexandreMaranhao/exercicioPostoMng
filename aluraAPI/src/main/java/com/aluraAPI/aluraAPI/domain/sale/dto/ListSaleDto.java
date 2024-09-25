@@ -1,9 +1,11 @@
 package com.aluraAPI.aluraAPI.domain.sale.dto;
 
+import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
+import com.aluraAPI.aluraAPI.domain.deal.Deal;
 import com.aluraAPI.aluraAPI.domain.sale.Sale;
+import com.aluraAPI.aluraAPI.domain.user.User;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public record ListSaleDto(
         long id,
@@ -13,16 +15,16 @@ public record ListSaleDto(
         long costumerId,
         long userId,
         long dealId
-) {
+)  {
 
-    public ListSaleDto(Sale venda){
-        this(venda.getId(),
-                venda.getDate(),
-                venda.getAmount(),
-                venda.getInvoiceNumber(),
-                venda.getCostumerId().getId(),
-                venda.getUserId().getId(),
-                venda.getDealId().getId());
+    public ListSaleDto(Sale sale){
+        this(sale.getId(),
+                sale.getDate(),
+                sale.getAmount(),
+                sale.getInvoiceNumber(),
+                sale.getCostumerId().getId(),
+                sale.getUserId().getId(),
+                sale.getDealId().getId());
     }
 }
 

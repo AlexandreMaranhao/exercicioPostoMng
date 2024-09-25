@@ -6,7 +6,7 @@ public record ListProductDto(
         long id,
         String name,
         float price,
-        long categoryId,//TODO: Mudar modo de chamada da FK
+        long categoryId,
         boolean active
 )
 {

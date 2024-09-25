@@ -2,9 +2,17 @@ package com.aluraAPI.aluraAPI.domain.sale.business;
 
 import java.time.LocalDateTime;
 
+import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
 import com.aluraAPI.aluraAPI.domain.costumer.CostumerRepository;
+import com.aluraAPI.aluraAPI.domain.deal.Deal;
+import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethodRepository;
 import com.aluraAPI.aluraAPI.domain.deal.DealRepository;
+import com.aluraAPI.aluraAPI.domain.sale.dto.RegisterCompleteSaleDto;
+import com.aluraAPI.aluraAPI.domain.sale.dto.RegistredSaleDetails;
+import com.aluraAPI.aluraAPI.domain.saleProduct.business.RegisterSaleProductItem;
+import com.aluraAPI.aluraAPI.domain.saleProduct.dto.RegisterSaleProductDto;
+import com.aluraAPI.aluraAPI.domain.user.User;
 import com.aluraAPI.aluraAPI.domain.user.UserRepository;
 import com.aluraAPI.aluraAPI.domain.sale.Sale;
 import com.aluraAPI.aluraAPI.domain.sale.SaleRepository;
@@ -25,12 +33,19 @@ public class NewSale {
     UserRepository userRepository;
     @Autowired
     DealRepository dealRepository;
+    @Autowired
+    private RegisterSaleProductItem registerSaleProductItem;
 
-    public void newSale(RegisterSaleDto newSaleInput){
+
+    public RegistredSaleDetails newSale(RegisterSaleDto newSaleInput){
         if(!paymentMethodRepository.existsById(newSaleInput.paymentMethodId())){
             throw new GeneralException(("No payment method was found with id: " + newSaleInput.paymentMethodId()));
         }
-        if (newSaleInput.costumerId() != 0.0d) {
+        Long costumerIdLong =  newSaleInput.costumerId();
+        Long dealIdLong = newSaleInput.dealId();
+
+
+        if (costumerIdLong != null) {
             if (!costumerRepository.existsById(newSaleInput.costumerId())) {
                 throw new GeneralException(("No costumer was found with id: " + newSaleInput.costumerId()));
             }
@@ -38,7 +53,7 @@ public class NewSale {
         if(!userRepository.existsById(newSaleInput.userId())){
             throw new GeneralException(("No user was found with id: " + newSaleInput.userId()));
         }
-        if (newSaleInput.dealId() != 0.0d) {
+        if (dealIdLong != null) {
             if (!dealRepository.existsById(newSaleInput.dealId())) {
                 throw new GeneralException(("No deal was found with id: " + newSaleInput.dealId()));
             }
@@ -47,36 +62,84 @@ public class NewSale {
         LocalDateTime sellDate = LocalDateTime.now();
 
 
-        var paymentMethod = paymentMethodRepository.findById(newSaleInput.paymentMethodId()).get();
-        var user = userRepository.findById(newSaleInput.userId()).get();
+
+        PaymentMethod paymentMethod = paymentMethodRepository.findById(newSaleInput.paymentMethodId()).get();
+        User user = userRepository.findById(newSaleInput.userId()).get();
+        Sale sell = null;
 
 
-        if((newSaleInput.costumerId() != 0.0d) && (newSaleInput.dealId() != 0.0d)){
-            var costumer = costumerRepository.findById(newSaleInput.costumerId()).get();
-            var deal = dealRepository.findById(newSaleInput.dealId()).get();
+        if((costumerIdLong != null) && (dealIdLong != null)){
+            Costumer costumer = costumerRepository.findById(newSaleInput.costumerId()).get();
+            Deal deal = dealRepository.findById(newSaleInput.dealId()).get();
 
-            var sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, costumer, user, deal);
+            sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, costumer, user, deal);
             saleRepository.save(sell);
 
-        } else if ((newSaleInput.costumerId() != 0.0d) && (newSaleInput.dealId() == 0.0d)) {
-            var costumer = costumerRepository.findById(newSaleInput.costumerId()).get();
+        } else if ((costumerIdLong != null) && (dealIdLong == null)) {
+            Costumer costumer = costumerRepository.findById(newSaleInput.costumerId()).get();
 
-            var sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, costumer, user);
+            sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, costumer, user);
             saleRepository.save(sell);
 
-        }else if ((newSaleInput.costumerId() == 0.0d) && (newSaleInput.dealId() != 0.0d)) {
-            var deal = dealRepository.findById(newSaleInput.dealId()).get();
+        }else if ((costumerIdLong == null) && (dealIdLong != null)) {
+            Deal deal = dealRepository.findById(newSaleInput.dealId()).get();
 
-            var sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, user, deal);
+            sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, user, deal);
             saleRepository.save(sell);
 
-        }else if ((newSaleInput.costumerId() == 0.0d) && (newSaleInput.dealId() == 0.0d)){
-            var sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, user);
+        }else if ((costumerIdLong == null) && (dealIdLong == null)){
+            sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, user);
             saleRepository.save(sell);
+        }
+        return new RegistredSaleDetails(sell);
+    }
 
+    public void findProductsCompleteSale(RegisterCompleteSaleDto newSaleInput){
+
+        for (RegisterSaleProductDto product : newSaleInput.getProducts()){
+
+            var verification = RegisterSaleProductItem.verifyProduct(product);
+            if (!verification){
+                throw new GeneralException(("No registered product with id: " + product.productId()));
+            }
         }
 
+    }
+    public void registerCompleteSaleProductItem(RegisterCompleteSaleDto newSaleInput, RegistredSaleDetails registeredSale){
+        for (RegisterSaleProductDto product : newSaleInput.getProducts()){
+
+            registerSaleProductItem.registerSaleProductItem(product, registeredSale);
+        }
+
+    }
+
+    public RegistredSaleDetails realizeCompleteSale(RegisterCompleteSaleDto newSaleInput) {
+        emptyProductListOnCompleteSale(newSaleInput);
+        findProductsCompleteSale(newSaleInput);
+        RegistredSaleDetails registeredSale = newSale(getSaleInput(newSaleInput));
+        registerCompleteSaleProductItem(newSaleInput, registeredSale);
+
+        return new RegistredSaleDetails(registeredSale);
+    }
+
+    public void emptyProductListOnCompleteSale(RegisterCompleteSaleDto newSaleInput){
+        if (newSaleInput.getProducts() == null || newSaleInput.getProducts().isEmpty()) {
+            throw new GeneralException("Product list can not be null or empty");
+        }
+    }
+
+    public RegisterSaleDto getSaleInput (RegisterCompleteSaleDto newSaleInput) {
+        return new RegisterSaleDto(newSaleInput.date(),
+                newSaleInput.amount(),
+                newSaleInput.invoiceNumber(),
+                newSaleInput.paymentMethodId(),
+                newSaleInput.costumerId(),
+                newSaleInput.userId(),
+                newSaleInput.dealId(),
+                newSaleInput.refound());
 
 
     }
+
+
 }

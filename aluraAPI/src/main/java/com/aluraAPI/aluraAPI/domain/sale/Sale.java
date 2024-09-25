@@ -3,7 +3,6 @@ package com.aluraAPI.aluraAPI.domain.sale;
 import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.deal.Deal;
-import com.aluraAPI.aluraAPI.domain.sale.dto.RegisterSaleDto;
 import com.aluraAPI.aluraAPI.domain.user.User;
 import com.aluraAPI.aluraAPI.domain.sale.dto.UpdateSaleDto;
 import jakarta.persistence.*;
@@ -12,7 +11,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Table(name = "sale")
 @Entity(name ="Sale")
@@ -90,7 +88,7 @@ public class Sale {
         this.refound = false;
     }
 
-    public Sale(@Valid RegisterSaleDto newSaleInput) {
+    public Sale(Sale sell) {
     }
 
 

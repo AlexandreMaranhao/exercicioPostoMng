@@ -1,5 +1,6 @@
 package com.aluraAPI.aluraAPI.domain.saleProduct.dto;
 
+import com.aluraAPI.aluraAPI.domain.sale.Sale;
 import jakarta.validation.constraints.NotNull;
 
 public record RegisterSaleProductDto(
@@ -10,4 +11,5 @@ public record RegisterSaleProductDto(
         @NotNull
         long productId
 ) {
+
 }

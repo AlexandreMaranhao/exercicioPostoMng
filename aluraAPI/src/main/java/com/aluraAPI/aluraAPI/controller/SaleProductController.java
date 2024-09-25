@@ -21,14 +21,14 @@ public class SaleProductController {
 
     @Autowired
     private RegisterSaleProductItem registerNewSaleProductItem;
-
+/*
     @PostMapping
     @Transactional
     public void newSaleProduct(@RequestBody @Valid RegisterSaleProductDto newSaleProductInput){
         registerNewSaleProductItem.registerSaleProductItem(newSaleProductInput);
        // saleProductRepository.save(new SaleProduct(newSaleProductInput));
     }
-
+*/
     @GetMapping
     public List<ListSaleProductDto> listarVendaProduto(){
         return saleProductRepository.findAll().stream().map(ListSaleProductDto::new).toList();

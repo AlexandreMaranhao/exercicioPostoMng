@@ -3,11 +3,8 @@ package com.aluraAPI.aluraAPI.controller;
 import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
 import com.aluraAPI.aluraAPI.domain.sale.Sale;
 import com.aluraAPI.aluraAPI.domain.sale.business.NewSale;
-import com.aluraAPI.aluraAPI.domain.sale.dto.RegisterCompleteSaleDto;
-import com.aluraAPI.aluraAPI.domain.sale.dto.UpdateSaleDto;
-import com.aluraAPI.aluraAPI.domain.sale.dto.ListSaleDto;
+import com.aluraAPI.aluraAPI.domain.sale.dto.*;
 import com.aluraAPI.aluraAPI.domain.sale.SaleRepository;
-import com.aluraAPI.aluraAPI.domain.sale.dto.RegisterSaleDto;
 import com.aluraAPI.aluraAPI.domain.saleProduct.business.RegisterSaleProductItem;
 import com.aluraAPI.aluraAPI.domain.saleProduct.dto.RegisterSaleProductDto;
 import com.aluraAPI.aluraAPI.exceptions.GeneralException;
@@ -17,6 +14,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -35,47 +33,23 @@ public class SaleController {
 
     @Autowired
     private ProductRepository productRepository;
-
+/*
     @PostMapping
     public ResponseEntity newSale(@RequestBody @Valid RegisterSaleDto newSaleInput){
         newSale.newSale(newSaleInput);
         return ResponseEntity.ok(new Sale(newSaleInput));
     }
-
+*/
     @PostMapping("/completa")
-    public ResponseEntity newCompleteSale(@RequestBody @Valid RegisterCompleteSaleDto newSaleInput) throws JsonProcessingException {
-        if (newSaleInput.getProducts() == null || newSaleInput.getProducts().isEmpty()) {
-            throw new GeneralException("Product list cannot be null or empty");
-        }
-        System.out.println("\n\n\n =============================================\n\n\n\n");
-        System.out.println(newSaleInput);
-        System.out.println("\n\n\n =============================================\n\n\n\n");
-
-        System.out.println("\n\n\n =============================================\n\n\n\n");
-        System.out.println(newSaleInput.getProducts());
-        System.out.println("\n\n\n =============================================\n\n\n\n");
-
-        for (RegisterSaleProductDto product : newSaleInput.getProducts()){
-
-            System.out.println("\n\n\n =============================================\n\n\n\n");
-            System.out.println(product);
-            System.out.println("\n\n\n =============================================\n\n\n\n");
-
-            var verification = RegisterSaleProductItem.verifyProduct(product);
-            if (!verification){
-                throw new GeneralException(("No registered product with id: " + product.productId()));
-            }
-        }
-        var newJsonSaleInput = SaleJsonExtractor.extractSaleInput(newSaleInput);
-        newSale.newSale(newJsonSaleInput);
-        for (RegisterSaleProductDto product : newSaleInput.getProducts()){
-            registerSaleProductItem.registerSaleProductItem(product);
-        }
-        return ResponseEntity.ok("");
+    public ResponseEntity newCompleteSale(@RequestBody @Valid RegisterCompleteSaleDto newSaleInput, UriComponentsBuilder uriBuilder)  {
+        RegistredSaleDetails newCompleteSale = newSale.realizeCompleteSale(newSaleInput);
+        //return ResponseEntity.ok("");
+        var uri = uriBuilder.path("/produtos/{id}").buildAndExpand(newCompleteSale.id()).toUri();
+        return ResponseEntity.created(uri).body(newCompleteSale);
     }
 
     @GetMapping
-    public List<ListSaleDto> listarVendas(){
+    public List<ListSaleDto> listSale(){
 
         return saleRepository.findAll().stream().map(ListSaleDto::new).toList();
     }

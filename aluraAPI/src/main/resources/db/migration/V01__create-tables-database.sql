@@ -11,7 +11,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema posto
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `posto` ;
+CREATE SCHEMA IF NOT EXISTS `posto` DEFAULT CHARACTER SET utf8 ;
 USE `posto` ;
 
 -- -----------------------------------------------------
@@ -53,7 +53,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `posto`.`Stock` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `quantity` INT NOT NULL,
+  `quantity` FLOAT NOT NULL,
   `validity` DATE NOT NULL,
   `product_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -220,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `posto`.`Stock_Control` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `date` DATETIME NOT NULL,
   `quantity` FLOAT NOT NULL,
-  `type` VARCHAR(45) NOT NULL,
+  `type` INT NOT NULL,
   `sale_product_id` INT NULL,
   `user_id` INT NOT NULL,
   `stock_id` INT NOT NULL,

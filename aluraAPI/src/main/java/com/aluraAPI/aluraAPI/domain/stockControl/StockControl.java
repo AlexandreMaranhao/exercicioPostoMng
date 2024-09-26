@@ -25,7 +25,9 @@ public class StockControl {
     private long id;
     private LocalDateTime date;
     private float quantity;
-    private String type;
+
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sale_product_id", referencedColumnName = "id")

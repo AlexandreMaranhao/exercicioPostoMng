@@ -1,12 +1,13 @@
 package com.aluraAPI.aluraAPI.domain.stockControl.dto;
 
+import com.aluraAPI.aluraAPI.domain.stockControl.Type;
 import jakarta.validation.constraints.NotNull;
 
 public record StockControlRegisterSaleDto(
         @NotNull
         float quantity,
-        @NotNull
-        String type,
+
+        Type type,
         @NotNull
         long productId,
         @NotNull

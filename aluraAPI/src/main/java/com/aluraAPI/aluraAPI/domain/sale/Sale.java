@@ -44,6 +44,7 @@ public class Sale {
     private Deal dealId;
 
     private boolean refound;
+    private int loyaltyPoints;
 
 
 

@@ -45,7 +45,6 @@ public class SaleController {
 
     @GetMapping
     public List<SaleListDto> listSale(){
-
         return saleRepository.findAll().stream().map(SaleListDto::new).toList();
     }
 

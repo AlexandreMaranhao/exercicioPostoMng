@@ -1,6 +1,7 @@
 package com.aluraAPI.aluraAPI.domain.stockControl.dto;
 
 import com.aluraAPI.aluraAPI.domain.stockControl.StockControl;
+import com.aluraAPI.aluraAPI.domain.stockControl.Type;
 
 import java.time.LocalDateTime;
 
@@ -8,7 +9,7 @@ public record StockControlListDto(
         long id,
         LocalDateTime date,
         float quantity,
-        String type,
+        Type type,
         long saleProductId,
         long userId,
         long stockId

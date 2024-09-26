@@ -2,6 +2,7 @@ package com.aluraAPI.aluraAPI.domain.stockControl.dto;
 
 
 import com.aluraAPI.aluraAPI.domain.stockControl.StockControl;
+import com.aluraAPI.aluraAPI.domain.stockControl.Type;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
@@ -11,8 +12,8 @@ public record StockControlRegisterEntranceDto(
         LocalDateTime date,
         @NotNull
         float quantity,
-        @NotNull
-        String type,
+
+        Type type,
         @NotNull
         long userId,
         @NotNull

@@ -35,11 +35,11 @@ public class ProductController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity registerNewProduct(@RequestBody ProductRegisterDto newProductInput, UriComponentsBuilder uriBuilder){
-        Category categoryId = categoryRepository.findById(newProductInput.categoryId()).get();
-        Product product = new Product(newProductInput, categoryId);
+    public ResponseEntity registerNewProduct(@RequestBody ProductRegisterDto registerNewProductInput, UriComponentsBuilder uriBuilder){
+        Category categoryId = categoryRepository.findById(registerNewProductInput.categoryId()).get();
+        Product product = new Product(registerNewProductInput, categoryId);
 
-        ProductDetailDto response = registerNewProduct.registerNewProduct(newProductInput);
+        ProductDetailDto response = registerNewProduct.registerNewProduct(registerNewProductInput);
 
         var uri = uriBuilder.path("/produtos/{id}").buildAndExpand(product.getId()).toUri();
         return ResponseEntity.created(uri).body(response);
@@ -53,15 +53,15 @@ public class ProductController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity updateProduct(@RequestBody @Valid ProductUpdateDto productUpdateDtoInput){
-        Product product = productRepository.getReferenceById(productUpdateDtoInput.id());
-        product.updateProduct(productUpdateDtoInput);
-        return ResponseEntity.ok(new Product(productUpdateDtoInput));
+    public ResponseEntity updateProduct(@RequestBody @Valid ProductUpdateDto updateProductUpdate){
+        Product product = productRepository.getReferenceById(updateProductUpdate.id());
+        product.updateProduct(updateProductUpdate);
+        return ResponseEntity.ok(new Product(updateProductUpdate));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity disableProduct(@PathVariable Long id){
+    public ResponseEntity inactivateProduct(@PathVariable Long id){
         var product = productRepository.findById(id)
                 .orElseThrow(() -> new GeneralException("No registred product with id: " + id));
         product.disable();

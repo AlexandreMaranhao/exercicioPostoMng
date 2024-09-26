@@ -24,6 +24,7 @@ public record SaleRegisteredDetails(
         long dealId,
 
         boolean refound
+
 ) {
     public SaleRegisteredDetails(Sale thisSale) {
         this(thisSale.getId(),

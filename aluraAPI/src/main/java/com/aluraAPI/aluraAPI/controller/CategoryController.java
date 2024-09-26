@@ -21,27 +21,27 @@ public class CategoryController {
 
     @PostMapping
     @Transactional
-    public void cadastrarCategoria(@RequestBody @Valid CategoryRegisterDto inputedData){
-        categoryRepository.save(new Category(inputedData));
+    public void registerCategory(@RequestBody @Valid CategoryRegisterDto newCategoryInput){
+        categoryRepository.save(new Category(newCategoryInput));
     }
 
     @GetMapping
-    public List<CategoryListDto> listarCategoria(){
+    public List<CategoryListDto> listCategory(){
         return categoryRepository.findAll().stream().map(CategoryListDto::new).toList();
     }
 
     @PutMapping
     @Transactional
-    public void atualizarCategoria(@RequestBody @Valid CategoryUpdateDto inputedData){
-        var categoria = categoryRepository.getReferenceById(inputedData.id());
-        categoria.updateCategory(inputedData);
+    public void updateCategory(@RequestBody @Valid CategoryUpdateDto updateCategoryInput){
+        var category = categoryRepository.getReferenceById(updateCategoryInput.id());
+        category.updateCategory(updateCategoryInput);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void excluirCategoria(@PathVariable Long id){
-        var categoria = categoryRepository.getReferenceById(id);
-        categoria.disable();
+    public void inactivateCategory(@PathVariable Long id){
+        var category = categoryRepository.getReferenceById(id);
+        category.disable();
     }
 
 

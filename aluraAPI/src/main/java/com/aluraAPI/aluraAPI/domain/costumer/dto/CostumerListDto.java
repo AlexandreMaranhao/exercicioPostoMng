@@ -11,12 +11,12 @@ public record CostumerListDto(
 )
 {
 
-    public CostumerListDto(Costumer costumerInput){
-        this(costumerInput.getId(),
-                costumerInput.getCpf(),
-                costumerInput.getName(),
+    public CostumerListDto(Costumer listCostumerInput){
+        this(listCostumerInput.getId(),
+                listCostumerInput.getCpf(),
+                listCostumerInput.getName(),
       //          cliente.getFidelidade().getId(),//TODO: atualizar
-                costumerInput.isActive()
+                listCostumerInput.isActive()
         );
     }
 

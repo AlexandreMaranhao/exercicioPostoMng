@@ -36,12 +36,12 @@ public class Costumer {
     }
 
 
-    public void updateCostumer(@Valid CostumerUpdateDto newInput) { //TODO: alteracao so permite inserir fidelidade
-        if (newInput.name() != null){
-            this.name = newInput.name();
+    public void updateCostumer(@Valid CostumerUpdateDto updateCostumerInput) { //TODO: alteracao so permite inserir fidelidade
+        if (updateCostumerInput.name() != null){
+            this.name = updateCostumerInput.name();
         }
-        if (newInput.cpf() != null){
-            this.cpf = newInput.cpf();
+        if (updateCostumerInput.cpf() != null){
+            this.cpf = updateCostumerInput.cpf();
         }
     }
 

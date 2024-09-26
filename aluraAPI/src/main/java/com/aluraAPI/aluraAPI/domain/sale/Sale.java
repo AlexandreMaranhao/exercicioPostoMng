@@ -44,12 +44,13 @@ public class Sale {
     private Deal dealId;
 
     private boolean refound;
+
     private int loyaltyPoints;
 
 
 
 
-    public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, Costumer costumer, User user, Deal deal) {
+    public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, Costumer costumer, User user, Deal deal, int loyaltyPoints) {
         this.date = sellDate;
         this.amount = amount;
         this.invoiceNumber = invoiceNumber;
@@ -58,6 +59,7 @@ public class Sale {
         this.userId = user;
         this.dealId = deal;
         this.refound = false;
+        this.loyaltyPoints = loyaltyPoints;
     }
 
     public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, Costumer costumer, User user) {

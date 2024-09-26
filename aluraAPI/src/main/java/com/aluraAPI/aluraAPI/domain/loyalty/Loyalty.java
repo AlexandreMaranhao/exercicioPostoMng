@@ -22,19 +22,19 @@ public class Loyalty {
     private boolean active;
 
 
-    public Loyalty(@Valid LoyaltyRegisterDto newLoyaltyInput) {
-        this.number = newLoyaltyInput.number();
+    public Loyalty(@Valid LoyaltyRegisterDto registerLoyaltyInput) {
+        this.number = registerLoyaltyInput.number();
         this.active = true;
         this.points = 0;
     }
 
 
-    public void updateLoyalty(@Valid LoyaltyUpdateDto newLoyaltyInput) {
-        if (newLoyaltyInput.number() != null){
-            this.number = newLoyaltyInput.number();
+    public void updateLoyalty(@Valid LoyaltyUpdateDto updateLoyaltyInput) {
+        if (updateLoyaltyInput.number() != null){
+            this.number = updateLoyaltyInput.number();
         }
-        if (newLoyaltyInput.points() != 0.0d){
-            this.points = newLoyaltyInput.points();
+        if (updateLoyaltyInput.points() != 0.0d){
+            this.points = updateLoyaltyInput.points();
         }
     }
 

@@ -21,20 +21,20 @@ public class PaymentMethod {
     private String discount;
     private boolean active;
 
-    public PaymentMethod(PaymentMethodRegisterDto newPaymentMethodInput) {
-        this.method = newPaymentMethodInput.method();
-        this.discount = newPaymentMethodInput.discount();
+    public PaymentMethod(PaymentMethodRegisterDto registerPaymentMethodInput) {
+        this.method = registerPaymentMethodInput.method();
+        this.discount = registerPaymentMethodInput.discount();
         this.active = true;
     }
 
 
 
-    public void updatePaymentMethod(@Valid PaymentMethodUpdateDto newPaymentMethodInput) {
-        if (newPaymentMethodInput.method() != null){
-            this.method = newPaymentMethodInput.method();
+    public void updatePaymentMethod(@Valid PaymentMethodUpdateDto updatePaymentMethodInput) {
+        if (updatePaymentMethodInput.method() != null){
+            this.method = updatePaymentMethodInput.method();
         }
-        if (newPaymentMethodInput.discount() != null){
-            this.discount = newPaymentMethodInput.discount();
+        if (updatePaymentMethodInput.discount() != null){
+            this.discount = updatePaymentMethodInput.discount();
         }
     }
 

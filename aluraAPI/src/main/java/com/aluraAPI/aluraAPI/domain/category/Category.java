@@ -27,9 +27,9 @@ public class Category {
     }
 
 
-    public void updateCategory (@Valid CategoryUpdateDto newInput) {
-        if (newInput.name() != null){
-            this.name = newInput.name();
+    public void updateCategory (@Valid CategoryUpdateDto updateCategoryInput) {
+        if (updateCategoryInput.name() != null){
+            this.name = updateCategoryInput.name();
         }
     }
 

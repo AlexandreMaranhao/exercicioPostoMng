@@ -11,12 +11,12 @@ public record ProductListDto(
 )
 {
 
-    public ProductListDto(Product productInput){
-        this(productInput.getId(),
-                productInput.getName(),
-                productInput.getPrice(),
-                productInput.getCategory().getId(),
-                productInput.isActive()
+    public ProductListDto(Product listProductInput){
+        this(listProductInput.getId(),
+                listProductInput.getName(),
+                listProductInput.getPrice(),
+                listProductInput.getCategory().getId(),
+                listProductInput.isActive()
         );
     }
 

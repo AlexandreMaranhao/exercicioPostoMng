@@ -21,27 +21,27 @@ public class CostumerController {
 
     @PostMapping
     @Transactional
-    public void cadastrarCliente(@RequestBody @Valid CostumerRegisterDto inputedData){
-        costumerRepository.save(new Costumer(inputedData));//TODO: Resolver cliente igual ao produto
+    public void registerCostumer(@RequestBody @Valid CostumerRegisterDto registerCostumerInput){
+        costumerRepository.save(new Costumer(registerCostumerInput));//TODO: Resolver cliente igual ao produto
     }
 
     @GetMapping
-    public List<CostumerListDto> listarCliente(){
+    public List<CostumerListDto> listCostumer(){
         return costumerRepository.findAll().stream().map(CostumerListDto::new).toList();
     }
 
 
     @PutMapping
     @Transactional
-    public void atualizarCliente(@RequestBody @Valid CostumerUpdateDto inputedData){ //TODO: Só atualiza Fidelidade
-        var cliente = costumerRepository.getReferenceById(inputedData.id());
-        cliente.updateCostumer(inputedData);
+    public void updateCostumer(@RequestBody @Valid CostumerUpdateDto updateCostumerInput){ //TODO: Só atualiza Fidelidade
+        var costumer = costumerRepository.getReferenceById(updateCostumerInput.id());
+        costumer.updateCostumer(updateCostumerInput);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void excluirCliente(@PathVariable Long id){
-        var cliente = costumerRepository.getReferenceById(id);
-        cliente.disable();
+    public void inactivateCostumer(@PathVariable Long id){
+        var costumer = costumerRepository.getReferenceById(id);
+        costumer.disable();
     }
 }

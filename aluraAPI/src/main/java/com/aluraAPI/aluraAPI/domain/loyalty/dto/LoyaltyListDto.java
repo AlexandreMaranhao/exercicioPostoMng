@@ -7,10 +7,10 @@ public record LoyaltyListDto(
         String number,
         int points
 ) {
-    public LoyaltyListDto(Loyalty loyaltyInput) {
-        this(loyaltyInput.getId(),
-                loyaltyInput.getNumber(),
-                loyaltyInput.getPoints()
+    public LoyaltyListDto(Loyalty listLoyaltyInput) {
+        this(listLoyaltyInput.getId(),
+                listLoyaltyInput.getNumber(),
+                listLoyaltyInput.getPoints()
         );
     }
 }

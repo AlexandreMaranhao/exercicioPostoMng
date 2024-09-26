@@ -22,27 +22,27 @@ public class DealController {
 
     @PostMapping
     @Transactional
-    public void cadastrarPromocao(@RequestBody @Valid DealRegisterDto inputedData){
-        dealRepository.save(new Deal(inputedData));
+    public void registerDeal(@RequestBody @Valid DealRegisterDto registerDealInput){
+        dealRepository.save(new Deal(registerDealInput));
     }
 
     @GetMapping
-    public List<DealListDto> listarPromocao(){
+    public List<DealListDto> listDeal(){
 
         return dealRepository.findAll().stream().map(DealListDto::new).toList();
     }
 
     @PutMapping
     @Transactional
-    public void atualizarPromocao(@RequestBody @Valid DealUpdateDto inputedData){
-        var promocao = dealRepository.getReferenceById(inputedData.id());
-        promocao.updateDeal(inputedData);
+    public void updateDeal(@RequestBody @Valid DealUpdateDto updateDealInput){
+        var deal = dealRepository.getReferenceById(updateDealInput.id());
+        deal.updateDeal(updateDealInput);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void excluirPromocao(@PathVariable Long id){
-        var promocao = dealRepository.getReferenceById(id);
-        promocao.disable();
+    public void inactivateDeal(@PathVariable Long id){
+        var deal = dealRepository.getReferenceById(id);
+        deal.disable();
     }
 }

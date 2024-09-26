@@ -41,19 +41,19 @@ public class Product {
         this.categoryId = categoryId;
     }
 
-    public Product(ProductUpdateDto productUpdateDtoInput) {
-        this.name = productUpdateDtoInput.name();
-        this.price = productUpdateDtoInput.price();
+    public Product(ProductUpdateDto updateProductInput) {
+        this.name = updateProductInput.name();
+        this.price = updateProductInput.price();
         this.categoryId = categoryId;
     }
 
-    public void updateProduct(@Valid ProductUpdateDto newProductInput) {
-        if (newProductInput.name() != null){
-            this.name = newProductInput.name();
+    public void updateProduct(@Valid ProductUpdateDto updateProductInput) {
+        if (updateProductInput.name() != null){
+            this.name = updateProductInput.name();
         }
-        Float priceLong = newProductInput.price();
+        Float priceLong = updateProductInput.price();
         if (priceLong != null){
-            this.price = newProductInput.price();
+            this.price = updateProductInput.price();
         }
     }
 

@@ -21,26 +21,26 @@ public class LoyaltyController {
 
     @PostMapping
     @Transactional
-    public void cadastrarFidelidade(@RequestBody @Valid LoyaltyRegisterDto inputedData){
-        loyaltyRepository.save(new Loyalty(inputedData));
+    public void registerLoyalty(@RequestBody @Valid LoyaltyRegisterDto registerLoyaltyInput){
+        loyaltyRepository.save(new Loyalty(registerLoyaltyInput));
     }
 
     @GetMapping
-    public List<LoyaltyListDto> listarFidelidade(){
+    public List<LoyaltyListDto> listLoyalty(){
         return loyaltyRepository.findAll().stream().map(LoyaltyListDto::new).toList();
     }
 
     @PutMapping
     @Transactional
-    public void atualizarFidelidade(@RequestBody @Valid LoyaltyUpdateDto inputedData){
-        var fidelidade = loyaltyRepository.getReferenceById(inputedData.id());
-        fidelidade.updateLoyalty(inputedData);
+    public void updateLoyalty(@RequestBody @Valid LoyaltyUpdateDto updateLoyaltyInput){
+        var loyalty = loyaltyRepository.getReferenceById(updateLoyaltyInput.id());
+        loyalty.updateLoyalty(updateLoyaltyInput);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void excluirFidelidade(@PathVariable Long id){
-        var fidelidade = loyaltyRepository.getReferenceById(id);
-        fidelidade.disable();
+    public void inactiveLoyalty(@PathVariable Long id){
+        var loyalty = loyaltyRepository.getReferenceById(id);
+        loyalty.disable();
     }
 }

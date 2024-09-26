@@ -6,9 +6,9 @@ public record CategoryListDto(
         long id,
         String name
 ) {
-    public CategoryListDto(Category categoryInput) {
-        this(categoryInput.getId(),
-                categoryInput.getName()
+    public CategoryListDto(Category listCategoryInput) {
+        this(listCategoryInput.getId(),
+                listCategoryInput.getName()
         );
     }
 }

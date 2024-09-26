@@ -21,26 +21,26 @@ public class PaymentMethodController {
 
     @PostMapping
     @Transactional
-    public void cadastrarMetodoPagamento(@RequestBody @Valid PaymentMethodRegisterDto inputedData){
-        paymentMethodRepository.save(new PaymentMethod(inputedData));
+    public void registerPaymentMethod(@RequestBody @Valid PaymentMethodRegisterDto registerPaymentMethodInput){
+        paymentMethodRepository.save(new PaymentMethod(registerPaymentMethodInput));
     }
 
     @GetMapping
-    public List<PaymentMethodListDto> listarMetodoPagamento(){
+    public List<PaymentMethodListDto> listPaymentMethod(){
         return paymentMethodRepository.findAll().stream().map(PaymentMethodListDto::new).toList();
     }
 
     @PutMapping
     @Transactional
-    public void atualizarMetodoPagamento(@RequestBody @Valid PaymentMethodUpdateDto inputedData){
-        var metodoPagamento = paymentMethodRepository.getReferenceById(inputedData.id());
-        metodoPagamento.updatePaymentMethod(inputedData);
+    public void updatePaymentMethod(@RequestBody @Valid PaymentMethodUpdateDto updatePaymentMethodInput){
+        var paymentMethod = paymentMethodRepository.getReferenceById(updatePaymentMethodInput.id());
+        paymentMethod.updatePaymentMethod(updatePaymentMethodInput);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void excluirMetodoPagamento(@PathVariable Long id){
-        var metodoPagamento = paymentMethodRepository.getReferenceById(id);
-        metodoPagamento.disable();
+    public void inactivatePaymentMethod(@PathVariable Long id){
+        var paymentMethod = paymentMethodRepository.getReferenceById(id);
+        paymentMethod.disable();
     }
 }

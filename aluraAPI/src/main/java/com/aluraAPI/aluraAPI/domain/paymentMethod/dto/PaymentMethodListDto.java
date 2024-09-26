@@ -10,10 +10,10 @@ public record PaymentMethodListDto(
 
         boolean active
 ) {
-    public PaymentMethodListDto(PaymentMethod paymentMethodInput){
-        this(paymentMethodInput.getMethod(),
-                paymentMethodInput.getDiscount(),
-                paymentMethodInput.isActive()
+    public PaymentMethodListDto(PaymentMethod listPaymentMethodInput){
+        this(listPaymentMethodInput.getMethod(),
+                listPaymentMethodInput.getDiscount(),
+                listPaymentMethodInput.isActive()
         );
 
     }

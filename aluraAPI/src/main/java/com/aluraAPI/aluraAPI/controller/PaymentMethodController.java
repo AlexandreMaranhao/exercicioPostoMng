@@ -3,9 +3,9 @@ package com.aluraAPI.aluraAPI.controller;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethodRepository;
 
-import com.aluraAPI.aluraAPI.domain.paymentMethod.dto.UpdatePaymentMethodDto;
-import com.aluraAPI.aluraAPI.domain.paymentMethod.dto.RegisterPaymentMethodDto;
-import com.aluraAPI.aluraAPI.domain.paymentMethod.dto.ListPaymentMethodDto;
+import com.aluraAPI.aluraAPI.domain.paymentMethod.dto.PaymentMethodUpdateDto;
+import com.aluraAPI.aluraAPI.domain.paymentMethod.dto.PaymentMethodRegisterDto;
+import com.aluraAPI.aluraAPI.domain.paymentMethod.dto.PaymentMethodListDto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +21,18 @@ public class PaymentMethodController {
 
     @PostMapping
     @Transactional
-    public void cadastrarMetodoPagamento(@RequestBody @Valid RegisterPaymentMethodDto inputedData){
+    public void cadastrarMetodoPagamento(@RequestBody @Valid PaymentMethodRegisterDto inputedData){
         paymentMethodRepository.save(new PaymentMethod(inputedData));
     }
 
     @GetMapping
-    public List<ListPaymentMethodDto> listarMetodoPagamento(){
-        return paymentMethodRepository.findAll().stream().map(ListPaymentMethodDto::new).toList();
+    public List<PaymentMethodListDto> listarMetodoPagamento(){
+        return paymentMethodRepository.findAll().stream().map(PaymentMethodListDto::new).toList();
     }
 
     @PutMapping
     @Transactional
-    public void atualizarMetodoPagamento(@RequestBody @Valid UpdatePaymentMethodDto inputedData){
+    public void atualizarMetodoPagamento(@RequestBody @Valid PaymentMethodUpdateDto inputedData){
         var metodoPagamento = paymentMethodRepository.getReferenceById(inputedData.id());
         metodoPagamento.updatePaymentMethod(inputedData);
     }

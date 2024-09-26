@@ -8,15 +8,15 @@ import com.aluraAPI.aluraAPI.domain.deal.Deal;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethodRepository;
 import com.aluraAPI.aluraAPI.domain.deal.DealRepository;
-import com.aluraAPI.aluraAPI.domain.sale.dto.RegisterCompleteSaleDto;
-import com.aluraAPI.aluraAPI.domain.sale.dto.RegistredSaleDetails;
+import com.aluraAPI.aluraAPI.domain.sale.dto.SaleCompleteRegisterDto;
+import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisteredDetails;
 import com.aluraAPI.aluraAPI.domain.saleProduct.business.RegisterSaleProductItem;
-import com.aluraAPI.aluraAPI.domain.saleProduct.dto.RegisterSaleProductDto;
+import com.aluraAPI.aluraAPI.domain.saleProduct.dto.SaleProductRegisterDto;
 import com.aluraAPI.aluraAPI.domain.user.User;
 import com.aluraAPI.aluraAPI.domain.user.UserRepository;
 import com.aluraAPI.aluraAPI.domain.sale.Sale;
 import com.aluraAPI.aluraAPI.domain.sale.SaleRepository;
-import com.aluraAPI.aluraAPI.domain.sale.dto.RegisterSaleDto;
+import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisterDto;
 import com.aluraAPI.aluraAPI.exceptions.GeneralException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class NewSale {
     private RegisterSaleProductItem registerSaleProductItem;
 
 
-    public RegistredSaleDetails newSale(RegisterSaleDto newSaleInput){
+    public SaleRegisteredDetails newSale(SaleRegisterDto newSaleInput){
         if(!paymentMethodRepository.existsById(newSaleInput.paymentMethodId())){
             throw new GeneralException(("No payment method was found with id: " + newSaleInput.paymentMethodId()));
         }
@@ -91,12 +91,12 @@ public class NewSale {
             sell = new Sale(sellDate, newSaleInput.amount(), newSaleInput.invoiceNumber(), paymentMethod, user);
             saleRepository.save(sell);
         }
-        return new RegistredSaleDetails(sell);
+        return new SaleRegisteredDetails(sell);
     }
 
-    public void findProductsCompleteSale(RegisterCompleteSaleDto newSaleInput){
+    public void findProductsCompleteSale(SaleCompleteRegisterDto newSaleInput){
 
-        for (RegisterSaleProductDto product : newSaleInput.getProducts()){
+        for (SaleProductRegisterDto product : newSaleInput.getProducts()){
 
             var verification = RegisterSaleProductItem.verifyProduct(product);
             if (!verification){
@@ -105,31 +105,31 @@ public class NewSale {
         }
 
     }
-    public void registerCompleteSaleProductItem(RegisterCompleteSaleDto newSaleInput, RegistredSaleDetails registeredSale){
-        for (RegisterSaleProductDto product : newSaleInput.getProducts()){
+    public void registerCompleteSaleProductItem(SaleCompleteRegisterDto newSaleInput, SaleRegisteredDetails registeredSale){
+        for (SaleProductRegisterDto product : newSaleInput.getProducts()){
 
             registerSaleProductItem.registerSaleProductItem(product, registeredSale);
         }
 
     }
 
-    public RegistredSaleDetails realizeCompleteSale(RegisterCompleteSaleDto newSaleInput) {
+    public SaleRegisteredDetails realizeCompleteSale(SaleCompleteRegisterDto newSaleInput) {
         emptyProductListOnCompleteSale(newSaleInput);
         findProductsCompleteSale(newSaleInput);
-        RegistredSaleDetails registeredSale = newSale(getSaleInput(newSaleInput));
+        SaleRegisteredDetails registeredSale = newSale(getSaleInput(newSaleInput));
         registerCompleteSaleProductItem(newSaleInput, registeredSale);
 
-        return new RegistredSaleDetails(registeredSale);
+        return new SaleRegisteredDetails(registeredSale);
     }
 
-    public void emptyProductListOnCompleteSale(RegisterCompleteSaleDto newSaleInput){
+    public void emptyProductListOnCompleteSale(SaleCompleteRegisterDto newSaleInput){
         if (newSaleInput.getProducts() == null || newSaleInput.getProducts().isEmpty()) {
             throw new GeneralException("Product list can not be null or empty");
         }
     }
 
-    public RegisterSaleDto getSaleInput (RegisterCompleteSaleDto newSaleInput) {
-        return new RegisterSaleDto(newSaleInput.date(),
+    public SaleRegisterDto getSaleInput (SaleCompleteRegisterDto newSaleInput) {
+        return new SaleRegisterDto(newSaleInput.date(),
                 newSaleInput.amount(),
                 newSaleInput.invoiceNumber(),
                 newSaleInput.paymentMethodId(),

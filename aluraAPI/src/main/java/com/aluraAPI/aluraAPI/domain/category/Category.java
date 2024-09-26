@@ -1,7 +1,7 @@
 package com.aluraAPI.aluraAPI.domain.category;
 
-import com.aluraAPI.aluraAPI.domain.category.dto.UpdateCategoryDto;
-import com.aluraAPI.aluraAPI.domain.category.dto.RegisterCategoryDto;
+import com.aluraAPI.aluraAPI.domain.category.dto.CategoryUpdateDto;
+import com.aluraAPI.aluraAPI.domain.category.dto.CategoryRegisterDto;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.*;
@@ -21,13 +21,13 @@ public class Category {
     private boolean active;
 
 
-    public Category(@Valid RegisterCategoryDto newCategoryInput) {
+    public Category(@Valid CategoryRegisterDto newCategoryInput) {
         this.name = newCategoryInput.name();
         this.active = true;
     }
 
 
-    public void updateCategory (@Valid UpdateCategoryDto newInput) {
+    public void updateCategory (@Valid CategoryUpdateDto newInput) {
         if (newInput.name() != null){
             this.name = newInput.name();
         }

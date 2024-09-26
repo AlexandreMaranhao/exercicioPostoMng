@@ -2,9 +2,9 @@ package com.aluraAPI.aluraAPI.controller;
 
 import com.aluraAPI.aluraAPI.domain.category.Category;
 import com.aluraAPI.aluraAPI.domain.category.CategoryRepository;
-import com.aluraAPI.aluraAPI.domain.category.dto.UpdateCategoryDto;
-import com.aluraAPI.aluraAPI.domain.category.dto.RegisterCategoryDto;
-import com.aluraAPI.aluraAPI.domain.category.dto.ListCategoryDto;
+import com.aluraAPI.aluraAPI.domain.category.dto.CategoryUpdateDto;
+import com.aluraAPI.aluraAPI.domain.category.dto.CategoryRegisterDto;
+import com.aluraAPI.aluraAPI.domain.category.dto.CategoryListDto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +21,18 @@ public class CategoryController {
 
     @PostMapping
     @Transactional
-    public void cadastrarCategoria(@RequestBody @Valid RegisterCategoryDto inputedData){
+    public void cadastrarCategoria(@RequestBody @Valid CategoryRegisterDto inputedData){
         categoryRepository.save(new Category(inputedData));
     }
 
     @GetMapping
-    public List<ListCategoryDto> listarCategoria(){
-        return categoryRepository.findAll().stream().map(ListCategoryDto::new).toList();
+    public List<CategoryListDto> listarCategoria(){
+        return categoryRepository.findAll().stream().map(CategoryListDto::new).toList();
     }
 
     @PutMapping
     @Transactional
-    public void atualizarCategoria(@RequestBody @Valid UpdateCategoryDto inputedData){
+    public void atualizarCategoria(@RequestBody @Valid CategoryUpdateDto inputedData){
         var categoria = categoryRepository.getReferenceById(inputedData.id());
         categoria.updateCategory(inputedData);
     }

@@ -4,11 +4,11 @@ import com.aluraAPI.aluraAPI.domain.category.Category;
 import com.aluraAPI.aluraAPI.domain.category.CategoryRepository;
 import com.aluraAPI.aluraAPI.domain.product.Product;
 import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
-import com.aluraAPI.aluraAPI.domain.product.business.RegisterProduct;
+import com.aluraAPI.aluraAPI.domain.product.business.ProductRegister;
 import com.aluraAPI.aluraAPI.domain.product.dto.ProductDetailDto;
-import com.aluraAPI.aluraAPI.domain.product.dto.RegisterProductDto;
-import com.aluraAPI.aluraAPI.domain.product.dto.UpdateProductDto;
-import com.aluraAPI.aluraAPI.domain.product.dto.ListProductDto;
+import com.aluraAPI.aluraAPI.domain.product.dto.ProductRegisterDto;
+import com.aluraAPI.aluraAPI.domain.product.dto.ProductUpdateDto;
+import com.aluraAPI.aluraAPI.domain.product.dto.ProductListDto;
 import com.aluraAPI.aluraAPI.exceptions.GeneralException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -27,7 +27,7 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @Autowired
-    private RegisterProduct registerNewProduct;
+    private ProductRegister registerNewProduct;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -35,7 +35,7 @@ public class ProductController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity registerNewProduct(@RequestBody RegisterProductDto newProductInput, UriComponentsBuilder uriBuilder){
+    public ResponseEntity registerNewProduct(@RequestBody ProductRegisterDto newProductInput, UriComponentsBuilder uriBuilder){
         Category categoryId = categoryRepository.findById(newProductInput.categoryId()).get();
         Product product = new Product(newProductInput, categoryId);
 
@@ -46,23 +46,22 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ListProductDto>> listProduct(){
-        var list = productRepository.findAll().stream().map(ListProductDto::new).toList();
+    public ResponseEntity<List<ProductListDto>> listProduct(){
+        var list = productRepository.findAll().stream().map(ProductListDto::new).toList();
         return ResponseEntity.ok(list);
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity updateProduct(@RequestBody @Valid UpdateProductDto updateProductDtoInput){
-        Product product = productRepository.getReferenceById(updateProductDtoInput.id());
-        product.updateProduct(updateProductDtoInput);
-        return ResponseEntity.ok(new Product(updateProductDtoInput));
+    public ResponseEntity updateProduct(@RequestBody @Valid ProductUpdateDto productUpdateDtoInput){
+        Product product = productRepository.getReferenceById(productUpdateDtoInput.id());
+        product.updateProduct(productUpdateDtoInput);
+        return ResponseEntity.ok(new Product(productUpdateDtoInput));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity disableProduct(@PathVariable Long id){
-        //var produto = productRepository.getReferenceById(id);
         var product = productRepository.findById(id)
                 .orElseThrow(() -> new GeneralException("No registred product with id: " + id));
         product.disable();
@@ -74,6 +73,6 @@ public class ProductController {
         // var product = productRepository.getReferenceById(id)
         var product = productRepository.findById(id)
                 .orElseThrow(() -> new GeneralException("No registred product with id: " + id));
-        return ResponseEntity.ok(new ListProductDto(product));
+        return ResponseEntity.ok(new ProductListDto(product));
     }
 }

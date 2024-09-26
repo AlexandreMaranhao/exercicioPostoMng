@@ -1,14 +1,10 @@
 package com.aluraAPI.aluraAPI.controller;
 
 import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
-import com.aluraAPI.aluraAPI.domain.sale.Sale;
 import com.aluraAPI.aluraAPI.domain.sale.business.NewSale;
 import com.aluraAPI.aluraAPI.domain.sale.dto.*;
 import com.aluraAPI.aluraAPI.domain.sale.SaleRepository;
 import com.aluraAPI.aluraAPI.domain.saleProduct.business.RegisterSaleProductItem;
-import com.aluraAPI.aluraAPI.domain.saleProduct.dto.RegisterSaleProductDto;
-import com.aluraAPI.aluraAPI.exceptions.GeneralException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,21 +36,21 @@ public class SaleController {
     }
 */
     @PostMapping("/completa")
-    public ResponseEntity newCompleteSale(@RequestBody @Valid RegisterCompleteSaleDto newSaleInput, UriComponentsBuilder uriBuilder)  {
-        RegistredSaleDetails newCompleteSale = newSale.realizeCompleteSale(newSaleInput);
+    public ResponseEntity newCompleteSale(@RequestBody @Valid SaleCompleteRegisterDto newSaleInput, UriComponentsBuilder uriBuilder)  {
+        SaleRegisteredDetails newCompleteSale = newSale.realizeCompleteSale(newSaleInput);
         //return ResponseEntity.ok("");
         var uri = uriBuilder.path("/produtos/{id}").buildAndExpand(newCompleteSale.id()).toUri();
         return ResponseEntity.created(uri).body(newCompleteSale);
     }
 
     @GetMapping
-    public List<ListSaleDto> listSale(){
+    public List<SaleListDto> listSale(){
 
-        return saleRepository.findAll().stream().map(ListSaleDto::new).toList();
+        return saleRepository.findAll().stream().map(SaleListDto::new).toList();
     }
 
     @PutMapping
-    public void atualizarVenda(@RequestBody @Valid UpdateSaleDto updateSaleInput){
+    public void atualizarVenda(@RequestBody @Valid SaleUpdateDto updateSaleInput){
         var venda = saleRepository.getReferenceById(updateSaleInput.id());
         venda.updateSale(updateSaleInput);
     }

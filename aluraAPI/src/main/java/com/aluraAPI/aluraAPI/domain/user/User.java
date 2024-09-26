@@ -1,7 +1,7 @@
 package com.aluraAPI.aluraAPI.domain.user;
 
-import com.aluraAPI.aluraAPI.domain.user.dto.UpdateUserDto;
-import com.aluraAPI.aluraAPI.domain.user.dto.RegisterUserDto;
+import com.aluraAPI.aluraAPI.domain.user.dto.UserUpdateDto;
+import com.aluraAPI.aluraAPI.domain.user.dto.UserRegisterDto;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.*;
@@ -24,7 +24,7 @@ public class User {
     private boolean active;
 
 
-    public User(@Valid RegisterUserDto newUserInput) {
+    public User(@Valid UserRegisterDto newUserInput) {
         this.name = newUserInput.name();
         this.user = newUserInput.user();
         this.password = newUserInput.password();
@@ -33,7 +33,7 @@ public class User {
     }
 
 
-    public void updateUser(@Valid UpdateUserDto newUserInput) {
+    public void updateUser(@Valid UserUpdateDto newUserInput) {
         if (newUserInput.name() != null){
             this.name = newUserInput.name();
         }

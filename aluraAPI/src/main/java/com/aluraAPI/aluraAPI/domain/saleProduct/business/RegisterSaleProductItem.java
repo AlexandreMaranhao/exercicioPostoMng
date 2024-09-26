@@ -4,15 +4,13 @@ import com.aluraAPI.aluraAPI.domain.product.Product;
 import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
 import com.aluraAPI.aluraAPI.domain.sale.Sale;
 import com.aluraAPI.aluraAPI.domain.sale.SaleRepository;
-import com.aluraAPI.aluraAPI.domain.sale.dto.RegistredSaleDetails;
+import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisteredDetails;
 import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProduct;
 import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProductRepository;
-import com.aluraAPI.aluraAPI.domain.saleProduct.dto.RegisterSaleProductDto;
+import com.aluraAPI.aluraAPI.domain.saleProduct.dto.SaleProductRegisterDto;
 import com.aluraAPI.aluraAPI.exceptions.GeneralException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class RegisterSaleProductItem {
@@ -26,7 +24,7 @@ public class RegisterSaleProductItem {
     @Autowired
     private ProductRepository productRepository;
 
-    public static boolean verifyProduct(RegisterSaleProductDto newSaleProductInput){
+    public static boolean verifyProduct(SaleProductRegisterDto newSaleProductInput){
         boolean productExist = true;
 
         Long productIdLong = newSaleProductInput.productId();
@@ -39,7 +37,7 @@ public class RegisterSaleProductItem {
     }
 
 
-    public void registerSaleProductItem(RegisterSaleProductDto newSaleProductInput, RegistredSaleDetails registeredSale){
+    public void registerSaleProductItem(SaleProductRegisterDto newSaleProductInput, SaleRegisteredDetails registeredSale){
 
         if (!verifyProduct(newSaleProductInput)){
             throw new GeneralException(("No registered product with id: " + newSaleProductInput.productId()));

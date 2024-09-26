@@ -3,10 +3,7 @@ package com.aluraAPI.aluraAPI.controller;
 
 import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProductRepository;
 import com.aluraAPI.aluraAPI.domain.saleProduct.business.RegisterSaleProductItem;
-import com.aluraAPI.aluraAPI.domain.saleProduct.dto.ListSaleProductDto;
-import com.aluraAPI.aluraAPI.domain.saleProduct.dto.RegisterSaleProductDto;
-import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
+import com.aluraAPI.aluraAPI.domain.saleProduct.dto.SaleProductListDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +27,8 @@ public class SaleProductController {
     }
 */
     @GetMapping
-    public List<ListSaleProductDto> listarVendaProduto(){
-        return saleProductRepository.findAll().stream().map(ListSaleProductDto::new).toList();
+    public List<SaleProductListDto> listarVendaProduto(){
+        return saleProductRepository.findAll().stream().map(SaleProductListDto::new).toList();
     }
 
 

@@ -3,9 +3,9 @@ package com.aluraAPI.aluraAPI.controller;
 import com.aluraAPI.aluraAPI.domain.loyalty.Loyalty;
 import com.aluraAPI.aluraAPI.domain.loyalty.LoyaltyRepository;
 
-import com.aluraAPI.aluraAPI.domain.loyalty.dto.UpdateLoyaltyDto;
-import com.aluraAPI.aluraAPI.domain.loyalty.dto.RegisterLoyaltyDto;
-import com.aluraAPI.aluraAPI.domain.loyalty.dto.ListLoyaltyDto;
+import com.aluraAPI.aluraAPI.domain.loyalty.dto.LoyaltyUpdateDto;
+import com.aluraAPI.aluraAPI.domain.loyalty.dto.LoyaltyRegisterDto;
+import com.aluraAPI.aluraAPI.domain.loyalty.dto.LoyaltyListDto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +21,18 @@ public class LoyaltyController {
 
     @PostMapping
     @Transactional
-    public void cadastrarFidelidade(@RequestBody @Valid RegisterLoyaltyDto inputedData){
+    public void cadastrarFidelidade(@RequestBody @Valid LoyaltyRegisterDto inputedData){
         loyaltyRepository.save(new Loyalty(inputedData));
     }
 
     @GetMapping
-    public List<ListLoyaltyDto> listarFidelidade(){
-        return loyaltyRepository.findAll().stream().map(ListLoyaltyDto::new).toList();
+    public List<LoyaltyListDto> listarFidelidade(){
+        return loyaltyRepository.findAll().stream().map(LoyaltyListDto::new).toList();
     }
 
     @PutMapping
     @Transactional
-    public void atualizarFidelidade(@RequestBody @Valid UpdateLoyaltyDto inputedData){
+    public void atualizarFidelidade(@RequestBody @Valid LoyaltyUpdateDto inputedData){
         var fidelidade = loyaltyRepository.getReferenceById(inputedData.id());
         fidelidade.updateLoyalty(inputedData);
     }

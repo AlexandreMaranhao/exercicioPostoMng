@@ -4,7 +4,7 @@ import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.deal.Deal;
 import com.aluraAPI.aluraAPI.domain.user.User;
-import com.aluraAPI.aluraAPI.domain.sale.dto.UpdateSaleDto;
+import com.aluraAPI.aluraAPI.domain.sale.dto.SaleUpdateDto;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -92,7 +92,7 @@ public class Sale {
     }
 
 
-    public void updateSale(@Valid UpdateSaleDto updateSaleInput){
+    public void updateSale(@Valid SaleUpdateDto updateSaleInput){
         if (updateSaleInput.invoiceNumber() != null){
             this.invoiceNumber = updateSaleInput.invoiceNumber();
         }

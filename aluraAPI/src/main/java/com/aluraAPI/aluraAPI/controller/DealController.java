@@ -3,9 +3,9 @@ package com.aluraAPI.aluraAPI.controller;
 
 import com.aluraAPI.aluraAPI.domain.deal.Deal;
 import com.aluraAPI.aluraAPI.domain.deal.DealRepository;
-import com.aluraAPI.aluraAPI.domain.deal.dto.UpdateDealDto;
-import com.aluraAPI.aluraAPI.domain.deal.dto.RegisterDealDto;
-import com.aluraAPI.aluraAPI.domain.deal.dto.ListDealDto;
+import com.aluraAPI.aluraAPI.domain.deal.dto.DealUpdateDto;
+import com.aluraAPI.aluraAPI.domain.deal.dto.DealRegisterDto;
+import com.aluraAPI.aluraAPI.domain.deal.dto.DealListDto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +22,19 @@ public class DealController {
 
     @PostMapping
     @Transactional
-    public void cadastrarPromocao(@RequestBody @Valid RegisterDealDto inputedData){
+    public void cadastrarPromocao(@RequestBody @Valid DealRegisterDto inputedData){
         dealRepository.save(new Deal(inputedData));
     }
 
     @GetMapping
-    public List<ListDealDto> listarPromocao(){
+    public List<DealListDto> listarPromocao(){
 
-        return dealRepository.findAll().stream().map(ListDealDto::new).toList();
+        return dealRepository.findAll().stream().map(DealListDto::new).toList();
     }
 
     @PutMapping
     @Transactional
-    public void atualizarPromocao(@RequestBody @Valid UpdateDealDto inputedData){
+    public void atualizarPromocao(@RequestBody @Valid DealUpdateDto inputedData){
         var promocao = dealRepository.getReferenceById(inputedData.id());
         promocao.updateDeal(inputedData);
     }

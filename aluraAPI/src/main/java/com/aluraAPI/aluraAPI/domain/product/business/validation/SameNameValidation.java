@@ -3,7 +3,7 @@
 package com.aluraAPI.aluraAPI.domain.product.business.validation;
 
 import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
-import com.aluraAPI.aluraAPI.domain.product.dto.RegisterProductDto;
+import com.aluraAPI.aluraAPI.domain.product.dto.ProductRegisterDto;
 import com.aluraAPI.aluraAPI.exceptions.GeneralException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ public class SameNameValidation implements ProductValidation {
     @Autowired
     ProductRepository productRepository;
 
-    public void validate(RegisterProductDto inputedData){
+    public void validate(ProductRegisterDto inputedData){
 
         var product = productRepository.findByName(inputedData.name());
 

@@ -1,8 +1,8 @@
 package com.aluraAPI.aluraAPI.domain.product;
 
 import com.aluraAPI.aluraAPI.domain.category.Category;
-import com.aluraAPI.aluraAPI.domain.product.dto.RegisterProductDto;
-import com.aluraAPI.aluraAPI.domain.product.dto.UpdateProductDto;
+import com.aluraAPI.aluraAPI.domain.product.dto.ProductRegisterDto;
+import com.aluraAPI.aluraAPI.domain.product.dto.ProductUpdateDto;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.*;
@@ -35,19 +35,19 @@ public class Product {
         this.active = true;
     }
 
-    public Product(RegisterProductDto newProductInput, Category categoryId) {
+    public Product(ProductRegisterDto newProductInput, Category categoryId) {
         this.name = newProductInput.name();
         this.price = newProductInput.price();
         this.categoryId = categoryId;
     }
 
-    public Product(UpdateProductDto updateProductDtoInput) {
-        this.name = updateProductDtoInput.name();
-        this.price = updateProductDtoInput.price();
+    public Product(ProductUpdateDto productUpdateDtoInput) {
+        this.name = productUpdateDtoInput.name();
+        this.price = productUpdateDtoInput.price();
         this.categoryId = categoryId;
     }
 
-    public void updateProduct(@Valid UpdateProductDto newProductInput) {
+    public void updateProduct(@Valid ProductUpdateDto newProductInput) {
         if (newProductInput.name() != null){
             this.name = newProductInput.name();
         }

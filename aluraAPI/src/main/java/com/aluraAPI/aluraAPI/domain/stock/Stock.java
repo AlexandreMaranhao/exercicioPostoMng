@@ -1,8 +1,7 @@
 package com.aluraAPI.aluraAPI.domain.stock;
 
 import com.aluraAPI.aluraAPI.domain.product.Product;
-import com.aluraAPI.aluraAPI.domain.stock.dto.RegisterStockDto;
-import com.aluraAPI.aluraAPI.domain.stock.dto.UpdateStockDto;
+import com.aluraAPI.aluraAPI.domain.stock.dto.StockRegisterDto;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.*;
@@ -29,17 +28,9 @@ public class Stock {
 
 
 
-    public Stock(@Valid RegisterStockDto newRegisterStock, Product product) {
+    public Stock(@Valid StockRegisterDto newRegisterStock, Product product) {
         this.quantity = newRegisterStock.quantity();
         this.validity = newRegisterStock.validity();
         this.productId = product;
-    }
-
-
-    public void updateStock(@Valid UpdateStockDto updateStockInput) {
-        Float quantityInt = (float) updateStockInput.quantity();
-        if (quantityInt != null) {
-            this.quantity = updateStockInput.quantity();
-        }
     }
 }

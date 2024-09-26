@@ -4,16 +4,15 @@ import com.aluraAPI.aluraAPI.domain.product.Product;
 import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
 import com.aluraAPI.aluraAPI.domain.stock.Stock;
 import com.aluraAPI.aluraAPI.domain.stock.StockRepository;
-import com.aluraAPI.aluraAPI.domain.stock.dto.ListStockDto;
-import com.aluraAPI.aluraAPI.domain.stock.dto.RegisterStockDto;
-import com.aluraAPI.aluraAPI.domain.stock.dto.StockDetailDto;
-import com.aluraAPI.aluraAPI.domain.stock.dto.UpdateStockDto;
+import com.aluraAPI.aluraAPI.domain.stock.dto.StockListDto;
+import com.aluraAPI.aluraAPI.domain.stock.dto.StockRegisterDto;
+import com.aluraAPI.aluraAPI.domain.stockControl.dto.StockControlListDto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public class StockController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity registerStock(@RequestBody @Valid RegisterStockDto newRegisterStock, UriComponentsBuilder uriBuilder){
+    public ResponseEntity registerStock(@RequestBody @Valid StockRegisterDto newRegisterStock, UriComponentsBuilder uriBuilder){
         Product product = productRepository.getReferenceById(newRegisterStock.productId());
         Stock stock = new Stock(newRegisterStock, product);
 
@@ -36,21 +35,12 @@ public class StockController {
 
         var uri = uriBuilder.path("/estoque/{id}").buildAndExpand(stock.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new RegisterStockDto(stock));
+        return ResponseEntity.created(uri).body(new StockRegisterDto(stock));
     }
 
     @GetMapping
-    public List<ListStockDto> listarPromocao(){
-
-        return stockRepository.findAll().stream().map(ListStockDto::new).toList();
+    public ResponseEntity<List<StockListDto>> listStock(){
+        var list = stockRepository.findAll().stream().map(StockListDto::new).toList();
+        return ResponseEntity.ok(list);
     }
-
-    @PutMapping
-    @Transactional
-    public void updateStock(@RequestBody @Valid UpdateStockDto updateStockInput){
-        var stock = stockRepository.getReferenceById(updateStockInput.id());
-        stock.updateStock(updateStockInput);
-    }
-
-
 }

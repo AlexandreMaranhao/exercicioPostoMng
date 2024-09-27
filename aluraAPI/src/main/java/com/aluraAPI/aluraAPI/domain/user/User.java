@@ -24,27 +24,27 @@ public class User {
     private boolean active;
 
 
-    public User(@Valid UserRegisterDto newUserInput) {
-        this.name = newUserInput.name();
-        this.user = newUserInput.user();
-        this.password = newUserInput.password();
-        this.permission = newUserInput.permission();
+    public User(@Valid UserRegisterDto registerUserInput) {
+        this.name = registerUserInput.name();
+        this.user = registerUserInput.user();
+        this.password = registerUserInput.password();
+        this.permission = registerUserInput.permission();
         this.active = true;
     }
 
 
-    public void updateUser(@Valid UserUpdateDto newUserInput) {
-        if (newUserInput.name() != null){
-            this.name = newUserInput.name();
+    public void updateUser(@Valid UserUpdateDto updateUserInput) {
+        if (updateUserInput.name() != null){
+            this.name = updateUserInput.name();
         }
-        if (newUserInput.user() != null){
-            this.user = newUserInput.user();
+        if (updateUserInput.user() != null){
+            this.user = updateUserInput.user();
         }
-        if (newUserInput.password() != null){
-            this.password = newUserInput.password();
+        if (updateUserInput.password() != null){
+            this.password = updateUserInput.password();
         }
-        if (newUserInput.permission() != null){
-            this.permission = newUserInput.permission();
+        if (updateUserInput.permission() != null){
+            this.permission = updateUserInput.permission();
         }
     }
 

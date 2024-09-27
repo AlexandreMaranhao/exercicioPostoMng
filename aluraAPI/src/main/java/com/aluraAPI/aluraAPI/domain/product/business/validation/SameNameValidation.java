@@ -2,6 +2,7 @@
 
 package com.aluraAPI.aluraAPI.domain.product.business.validation;
 
+import com.aluraAPI.aluraAPI.domain.product.Product;
 import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
 import com.aluraAPI.aluraAPI.domain.product.dto.ProductRegisterDto;
 import com.aluraAPI.aluraAPI.exceptions.GeneralException;
@@ -16,7 +17,7 @@ public class SameNameValidation implements ProductValidation {
 
     public void validate(ProductRegisterDto inputedData){
 
-        var product = productRepository.findByName(inputedData.name());
+        Product product = productRepository.findByName(inputedData.name());
 
         if (product != null){
             throw new GeneralException(("This Product is already registred"));

@@ -19,13 +19,13 @@ public record StockControlRegisterEntranceDto(
         @NotNull
         long stockId
 ) {
-    public StockControlRegisterEntranceDto(StockControl stockControl) {
-        this(stockControl.getId(),
-                stockControl.getDate(),
-                stockControl.getQuantity(),
-                stockControl.getType(),
-                stockControl.getUserId().getId(),
-                stockControl.getStockId().getId()
+    public StockControlRegisterEntranceDto(StockControl registredStockControl) {
+        this(registredStockControl.getId(),
+                registredStockControl.getDate(),
+                registredStockControl.getQuantity(),
+                registredStockControl.getType(),
+                registredStockControl.getUserId().getId(),
+                registredStockControl.getStockId().getId()
         );
     }
 }

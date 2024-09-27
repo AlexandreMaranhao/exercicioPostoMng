@@ -50,7 +50,7 @@ public class Sale {
 
 
 
-    public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, Costumer costumer, User user, Deal deal, int loyaltyPoints) {
+    public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, Costumer costumer, User user, Deal deal) {
         this.date = sellDate;
         this.amount = amount;
         this.invoiceNumber = invoiceNumber;
@@ -59,7 +59,6 @@ public class Sale {
         this.userId = user;
         this.dealId = deal;
         this.refound = false;
-        this.loyaltyPoints = loyaltyPoints;
     }
 
     public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, Costumer costumer, User user) {

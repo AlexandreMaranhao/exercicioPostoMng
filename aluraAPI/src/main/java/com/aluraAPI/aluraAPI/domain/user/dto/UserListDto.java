@@ -9,11 +9,11 @@ public record UserListDto(
         String permission
 
 ) {
-    public UserListDto(User newUserInput) {
-        this(newUserInput.getId(),
-                newUserInput.getName(),
-                newUserInput.getUser(),
-                newUserInput.getPermission()
+    public UserListDto(User listUser) {
+        this(listUser.getId(),
+                listUser.getName(),
+                listUser.getUser(),
+                listUser.getPermission()
         );
     }
 }

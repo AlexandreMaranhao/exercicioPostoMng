@@ -27,9 +27,9 @@ public class StockController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity registerStock(@RequestBody @Valid StockRegisterDto newRegisterStock, UriComponentsBuilder uriBuilder){
-        Product product = productRepository.getReferenceById(newRegisterStock.productId());
-        Stock stock = new Stock(newRegisterStock, product);
+    public ResponseEntity registerStock(@RequestBody @Valid StockRegisterDto newRegisterStockInput, UriComponentsBuilder uriBuilder){
+        Product product = productRepository.getReferenceById(newRegisterStockInput.productId());
+        Stock stock = new Stock(newRegisterStockInput, product);
 
         stockRepository.save(stock);
 

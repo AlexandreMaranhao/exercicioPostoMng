@@ -27,7 +27,7 @@ public class SaleProductController {
     }
 */
     @GetMapping
-    public List<SaleProductListDto> listarVendaProduto(){
+    public List<SaleProductListDto> listSaleProduct(){
         return saleProductRepository.findAll().stream().map(SaleProductListDto::new).toList();
     }
 

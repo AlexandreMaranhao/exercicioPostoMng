@@ -41,13 +41,13 @@ public class StockControlController {
         User user = userRepository.findById(newRegisterStockControlEntrance.userId()).get();
         Stock stock = stockRepository.findById(newRegisterStockControlEntrance.stockId()).get();
         LocalDateTime registerStockControlDate = LocalDateTime.now();
-        StockControl stockControl = new StockControl(newRegisterStockControlEntrance,registerStockControlDate, user, stock);
+        StockControl regristredStockControl = new StockControl(newRegisterStockControlEntrance,registerStockControlDate, user, stock);
 
-        stockControlRepository.save(stockControl);
+        stockControlRepository.save(regristredStockControl);
 
-       var uri = uriBuilder.path("/controleestoque/{id}").buildAndExpand(stockControl.getId()).toUri();
+       var uri = uriBuilder.path("/controleestoque/{id}").buildAndExpand(regristredStockControl.getId()).toUri();
 
-       return ResponseEntity.created(uri).body(new StockControlRegisterEntranceDto(stockControl));
+       return ResponseEntity.created(uri).body(new StockControlRegisterEntranceDto(regristredStockControl));
     }
 
     @PostMapping("/venda")
@@ -57,13 +57,13 @@ public class StockControlController {
         User user = userRepository.getReferenceById(newRegisterStockControlSale.userId());
         Stock stock = stockRepository.getReferenceById(newRegisterStockControlSale.stockId());
         LocalDateTime registerStockControlDate = LocalDateTime.now();
-        StockControl stockControl = new StockControl(newRegisterStockControlSale,registerStockControlDate, saleProduct, user, stock);
+        StockControl registredStockControl = new StockControl(newRegisterStockControlSale,registerStockControlDate, saleProduct, user, stock);
 
-        stockControlRepository.save(stockControl);
+        stockControlRepository.save(registredStockControl);
 
-        var uri = uriBuilder.path("/controleestoque/{id}").buildAndExpand(stockControl.getId()).toUri();
+        var uri = uriBuilder.path("/controleestoque/{id}").buildAndExpand(registredStockControl.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new StockControlRegisteredSaleDto(stockControl));
+        return ResponseEntity.created(uri).body(new StockControlRegisteredSaleDto(registredStockControl));
     }
 
     @GetMapping

@@ -28,9 +28,9 @@ public class Stock {
 
 
 
-    public Stock(@Valid StockRegisterDto newRegisterStock, Product product) {
-        this.quantity = newRegisterStock.quantity();
-        this.validity = newRegisterStock.validity();
+    public Stock(@Valid StockRegisterDto newRegisterStockInput, Product product) {
+        this.quantity = newRegisterStockInput.quantity();
+        this.validity = newRegisterStockInput.validity();
         this.productId = product;
     }
 }

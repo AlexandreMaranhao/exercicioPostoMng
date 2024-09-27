@@ -11,11 +11,11 @@ public record StockListDto(
         long productId
 
 ) {
-    public StockListDto(Stock stockInput) {
-        this(stockInput.getId(),
-                stockInput.getQuantity(),
-                stockInput.getValidity(),
-                stockInput.getProductId().getId()
+    public StockListDto(Stock listStockInput) {
+        this(listStockInput.getId(),
+                listStockInput.getQuantity(),
+                listStockInput.getValidity(),
+                listStockInput.getProductId().getId()
         );
     }
 }

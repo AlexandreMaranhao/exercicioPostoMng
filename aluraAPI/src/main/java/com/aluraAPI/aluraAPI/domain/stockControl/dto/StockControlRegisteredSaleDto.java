@@ -20,14 +20,14 @@ public record StockControlRegisteredSaleDto(
         @NotNull
         long stockId
 ) {
-    public StockControlRegisteredSaleDto(StockControl stockControl) {
-        this(stockControl.getId(),
-                stockControl.getDate(),
-                stockControl.getQuantity(),
-                stockControl.getType(),
-                stockControl.getSaleProductId().getId(),
-                stockControl.getUserId().getId(),
-                stockControl.getStockId().getId()
+    public StockControlRegisteredSaleDto(StockControl registredStockControl) {
+        this(registredStockControl.getId(),
+                registredStockControl.getDate(),
+                registredStockControl.getQuantity(),
+                registredStockControl.getType(),
+                registredStockControl.getSaleProductId().getId(),
+                registredStockControl.getUserId().getId(),
+                registredStockControl.getStockId().getId()
         );
     }
 }

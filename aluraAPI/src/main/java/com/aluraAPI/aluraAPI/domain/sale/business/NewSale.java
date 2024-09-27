@@ -1,6 +1,7 @@
 package com.aluraAPI.aluraAPI.domain.sale.business;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
 import com.aluraAPI.aluraAPI.domain.costumer.CostumerRepository;
@@ -8,10 +9,19 @@ import com.aluraAPI.aluraAPI.domain.deal.Deal;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethodRepository;
 import com.aluraAPI.aluraAPI.domain.deal.DealRepository;
+import com.aluraAPI.aluraAPI.domain.product.Product;
+import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
 import com.aluraAPI.aluraAPI.domain.sale.dto.SaleCompleteRegisterDto;
 import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisteredDetails;
+import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProduct;
+import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProductRepository;
 import com.aluraAPI.aluraAPI.domain.saleProduct.business.RegisterSaleProductItem;
 import com.aluraAPI.aluraAPI.domain.saleProduct.dto.SaleProductRegisterDto;
+import com.aluraAPI.aluraAPI.domain.stock.Stock;
+import com.aluraAPI.aluraAPI.domain.stock.StockRepository;
+import com.aluraAPI.aluraAPI.domain.stockControl.StockControl;
+import com.aluraAPI.aluraAPI.domain.stockControl.StockControlRepository;
+import com.aluraAPI.aluraAPI.domain.stockControl.Type;
 import com.aluraAPI.aluraAPI.domain.user.User;
 import com.aluraAPI.aluraAPI.domain.user.UserRepository;
 import com.aluraAPI.aluraAPI.domain.sale.Sale;
@@ -24,17 +34,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class NewSale {
     @Autowired
-    SaleRepository saleRepository;
+    private SaleRepository saleRepository;
     @Autowired
-    PaymentMethodRepository paymentMethodRepository;
+    private PaymentMethodRepository paymentMethodRepository;
     @Autowired
-    CostumerRepository costumerRepository;
+    private CostumerRepository costumerRepository;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    DealRepository dealRepository;
+    private DealRepository dealRepository;
+    @Autowired
+    private StockControlRepository stockControlRepository;
     @Autowired
     private RegisterSaleProductItem registerSaleProductItem;
+    @Autowired
+    private SaleProductRepository saleProductRepository;
+    @Autowired
+    private StockRepository stockRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
 
     public SaleRegisteredDetails newSale(SaleRegisterDto newSaleInput){
@@ -107,10 +125,52 @@ public class NewSale {
     }
     public void registerCompleteSaleProductItem(SaleCompleteRegisterDto newSaleInput, SaleRegisteredDetails registeredSale){
         for (SaleProductRegisterDto product : newSaleInput.getProducts()){
-
-            registerSaleProductItem.registerSaleProductItem(product, registeredSale);
+            stockVerificationAndUpdate(product);
+            SaleProduct registeredSaleProduct = registerSaleProductItem.registerSaleProductItem(product, registeredSale);
+            registerSaleStockControl(registeredSaleProduct, registeredSale);
         }
 
+    }
+
+    public void stockVerificationAndUpdate(SaleProductRegisterDto product){
+        Product productId = productRepository.findById(product.productId()).get();
+        List<Stock> productStock = getStockByProductId(productId);
+        float totalAmoutItens = 0;
+        for (Stock item : productStock){
+
+            if (item.getValidity().isBefore(LocalDateTime.now())){
+                stockRepository.delete(item);
+            }else{
+                totalAmoutItens += item.getQuantity();
+            }
+        }
+
+
+        if(totalAmoutItens < product.quantity()){
+            throw new GeneralException("There is no stock for this sell on product: " + product.productId() + "\nThe actual stock for this product is: " + totalAmoutItens );
+
+
+        }else{
+
+
+
+
+        }
+    }
+
+
+    public StockControl registerSaleStockControl(SaleProduct registeredSaleProduct, SaleRegisteredDetails registeredSale) {
+        LocalDateTime date = registeredSale.date();
+        Float quantity = registeredSaleProduct.getQuantity();
+        Type type = Type.valueOf("SELL");
+        SaleProduct saleProduct = saleProductRepository.findById(registeredSaleProduct.getId()).get();//TODO: Criar registro de StockControl
+        User user = userRepository.getReferenceById(registeredSale.userId());
+        Stock stock = stockRepository.findById(saleProduct.getId()).get();
+
+        StockControl registeredStockControl = new StockControl(date, quantity, type, saleProduct, user, stock);
+        stockControlRepository.save(registeredStockControl);
+
+        return registeredStockControl;
     }
 
     public SaleRegisteredDetails realizeCompleteSale(SaleCompleteRegisterDto newSaleInput) {
@@ -139,6 +199,10 @@ public class NewSale {
                 newSaleInput.refound());
 
 
+    }
+
+    public List<Stock> getStockByProductId(Product productId) {
+        return stockRepository.findByProductId(productId);
     }
 
 

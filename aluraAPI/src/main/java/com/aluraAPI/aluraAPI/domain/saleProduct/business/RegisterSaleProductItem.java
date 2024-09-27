@@ -37,27 +37,17 @@ public class RegisterSaleProductItem {
     }
 
 
-    public void registerSaleProductItem(SaleProductRegisterDto newSaleProductInput, SaleRegisteredDetails registeredSale){
+    public SaleProduct registerSaleProductItem(SaleProductRegisterDto newSaleProductInput, SaleRegisteredDetails registeredSale){
 
         if (!verifyProduct(newSaleProductInput)){
             throw new GeneralException(("No registered product with id: " + newSaleProductInput.productId()));
         }
-        System.out.println("\n\n\n =============================================\n\n\n\n");
-        System.out.println(registeredSale.id());
-        System.out.println("aqui1");
-        System.out.println("\n\n\n =============================================\n\n\n\n");
-
-
         Sale sale = saleRepository.findById(registeredSale.id()).get();
         Product product = productRepository.findById(newSaleProductInput.productId()).get();
-
-        System.out.println("\n\n\n =============================================\n\n\n\n");
-        System.out.println(sale);
-        System.out.println("aqui2");
-        System.out.println("\n\n\n =============================================\n\n\n\n");
-
         SaleProduct saleProductItem = new SaleProduct(newSaleProductInput.quantity(), sale, product);
         saleProductRepository.save(saleProductItem);
+
+        return saleProductItem;
     }
 
 }

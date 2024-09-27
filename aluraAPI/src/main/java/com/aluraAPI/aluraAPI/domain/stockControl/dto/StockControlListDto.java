@@ -15,14 +15,14 @@ public record StockControlListDto(
         long stockId
 ) {
 
-    public StockControlListDto(StockControl stockControlInput){
-        this(stockControlInput.getId(),
-                stockControlInput.getDate(),
-                stockControlInput.getQuantity(),
-                stockControlInput.getType(),
-                stockControlInput.getSaleProductId().getId(),
-                stockControlInput.getUserId().getId(),
-                stockControlInput.getStockId().getId()
+    public StockControlListDto(StockControl listStockControlInput){
+        this(listStockControlInput.getId(),
+                listStockControlInput.getDate(),
+                listStockControlInput.getQuantity(),
+                listStockControlInput.getType(),
+                listStockControlInput.getSaleProductId().getId(),
+                listStockControlInput.getUserId().getId(),
+                listStockControlInput.getStockId().getId()
         );
     }
 

@@ -36,7 +36,7 @@ public class SaleController {
     }
 */
     @PostMapping("/completa")
-    public ResponseEntity newCompleteSale(@RequestBody @Valid SaleCompleteRegisterDto newSaleInput, UriComponentsBuilder uriBuilder)  {
+    public ResponseEntity registerSale(@RequestBody @Valid SaleCompleteRegisterDto newSaleInput, UriComponentsBuilder uriBuilder)  {
         SaleRegisteredDetails newCompleteSale = newSale.realizeCompleteSale(newSaleInput);
         //return ResponseEntity.ok("");
         var uri = uriBuilder.path("/produtos/{id}").buildAndExpand(newCompleteSale.id()).toUri();
@@ -49,8 +49,8 @@ public class SaleController {
     }
 
     @PutMapping
-    public void atualizarVenda(@RequestBody @Valid SaleUpdateDto updateSaleInput){
-        var venda = saleRepository.getReferenceById(updateSaleInput.id());
-        venda.updateSale(updateSaleInput);
+    public void updateSale(@RequestBody @Valid SaleUpdateDto updateSaleInput){
+        var sale = saleRepository.getReferenceById(updateSaleInput.id());
+        sale.updateSale(updateSaleInput);
     }
 }

@@ -42,10 +42,10 @@ public class StockControl {
     private Stock stockId;
 
 
-    public StockControl(@Valid StockControlRegisterSaleDto newRegisterStockControlSale,LocalDateTime registerStockControlDate, SaleProduct saleProduct, User user, Stock stock) {
+    public StockControl(@Valid StockControlRegisterSaleDto registerStockControlSale, LocalDateTime registerStockControlDate, SaleProduct saleProduct, User user, Stock stock) {
         this.date = registerStockControlDate;
-        this.quantity = newRegisterStockControlSale.quantity();
-        this.type = newRegisterStockControlSale.type();
+        this.quantity = registerStockControlSale.quantity();
+        this.type = registerStockControlSale.type();
         this.saleProductId = saleProduct;
         this.userId = user;
         this.stockId = stock;
@@ -55,6 +55,15 @@ public class StockControl {
         this.date = registerStockControlDate;
         this.quantity = newRegisterStockControlEntrance.quantity();
         this.type = newRegisterStockControlEntrance.type();
+        this.userId = user;
+        this.stockId = stock;
+    }
+
+    public StockControl(@Valid LocalDateTime date, Float quantity, Type type, SaleProduct saleProduct, User user, Stock stock) {
+        this.date = date;
+        this.quantity = quantity;
+        this.type = type;
+        this.saleProductId = saleProduct;
         this.userId = user;
         this.stockId = stock;
     }

@@ -21,27 +21,27 @@ public class UserController {
 
     @PostMapping
     @Transactional
-    public void cadastrarUsuario(@RequestBody @Valid UserRegisterDto inputedData){
-        userRepository.save(new User(inputedData));
+    public void registerUser(@RequestBody @Valid UserRegisterDto registerUserInput){
+        userRepository.save(new User(registerUserInput));
     }
 
     @GetMapping
-    public List<UserListDto> listarUsuario(){
+    public List<UserListDto> listUser(){
 
         return userRepository.findAll().stream().map(UserListDto::new).toList();
     }
 
     @PutMapping
     @Transactional
-    public void atualizarUsuario(@RequestBody @Valid UserUpdateDto inputedData){
-        var usuario = userRepository.getReferenceById(inputedData.id());
-        usuario.updateUser(inputedData);
+    public void updateUser(@RequestBody @Valid UserUpdateDto updateUserInput){
+        var user = userRepository.getReferenceById(updateUserInput.id());
+        user.updateUser(updateUserInput);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void excluirUsuario(@PathVariable Long id){
-        var usuario = userRepository.getReferenceById(id);
-        usuario.disable();
+    public void inactivateUser(@PathVariable Long id){
+        var user = userRepository.getReferenceById(id);
+        user.disable();
     }
 }

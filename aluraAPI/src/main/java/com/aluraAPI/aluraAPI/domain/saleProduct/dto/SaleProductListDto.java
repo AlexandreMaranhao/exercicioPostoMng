@@ -9,11 +9,11 @@ public record SaleProductListDto(
         long productId
 ) {
 
-    public SaleProductListDto(SaleProduct saleProduct){
-        this(saleProduct.getId(),
-                saleProduct.getQuantity(),
-                saleProduct.getSaleId().getId(),
-                saleProduct.getProductId().getId()
+    public SaleProductListDto(SaleProduct listSaleProductInput){
+        this(listSaleProductInput.getId(),
+                listSaleProductInput.getQuantity(),
+                listSaleProductInput.getSaleId().getId(),
+                listSaleProductInput.getProductId().getId()
       );
     }
 

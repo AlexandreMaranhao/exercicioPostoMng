@@ -90,8 +90,7 @@ public class Sale {
         this.refound = false;
     }
 
-    public Sale(Sale sell) {
-    }
+
 
 
     public void updateSale(@Valid SaleUpdateDto updateSaleInput){

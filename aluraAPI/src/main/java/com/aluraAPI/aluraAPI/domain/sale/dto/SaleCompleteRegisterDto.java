@@ -10,51 +10,29 @@ import java.util.List;
 public record SaleCompleteRegisterDto(
         LocalDateTime date,
         @NotNull
-        float  amount,
-
-        String invoiceNumber,
 
         long paymentMethodId,
 
-        long costumerId,
+        Long costumerId,
 
-        long userId,
+        Long userId,
 
-        long dealId,
+        Long dealId,
 
         boolean refound,
+
+        Integer loyalty_points,
 
         List<SaleProductRegisterDto> products
 ) {
 
-
-
-
     public List<SaleProductRegisterDto> getProducts(){
         return products;
-    }
-
-    public Object getAmount() {
-        return amount;
-    }
-
-    public Object getInvoiceNumber() {
-        return invoiceNumber;
-    }
-
-    public Object getPaymentMethodId() {
-        return paymentMethodId;
-    }
-
-    public Object getCostumerId() {
-        return costumerId;
     }
 
     public Object getUserId() {
         return userId;
     }
 
-    public Object getDealId() {
-        return dealId;
-    }
+
 }

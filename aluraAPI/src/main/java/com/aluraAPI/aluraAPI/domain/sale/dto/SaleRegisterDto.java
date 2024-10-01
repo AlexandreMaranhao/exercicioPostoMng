@@ -8,9 +8,6 @@ public record SaleRegisterDto(
 
         LocalDateTime date,
         @NotNull
-        float  amount,
-
-        String invoiceNumber,
 
         long paymentMethodId,
 

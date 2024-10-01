@@ -33,14 +33,14 @@ public class CategoryController {
     @PutMapping
     @Transactional
     public void updateCategory(@RequestBody @Valid CategoryUpdateDto updateCategoryInput){
-        var category = categoryRepository.getReferenceById(updateCategoryInput.id());
+        Category category = categoryRepository.getReferenceById(updateCategoryInput.id());
         category.updateCategory(updateCategoryInput);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public void inactivateCategory(@PathVariable Long id){
-        var category = categoryRepository.getReferenceById(id);
+        Category category = categoryRepository.getReferenceById(id);
         category.disable();
     }
 

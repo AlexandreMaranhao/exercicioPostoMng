@@ -26,7 +26,7 @@ public class StockControl {
     private LocalDateTime date;
     private float quantity;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private Type type;
 
     @OneToOne(fetch = FetchType.LAZY)

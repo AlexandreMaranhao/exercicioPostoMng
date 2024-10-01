@@ -48,10 +48,12 @@ public class SaleController {
     public List<SaleListDto> listSale(){
         return saleRepository.findAll().stream().map(SaleListDto::new).toList();
     }
-
+/*
     @PutMapping
     public void updateSale(@RequestBody @Valid SaleUpdateDto updateSaleInput){
         var sale = saleRepository.getReferenceById(updateSaleInput.id());
         sale.updateSale(updateSaleInput);
     }
+
+ */
 }

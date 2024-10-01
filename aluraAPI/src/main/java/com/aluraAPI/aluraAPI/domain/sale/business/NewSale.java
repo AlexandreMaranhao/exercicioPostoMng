@@ -166,7 +166,7 @@ public class NewSale {
         LocalDateTime date = registeredSale.date();
         Float quantity;
         Type type = Type.valueOf("SELL");
-        SaleProduct saleProduct = saleProductRepository.findById(registeredSaleProduct.getId()).get();//TODO: Criar registro de StockControl
+        SaleProduct saleProduct = saleProductRepository.findById(registeredSaleProduct.getId()).get();
         User user = userRepository.getReferenceById(registeredSale.userId());
         //Stock stock = stockRepository.findById(saleProduct.getId()).get();
 

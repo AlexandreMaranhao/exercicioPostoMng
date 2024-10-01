@@ -8,9 +8,10 @@ import java.util.List;
 
 
 public record SaleCompleteRegisterDto(
-        LocalDateTime date,
-        @NotNull
 
+        LocalDateTime date,
+
+        @NotNull
         long paymentMethodId,
 
         Long costumerId,

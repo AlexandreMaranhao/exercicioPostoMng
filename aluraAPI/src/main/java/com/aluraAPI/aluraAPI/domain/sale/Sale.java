@@ -91,19 +91,19 @@ public class Sale {
     }
 
 
-
+/*
 
     public void updateSale(@Valid SaleUpdateDto updateSaleInput){
         if (updateSaleInput.invoiceNumber() != null){
             this.invoiceNumber = updateSaleInput.invoiceNumber();
         }
- /*       if (dados.metodopagamentoId() != 0.0d){
+        if (dados.metodopagamentoId() != 0.0d){
             this.metodopagamentoId = dados.metodopagamentoId();
         }
         if (dados.clienteId() != 0.0d){
             this.clienteId = dados.clienteId();
-        }*/
+        }
 
-    }
+    }*/
 
 }

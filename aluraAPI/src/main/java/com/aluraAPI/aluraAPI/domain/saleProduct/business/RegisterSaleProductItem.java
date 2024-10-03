@@ -4,7 +4,7 @@ import com.aluraAPI.aluraAPI.domain.product.Product;
 import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
 import com.aluraAPI.aluraAPI.domain.sale.Sale;
 import com.aluraAPI.aluraAPI.domain.sale.SaleRepository;
-import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisteredDetails;
+import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisteredDetailsDto;
 import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProduct;
 import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProductRepository;
 import com.aluraAPI.aluraAPI.domain.saleProduct.dto.SaleProductRegisterDto;
@@ -37,7 +37,7 @@ public class RegisterSaleProductItem {
     }
 
 
-    public SaleProduct registerSaleProductItem(SaleProductRegisterDto newSaleProductInput, SaleRegisteredDetails registeredSale){
+    public SaleProduct registerSaleProductItem(SaleProductRegisterDto newSaleProductInput, SaleRegisteredDetailsDto registeredSale){
 
         if (!verifyProduct(newSaleProductInput)){
             throw new GeneralException(("No registered product with id: " + newSaleProductInput.productId()));

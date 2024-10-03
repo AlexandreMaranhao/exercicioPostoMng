@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
-public record SaleRegisteredDetails(
+public record SaleRegisteredDetailsDto(
 
         long id,
 
@@ -26,7 +26,7 @@ public record SaleRegisteredDetails(
         boolean refound
 
 ) {
-    public SaleRegisteredDetails(Sale thisSale) {
+    public SaleRegisteredDetailsDto(Sale thisSale) {
         this(thisSale.getId(),
                 thisSale.getDate(),
                 thisSale.getAmount(),
@@ -38,7 +38,7 @@ public record SaleRegisteredDetails(
                 thisSale.isRefound());
     }
 
-    public SaleRegisteredDetails(SaleRegisteredDetails registeredSale) {
+    public SaleRegisteredDetailsDto(SaleRegisteredDetailsDto registeredSale) {
         this(registeredSale.id(),
                 registeredSale.date(),
                 registeredSale.amount(),

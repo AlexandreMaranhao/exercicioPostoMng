@@ -35,6 +35,13 @@ public class Costumer {
         this.active = true;
     }
 
+    public Costumer(Costumer newRegistredCostumer, Loyalty loyalty) {
+        this.cpf = newRegistredCostumer.getCpf();
+        this.name = newRegistredCostumer.getName();
+        this.loyaltyId = loyalty;
+        this.active = true;
+    }
+
 
     public void updateCostumer(@Valid CostumerUpdateDto updateCostumerInput) { //TODO: alteracao so permite inserir fidelidade
         if (updateCostumerInput.name() != null){

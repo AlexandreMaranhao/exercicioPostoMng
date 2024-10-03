@@ -28,6 +28,12 @@ public class Loyalty {
         this.points = 0;
     }
 
+    public Loyalty(String loyaltyNumber, int points) {
+        this.number = loyaltyNumber;
+        this.active = true;
+        this.points = points;
+    }
+
 
     public void updateLoyalty(@Valid LoyaltyUpdateDto updateLoyaltyInput) {
         if (updateLoyaltyInput.number() != null){

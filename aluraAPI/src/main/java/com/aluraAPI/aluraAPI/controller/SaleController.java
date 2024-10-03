@@ -37,8 +37,8 @@ public class SaleController {
 */
     @PostMapping("/completa")
     public ResponseEntity registerSale(@RequestBody @Valid SaleCompleteRegisterDto newSaleInput, UriComponentsBuilder uriBuilder)  {
-        SaleRegisteredDetails newCompleteSale = newSale.realizeCompleteSale(newSaleInput);
-        //SaleCompleteReciptDTO receipt = newSale.generateReceipt(newCompleteSale, newSaleInput);
+        SaleRegisteredDetailsDto newCompleteSale = newSale.realizeCompleteSale(newSaleInput);
+        //SaleCompleteReciptDTO receipt = newSale.generateRecipt(newCompleteSale, newSaleInput);
         //return ResponseEntity.ok("");
         var uri = uriBuilder.path("/produtos/{id}").buildAndExpand(newCompleteSale.id()).toUri();
         return ResponseEntity.created(uri).body(newCompleteSale);

@@ -13,7 +13,7 @@ import com.aluraAPI.aluraAPI.domain.deal.DealRepository;
 import com.aluraAPI.aluraAPI.domain.product.Product;
 import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
 import com.aluraAPI.aluraAPI.domain.sale.dto.SaleCompleteRegisterDto;
-import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisteredDetails;
+import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisteredDetailsDto;
 import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProduct;
 import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProductRepository;
 import com.aluraAPI.aluraAPI.domain.saleProduct.business.RegisterSaleProductItem;
@@ -29,7 +29,7 @@ import com.aluraAPI.aluraAPI.domain.sale.Sale;
 import com.aluraAPI.aluraAPI.domain.sale.SaleRepository;
 import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisterDto;
 import com.aluraAPI.aluraAPI.exceptions.GeneralException;
-import com.aluraAPI.aluraAPI.helper.CreateNewInvoiceNumber;
+import com.aluraAPI.aluraAPI.helper.CreateNew15CharNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,7 +57,7 @@ public class NewSale {
     private ProductRepository productRepository;
 
 
-    public SaleRegisteredDetails newSale(SaleRegisterDto newSaleInput, float saleAmount){
+    public SaleRegisteredDetailsDto newSale(SaleRegisterDto newSaleInput, float saleAmount){
         if(!paymentMethodRepository.existsById(newSaleInput.paymentMethodId())){
             throw new GeneralException(("No payment method was found with id: " + newSaleInput.paymentMethodId()));
         }
@@ -79,7 +79,7 @@ public class NewSale {
             }
         }
         LocalDateTime sellDate = LocalDateTime.now();
-        String invoiceNumber = CreateNewInvoiceNumber.generateInvoiceNumber();
+        String invoiceNumber = CreateNew15CharNumber.generateInvoiceNumber();
 
         PaymentMethod paymentMethod = paymentMethodRepository.findById(newSaleInput.paymentMethodId()).get();
         User user = userRepository.findById(newSaleInput.userId()).get();
@@ -109,7 +109,7 @@ public class NewSale {
             sell = new Sale(sellDate, saleAmount, invoiceNumber, paymentMethod, user);
             saleRepository.save(sell);
         }
-        return new SaleRegisteredDetails(sell);
+        return new SaleRegisteredDetailsDto(sell);
     }
 
     public void findProductsCompleteSale(SaleCompleteRegisterDto newSaleInput){
@@ -123,7 +123,7 @@ public class NewSale {
         }
 
     }
-    public void registerCompleteSaleProductItem(SaleCompleteRegisterDto newSaleInput, SaleRegisteredDetails registeredSale){
+    public void registerCompleteSaleProductItem(SaleCompleteRegisterDto newSaleInput, SaleRegisteredDetailsDto registeredSale){
         for (SaleProductRegisterDto product : newSaleInput.getProducts()){
             stockVerification(product);
             SaleProduct registeredSaleProduct = registerSaleProductItem.registerSaleProductItem(product, registeredSale);
@@ -162,7 +162,7 @@ public class NewSale {
         return updatedStock;
     }
 
-    public void registerSaleStockControl(SaleProduct registeredSaleProduct, SaleRegisteredDetails registeredSale, SaleProductRegisterDto product) {
+    public void registerSaleStockControl(SaleProduct registeredSaleProduct, SaleRegisteredDetailsDto registeredSale, SaleProductRegisterDto product) {
         LocalDateTime date = registeredSale.date();
         Float quantity;
         Type type = Type.valueOf("SELL");
@@ -207,22 +207,23 @@ public class NewSale {
 
     }
 
-    public SaleRegisteredDetails realizeCompleteSale(SaleCompleteRegisterDto newSaleInput) {
+    public SaleRegisteredDetailsDto realizeCompleteSale(SaleCompleteRegisterDto newSaleInput) {
         emptyProductListOnCompleteSale(newSaleInput);
         findProductsCompleteSale(newSaleInput);
         float saleAmount = getSaleAmount(newSaleInput);
-        SaleRegisteredDetails registeredSale = newSale(getSaleInput(newSaleInput), saleAmount);
+        SaleRegisteredDetailsDto registeredSale = newSale(getSaleInput(newSaleInput), saleAmount);
         registerCompleteSaleProductItem(newSaleInput, registeredSale);
 
-        return new SaleRegisteredDetails(registeredSale);
+        return new SaleRegisteredDetailsDto(registeredSale);
     }
 
-    /*
-    public SaleCompleteReciptDTO generateReceipt(SaleRegisteredDetails newCompleteSale, SaleCompleteRegisterDto newSaleInput){
+/*
+    public SaleCompleteReciptDTO generateReceipt(SaleRegisteredDetailsDto newCompleteSale, SaleCompleteRegisterDto newSaleInput){
         List<SaleProductRegisterDto> products = newSaleInput.products();
         int usedPoints = 0;
         float finalAmount = newCompleteSale.amount();
         int pointsGenerated = 0;
+
 
         if (newSaleInput.loyalty_points() != null){
             usedPoints = newSaleInput.loyalty_points();
@@ -292,6 +293,8 @@ public class NewSale {
         }
         return totalAmount;
     }
+
+
 
 
 }

@@ -6,9 +6,7 @@ public record CostumerRegisterDto(
         @NotBlank
         String cpf,
 
-        String name,
-
-        long loyaltyId
+        String name
 )
     {
 }

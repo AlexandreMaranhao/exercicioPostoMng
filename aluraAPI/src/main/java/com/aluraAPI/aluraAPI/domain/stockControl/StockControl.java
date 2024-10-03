@@ -29,15 +29,15 @@ public class StockControl {
     @Enumerated(EnumType.ORDINAL)
     private Type type;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "sale_product_id", referencedColumnName = "id")
     private SaleProduct saleProductId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "stock_id", referencedColumnName = "id")
     private Stock stockId;
 

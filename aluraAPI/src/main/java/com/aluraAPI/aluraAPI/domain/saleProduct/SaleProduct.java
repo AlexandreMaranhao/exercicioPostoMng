@@ -20,11 +20,11 @@ public class SaleProduct {
     private long id;
     private float quantity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "sale_id", referencedColumnName = "id")
     private Sale saleId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product productId;
 

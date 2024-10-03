@@ -24,7 +24,7 @@ public class Stock {
     private float quantity;
     private LocalDateTime validity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product productId;
 

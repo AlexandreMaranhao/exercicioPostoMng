@@ -19,7 +19,6 @@ public record SaleReceiptDto(
         User userId,
         Deal dealId,
         boolean refound,
-        Float finalAmount,
         Integer loyaltyPointsUsed,
         Integer LoyaltyPointsGenerated,
         List<SaleProductRegisterDto> products

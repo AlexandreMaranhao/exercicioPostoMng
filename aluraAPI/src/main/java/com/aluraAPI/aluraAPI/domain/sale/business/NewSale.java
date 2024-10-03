@@ -293,19 +293,35 @@ public class NewSale {
         return receipt;
     }
 */
-    /*
+
     public SaleReceiptDto generateReceipt(SaleRegisteredDetailsDto newCompleteSale, SaleCompleteRegisterDto newSaleInput){
+        int usedPoints = newSaleInput.loyaltyPoints();
+        int pointsGenerated = generateLoyaltyPoints(newCompleteSale.amount());
         List<SaleProductRegisterDto> products = newSaleInput.products();
-        int usedPoints = 0;
-        float finalAmount = newCompleteSale.amount();
-        int pointsGenerated = 0;
+
+        PaymentMethod paymentMethod = paymentMethodRepository.findById(newCompleteSale.paymentMethodId()).get();
+        Costumer costumer = costumerRepository.findById(newCompleteSale.costumerId()).get();
+        User user = userRepository.findById(newCompleteSale.userId()).get();
+        Deal deal = dealRepository.findById(newCompleteSale.dealId()).get();
 
 
-        SaleReceiptDto receipt;//TODO: finalizar recibo
+        SaleReceiptDto receipt = new SaleReceiptDto(
+                newCompleteSale.id(),
+                newCompleteSale.date(),
+                newCompleteSale.amount(),
+                newCompleteSale.invoiceNumber(),
+                paymentMethod,
+                costumer,
+                user,
+                deal,
+                newCompleteSale.refound(),
+                usedPoints,
+                pointsGenerated,
+                products);//TODO: finalizar recibo
 
         return receipt;
     }
-*/
+
     public void emptyProductListOnCompleteSale(SaleCompleteRegisterDto newSaleInput){
         if (newSaleInput.getProducts() == null || newSaleInput.getProducts().isEmpty()) {
             throw new GeneralException("Product list can not be null or empty");

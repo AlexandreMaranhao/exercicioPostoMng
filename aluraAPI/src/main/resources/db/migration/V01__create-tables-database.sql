@@ -11,7 +11,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema posto
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `posto` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `posto`;
 USE `posto` ;
 
 -- -----------------------------------------------------
@@ -82,37 +82,16 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `posto`.`Loyalty`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `posto`.`Loyalty` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `number` VARCHAR(45) NOT NULL,
-  `points` INT NOT NULL,
-  `active` TINYINT NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
-  UNIQUE INDEX `numero_UNIQUE` (`number` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `posto`.`Costumer`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `posto`.`Costumer` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `cpf` VARCHAR(45) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
-  `loyalty_id` INT NULL,
   `active` TINYINT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
-  UNIQUE INDEX `CPF_UNIQUE` (`cpf` ASC) VISIBLE,
-  INDEX `fk_Cliente_Fidelidade1_idx` (`loyalty_id` ASC) VISIBLE,
-  CONSTRAINT `fk_Cliente_Fidelidade1`
-    FOREIGN KEY (`loyalty_id`)
-    REFERENCES `posto`.`Loyalty` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  UNIQUE INDEX `CPF_UNIQUE` (`cpf` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -157,8 +136,9 @@ CREATE TABLE IF NOT EXISTS `posto`.`Sale` (
   `costumer_id` INT NULL,
   `user_id` INT NOT NULL,
   `deal_id` INT NULL,
-  `refound` TINYINT NULL,
   `loyalty_points` INT NULL,
+  `refound` TINYINT NULL,
+  `refounded_sale_id` INT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `fk_Vendas_MetodoPagamento1_idx` (`payment_method_id` ASC) VISIBLE,
@@ -208,6 +188,27 @@ CREATE TABLE IF NOT EXISTS `posto`.`Sale_Product` (
   CONSTRAINT `fk_VendaProduto_Produto1`
     FOREIGN KEY (`product_id`)
     REFERENCES `posto`.`Product` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `posto`.`Loyalty`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `posto`.`Loyalty` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `number` VARCHAR(45) NOT NULL,
+  `points` INT NOT NULL,
+  `active` TINYINT NOT NULL,
+  `Costumer_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `Id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `numero_UNIQUE` (`number` ASC) VISIBLE,
+  INDEX `fk_Loyalty_Costumer1_idx` (`Costumer_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Loyalty_Costumer1`
+    FOREIGN KEY (`Costumer_id`)
+    REFERENCES `posto`.`Costumer` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

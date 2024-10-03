@@ -27,7 +27,7 @@ public class CostumerController {
 
     @GetMapping
     public List<CostumerListDto> listCostumer(){
-        return costumerRepository.findAll().stream().map(CostumerListDto::new).toList();
+        return costumerRepository.findAll().stream().map(CostumerListDto::new).toList();//TODO: Fazer um get que venha a quantidade dos pontos loaylty
     }
 
 

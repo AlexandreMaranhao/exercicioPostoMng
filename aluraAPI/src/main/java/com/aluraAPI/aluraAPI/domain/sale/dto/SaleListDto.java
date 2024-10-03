@@ -5,13 +5,13 @@ import com.aluraAPI.aluraAPI.domain.sale.Sale;
 import java.time.LocalDateTime;
 
 public record SaleListDto(
-        long id,
+        Long id,
         LocalDateTime date,
-        float amount,
+        Float amount,
         String invoiceNumber,
-        long costumerId,
-        long userId,
-        long dealId
+        Long costumerId,
+        Long userId,
+        Long dealId
 )  {
 
     public SaleListDto(Sale sale){

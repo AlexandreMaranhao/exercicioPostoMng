@@ -12,17 +12,17 @@ public record SaleCompleteRegisterDto(
         LocalDateTime date,
 
         @NotNull
-        long paymentMethodId,
+        Long paymentMethodId,
 
         Long costumerId,
-
+        @NotNull
         Long userId,
 
         Long dealId,
 
         boolean refound,
 
-        Integer loyalty_points,
+        Integer loyaltyPoints,
 
         List<SaleProductRegisterDto> products
 ) {

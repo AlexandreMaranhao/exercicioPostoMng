@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 public record LoyaltyRegisterDto(
         @NotBlank
         String number,
-        int points
+        int points,
+        long costumerId
 ) {
 
 }

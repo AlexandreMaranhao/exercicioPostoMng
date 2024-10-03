@@ -21,11 +21,6 @@ public class Costumer {
     private long id;
     private String cpf;
     private String name;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "loyalty_id", referencedColumnName = "id")
-    private Loyalty loyaltyId;
-
     private boolean active;
 
 

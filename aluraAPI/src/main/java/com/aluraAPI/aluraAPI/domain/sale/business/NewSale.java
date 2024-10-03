@@ -6,14 +6,18 @@ import java.util.List;
 
 import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
 import com.aluraAPI.aluraAPI.domain.costumer.CostumerRepository;
+import com.aluraAPI.aluraAPI.domain.costumer.dto.CostumerListDto;
 import com.aluraAPI.aluraAPI.domain.deal.Deal;
+import com.aluraAPI.aluraAPI.domain.loyalty.Loyalty;
+import com.aluraAPI.aluraAPI.domain.loyalty.LoyaltyRepository;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethodRepository;
 import com.aluraAPI.aluraAPI.domain.deal.DealRepository;
 import com.aluraAPI.aluraAPI.domain.product.Product;
 import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
+import com.aluraAPI.aluraAPI.domain.sale.dto.SaleCompleteReciptDTO;
 import com.aluraAPI.aluraAPI.domain.sale.dto.SaleCompleteRegisterDto;
-import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisteredDetails;
+import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisteredDetailsDto;
 import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProduct;
 import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProductRepository;
 import com.aluraAPI.aluraAPI.domain.saleProduct.business.RegisterSaleProductItem;
@@ -55,9 +59,11 @@ public class NewSale {
     private StockRepository stockRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private LoyaltyRepository loyaltyRepository;
 
 
-    public SaleRegisteredDetails newSale(SaleRegisterDto newSaleInput, float saleAmount){
+    public SaleRegisteredDetailsDto newSale(SaleRegisterDto newSaleInput, float saleAmount){
         if(!paymentMethodRepository.existsById(newSaleInput.paymentMethodId())){
             throw new GeneralException(("No payment method was found with id: " + newSaleInput.paymentMethodId()));
         }
@@ -81,9 +87,13 @@ public class NewSale {
         LocalDateTime sellDate = LocalDateTime.now();
         String invoiceNumber = CreateNewInvoiceNumber.generateInvoiceNumber();
 
+
         PaymentMethod paymentMethod = paymentMethodRepository.findById(newSaleInput.paymentMethodId()).get();
         User user = userRepository.findById(newSaleInput.userId()).get();
         Sale sell = null;
+        if (costumerIdLong != null){
+            addLoyaltyPoints(newSaleInput, saleAmount);
+        }
 
 
         if((costumerIdLong != null) && (dealIdLong != null)){
@@ -109,7 +119,9 @@ public class NewSale {
             sell = new Sale(sellDate, saleAmount, invoiceNumber, paymentMethod, user);
             saleRepository.save(sell);
         }
-        return new SaleRegisteredDetails(sell);
+        SaleRegisteredDetailsDto response = sell.castToSaleRegisteredDetailsDto();
+
+        return response;
     }
 
     public void findProductsCompleteSale(SaleCompleteRegisterDto newSaleInput){
@@ -123,7 +135,7 @@ public class NewSale {
         }
 
     }
-    public void registerCompleteSaleProductItem(SaleCompleteRegisterDto newSaleInput, SaleRegisteredDetails registeredSale){
+    public void registerCompleteSaleProductItem(SaleCompleteRegisterDto newSaleInput, SaleRegisteredDetailsDto registeredSale){
         for (SaleProductRegisterDto product : newSaleInput.getProducts()){
             stockVerification(product);
             SaleProduct registeredSaleProduct = registerSaleProductItem.registerSaleProductItem(product, registeredSale);
@@ -162,12 +174,12 @@ public class NewSale {
         return updatedStock;
     }
 
-    public void registerSaleStockControl(SaleProduct registeredSaleProduct, SaleRegisteredDetails registeredSale, SaleProductRegisterDto product) {
+    public void registerSaleStockControl(SaleProduct registeredSaleProduct, SaleRegisteredDetailsDto registeredSale, SaleProductRegisterDto product) {
         LocalDateTime date = registeredSale.date();
         Float quantity;
         Type type = Type.valueOf("SELL");
         SaleProduct saleProduct = saleProductRepository.findById(registeredSaleProduct.getId()).get();
-        User user = userRepository.getReferenceById(registeredSale.userId());
+        User user = userRepository.getReferenceById(registeredSale.user().getId());
         //Stock stock = stockRepository.findById(saleProduct.getId()).get();
 
         Product productId = productRepository.findById(product.productId()).get();
@@ -207,60 +219,46 @@ public class NewSale {
 
     }
 
-    public SaleRegisteredDetails realizeCompleteSale(SaleCompleteRegisterDto newSaleInput) {
+    public SaleRegisteredDetailsDto realizeCompleteSale(SaleCompleteRegisterDto newSaleInput) {
         emptyProductListOnCompleteSale(newSaleInput);
         findProductsCompleteSale(newSaleInput);
         float saleAmount = getSaleAmount(newSaleInput);
-        SaleRegisteredDetails registeredSale = newSale(getSaleInput(newSaleInput), saleAmount);
+        SaleRegisteredDetailsDto registeredSale = newSale(getSaleInput(newSaleInput), saleAmount);
         registerCompleteSaleProductItem(newSaleInput, registeredSale);
 
-        return new SaleRegisteredDetails(registeredSale);
+        return new SaleRegisteredDetailsDto(registeredSale);
     }
 
-    /*
-    public SaleCompleteReciptDTO generateReceipt(SaleRegisteredDetails newCompleteSale, SaleCompleteRegisterDto newSaleInput){
-        List<SaleProductRegisterDto> products = newSaleInput.products();
-        int usedPoints = 0;
-        float finalAmount = newCompleteSale.amount();
-        int pointsGenerated = 0;
 
-        if (newSaleInput.loyalty_points() != null){
-            usedPoints = newSaleInput.loyalty_points();
-            if (usedPoints == 250){
-                finalAmount -= 5;
-            } else if (usedPoints == 500) {
-                finalAmount -= 15;
-            } else if (usedPoints == 1000) {
-                finalAmount -= 40;
+    public SaleCompleteReciptDTO generateReceipt(SaleRegisteredDetailsDto newSavedCompleteSale, SaleCompleteRegisterDto newSaleInput){
+        Float totalAmount = newSavedCompleteSale.amount();
+        if (newSavedCompleteSale.deal() != null){
+            totalAmount = (float) (newSavedCompleteSale.amount()*0.9);
+        }
+
+        Integer loyaltyPoints = (int) newSaleInput.loyaltyPoints();
+        if (loyaltyPoints != null){
+            if (loyaltyPoints == 250){
+                totalAmount = totalAmount-5;
+            } else if (loyaltyPoints == 500) {
+                totalAmount = totalAmount-15;
+            } else if (loyaltyPoints == 1000) {
+                totalAmount = totalAmount-40;
             }
         }
-        if (newSaleInput.dealId() != null){
-            finalAmount = (float) (finalAmount *0.9);
-        }
-        if (newSaleInput.costumerId() != null){
-            pointsGenerated = (int) finalAmount *5;
-        }
 
-        SaleCompleteReciptDTO receipt = new SaleCompleteReciptDTO
-                (
-                newCompleteSale.id(),
-                newCompleteSale.date(),
-                newCompleteSale.amount(),
-                newCompleteSale.invoiceNumber(),
-                newCompleteSale.paymentMethodId(),
-                newCompleteSale.costumerId(),
-                newCompleteSale.userId(),
-                newCompleteSale.dealId(),
-                newCompleteSale.refound(),
-                products,
-                usedPoints,
-                finalAmount,
-                pointsGenerated
-                );
+        Integer loyaltyPointsGenerated = (int) (totalAmount*5);
+
+        SaleCompleteReciptDTO receipt = new SaleCompleteReciptDTO(
+                newSavedCompleteSale,
+                newSaleInput,
+                totalAmount,
+                loyaltyPoints,
+                loyaltyPointsGenerated);
 
         return receipt;
     }
-*/
+
 
     public void emptyProductListOnCompleteSale(SaleCompleteRegisterDto newSaleInput){
         if (newSaleInput.getProducts() == null || newSaleInput.getProducts().isEmpty()) {
@@ -292,6 +290,12 @@ public class NewSale {
         }
         return totalAmount;
     }
+    public void addLoyaltyPoints (SaleRegisterDto newSaleInput, float saleAmount){
+        Loyalty loyaltyPoints = loyaltyRepository.findById(newSaleInput.costumerId()).get();
+        int pointsToSum = (int) saleAmount*5;
+        int totalPoints = loyaltyPoints.getPoints() + pointsToSum;
 
+        loyaltyPoints.setPoints(totalPoints);
 
+    }
 }

@@ -3,10 +3,9 @@ package com.aluraAPI.aluraAPI.domain.sale;
 import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.deal.Deal;
+import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisteredDetailsDto;
 import com.aluraAPI.aluraAPI.domain.user.User;
-import com.aluraAPI.aluraAPI.domain.sale.dto.SaleUpdateDto;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -20,6 +19,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Sale {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -43,9 +44,10 @@ public class Sale {
     @JoinColumn(name = "deal_id", referencedColumnName = "id")
     private Deal dealId;
 
-    private boolean refound;
-
     private int loyaltyPoints;
+
+    private boolean refound;
+    private int refoundedSaleId;
 
 
 
@@ -90,7 +92,19 @@ public class Sale {
         this.refound = false;
     }
 
-
+    public SaleRegisteredDetailsDto castToSaleRegisteredDetailsDto(){
+        return new SaleRegisteredDetailsDto(
+                this.id,
+                this.date,
+                this.amount,
+                this.invoiceNumber,
+                this.paymentMethodId,
+                this.costumerId,
+                this.userId,
+                this.dealId,
+                this.refound
+        );
+    }
 /*
 
     public void updateSale(@Valid SaleUpdateDto updateSaleInput){

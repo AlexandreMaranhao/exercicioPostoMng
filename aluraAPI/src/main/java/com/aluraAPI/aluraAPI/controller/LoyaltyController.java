@@ -1,15 +1,20 @@
 package com.aluraAPI.aluraAPI.controller;
 
+import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
+import com.aluraAPI.aluraAPI.domain.costumer.CostumerRepository;
 import com.aluraAPI.aluraAPI.domain.loyalty.Loyalty;
 import com.aluraAPI.aluraAPI.domain.loyalty.LoyaltyRepository;
 
 import com.aluraAPI.aluraAPI.domain.loyalty.dto.LoyaltyUpdateDto;
 import com.aluraAPI.aluraAPI.domain.loyalty.dto.LoyaltyRegisterDto;
 import com.aluraAPI.aluraAPI.domain.loyalty.dto.LoyaltyListDto;
+import com.aluraAPI.aluraAPI.domain.product.dto.ProductDetailDto;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -18,11 +23,20 @@ import java.util.List;
 public class LoyaltyController {
     @Autowired
     private LoyaltyRepository loyaltyRepository;
+    @Autowired
+    private CostumerRepository costumerRepository;
 
     @PostMapping
     @Transactional
-    public void registerLoyalty(@RequestBody @Valid LoyaltyRegisterDto registerLoyaltyInput){
-        loyaltyRepository.save(new Loyalty(registerLoyaltyInput));
+    public ResponseEntity registerLoyalty(@RequestBody @Valid LoyaltyRegisterDto registerLoyaltyInput, UriComponentsBuilder uriBuilder){
+        Costumer costumerId = costumerRepository.findById(registerLoyaltyInput.costumerId()).get();
+        Loyalty loyalty = new Loyalty(registerLoyaltyInput, costumerId);
+
+        Loyalty response = loyaltyRepository.save(loyalty);
+
+        var uri = uriBuilder.path("/fidelidade/{id}").buildAndExpand(loyalty.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(response);
     }
 
     @GetMapping

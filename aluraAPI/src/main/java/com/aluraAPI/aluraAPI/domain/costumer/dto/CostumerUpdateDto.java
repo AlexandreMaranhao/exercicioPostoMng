@@ -8,9 +8,7 @@ public record CostumerUpdateDto(
 
         String cpf,
 
-        String name,
-
-        long loyaltyId
+        String name
 
 ) {
 }

@@ -4,12 +4,12 @@ import jakarta.validation.constraints.NotNull;
 
 public record SaleUpdateDto(
         @NotNull
-        long id,
+        Long id,
 
         String invoiceNumber,
 
-        long paymentMethodId,
+        Long paymentMethodId,
 
-        long costumerId
+        Long costumerId
 ) {
 }

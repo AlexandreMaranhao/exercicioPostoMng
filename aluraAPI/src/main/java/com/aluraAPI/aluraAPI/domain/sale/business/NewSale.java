@@ -6,13 +6,18 @@ import java.util.List;
 
 import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
 import com.aluraAPI.aluraAPI.domain.costumer.CostumerRepository;
+import com.aluraAPI.aluraAPI.domain.costumer.dto.CostumerListDto;
+import com.aluraAPI.aluraAPI.domain.costumer.dto.CustumerRegistredDto;
 import com.aluraAPI.aluraAPI.domain.deal.Deal;
+import com.aluraAPI.aluraAPI.domain.loyalty.Loyalty;
+import com.aluraAPI.aluraAPI.domain.loyalty.LoyaltyRepository;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethodRepository;
 import com.aluraAPI.aluraAPI.domain.deal.DealRepository;
 import com.aluraAPI.aluraAPI.domain.product.Product;
 import com.aluraAPI.aluraAPI.domain.product.ProductRepository;
 import com.aluraAPI.aluraAPI.domain.sale.dto.SaleCompleteRegisterDto;
+import com.aluraAPI.aluraAPI.domain.sale.dto.SaleReceiptDto;
 import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisteredDetailsDto;
 import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProduct;
 import com.aluraAPI.aluraAPI.domain.saleProduct.SaleProductRepository;
@@ -55,6 +60,8 @@ public class NewSale {
     private StockRepository stockRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private LoyaltyRepository loyaltyRepository;
 
 
     public SaleRegisteredDetailsDto newSale(SaleRegisterDto newSaleInput, float saleAmount){
@@ -63,7 +70,7 @@ public class NewSale {
         }
         Long costumerIdLong =  newSaleInput.costumerId();
         Long dealIdLong = newSaleInput.dealId();
-
+        Integer loyaltyPointsUsed = newSaleInput.loyaltyPoints();
 
         if (costumerIdLong != null) {
             if (!costumerRepository.existsById(newSaleInput.costumerId())) {
@@ -74,10 +81,34 @@ public class NewSale {
             throw new GeneralException(("No user was found with id: " + newSaleInput.userId()));
         }
         if (dealIdLong != null) {
+            saleAmount = calculatingInvoicValueAfterDeal(saleAmount);
             if (!dealRepository.existsById(newSaleInput.dealId())) {
                 throw new GeneralException(("No deal was found with id: " + newSaleInput.dealId()));
             }
         }
+        if (costumerIdLong != null){
+            Costumer costumer = costumerRepository.findById(newSaleInput.costumerId()).get();
+            Loyalty loyalty = loyaltyRepository.findById(costumer.getLoyaltyId().getId()).get();
+            Integer loyaltyPointsInBank = loyalty.getPoints();
+
+            if (loyaltyPointsUsed != null){
+                if (loyaltyPointsUsed > loyaltyPointsInBank){
+                    throw new GeneralException("This costumer has no enough points, the actual loyalty points is: " + loyaltyPointsInBank);
+                }else{
+                    loyaltyPointsInBank -= loyaltyPointsUsed;
+                    loyalty.setPoints(loyaltyPointsInBank);
+                    loyaltyRepository.save(loyalty);
+                    saleAmount = getSaleAmountAfterPoints(loyaltyPointsUsed, saleAmount);
+                }
+            }
+            int loyaltyPointsAfterSale = loyaltyPointsInBank + generateLoyaltyPoints(saleAmount);
+            loyalty.setPoints(loyaltyPointsAfterSale);
+            loyaltyRepository.save(loyalty);
+        }
+
+
+
+
         LocalDateTime sellDate = LocalDateTime.now();
         String invoiceNumber = CreateNew15CharNumber.generateInvoiceNumber();
 
@@ -262,7 +293,19 @@ public class NewSale {
         return receipt;
     }
 */
+    /*
+    public SaleReceiptDto generateReceipt(SaleRegisteredDetailsDto newCompleteSale, SaleCompleteRegisterDto newSaleInput){
+        List<SaleProductRegisterDto> products = newSaleInput.products();
+        int usedPoints = 0;
+        float finalAmount = newCompleteSale.amount();
+        int pointsGenerated = 0;
 
+
+        SaleReceiptDto receipt;//TODO: finalizar recibo
+
+        return receipt;
+    }
+*/
     public void emptyProductListOnCompleteSale(SaleCompleteRegisterDto newSaleInput){
         if (newSaleInput.getProducts() == null || newSaleInput.getProducts().isEmpty()) {
             throw new GeneralException("Product list can not be null or empty");
@@ -275,7 +318,8 @@ public class NewSale {
                 newSaleInput.costumerId(),
                 newSaleInput.userId(),
                 newSaleInput.dealId(),
-                newSaleInput.refound());
+                newSaleInput.refound(),
+                newSaleInput.loyaltyPoints());
 
 
     }
@@ -284,7 +328,7 @@ public class NewSale {
         return stockRepository.findByProductId(productId);
     }
 
-    public float getSaleAmount (SaleCompleteRegisterDto newSaleInput){
+    public float getSaleAmount(SaleCompleteRegisterDto newSaleInput){
         float totalAmount = 0;
 
         for (SaleProductRegisterDto product : newSaleInput.products()){
@@ -293,8 +337,28 @@ public class NewSale {
         }
         return totalAmount;
     }
+    
+    public float getSaleAmountAfterPoints(int points, float amount){
+        if (points == 250){
+            amount -= 5;
+        } else if (points == 500) {
+            amount -= 15;
+        } else if (points == 1000) {
+            amount -= 40;
+        }
+        return amount;
+    }
 
+    public int generateLoyaltyPoints(float saleAmount){
+        int generatedPoints = (int) saleAmount*5;
 
+        return generatedPoints;
+    }
 
+    public float calculatingInvoicValueAfterDeal (float amount){
+        amount = (float) (amount*0.9);
+
+        return amount;
+    }
 
 }

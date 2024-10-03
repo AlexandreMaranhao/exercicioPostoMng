@@ -1,5 +1,8 @@
 package com.aluraAPI.aluraAPI.domain.sale.dto;
 
+import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
+import com.aluraAPI.aluraAPI.domain.deal.Deal;
+import com.aluraAPI.aluraAPI.domain.user.User;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
@@ -11,13 +14,16 @@ public record SaleRegisterDto(
 
         long paymentMethodId,
 
-        long costumerId,
+        Long costumerId,
 
-        long userId,
+        Long userId,
 
-        long dealId,
+        Long dealId,
 
-        boolean refound
+        boolean refound,
+
+        Integer loyaltyPoints
+
 )
     {
 

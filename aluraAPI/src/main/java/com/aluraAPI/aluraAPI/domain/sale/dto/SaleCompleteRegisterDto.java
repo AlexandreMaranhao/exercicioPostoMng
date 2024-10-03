@@ -22,7 +22,7 @@ public record SaleCompleteRegisterDto(
 
         boolean refound,
 
-        Integer loyalty_points,
+        Integer loyaltyPoints,
 
         List<SaleProductRegisterDto> products
 ) {

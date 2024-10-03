@@ -22,7 +22,7 @@ public class Costumer {
     private String cpf;
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "loyalty_id", referencedColumnName = "id")
     private Loyalty loyaltyId;
 
@@ -33,6 +33,7 @@ public class Costumer {
         this.cpf = newCostumerInput.cpf();
         this.name = newCostumerInput.name();
         this.active = true;
+        this.loyaltyId = getLoyaltyId();
     }
 
     public Costumer(Costumer newRegistredCostumer, Loyalty loyalty) {

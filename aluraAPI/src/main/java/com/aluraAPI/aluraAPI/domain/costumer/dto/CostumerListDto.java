@@ -1,12 +1,13 @@
 package com.aluraAPI.aluraAPI.domain.costumer.dto;
 
 import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
+import com.aluraAPI.aluraAPI.domain.loyalty.Loyalty;
 
 public record CostumerListDto(
         long id,
         String cpf,
         String name,
-    //    long loyaltyId,
+        Long loyaltyId,
         boolean active
 )
 {
@@ -15,7 +16,7 @@ public record CostumerListDto(
         this(listCostumerInput.getId(),
                 listCostumerInput.getCpf(),
                 listCostumerInput.getName(),
-      //          cliente.getFidelidade().getId(),//TODO: atualizar
+                listCostumerInput.getLoyaltyId().getId(),
                 listCostumerInput.isActive()
         );
     }

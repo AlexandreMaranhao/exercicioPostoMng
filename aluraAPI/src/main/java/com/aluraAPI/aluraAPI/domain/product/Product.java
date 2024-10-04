@@ -45,7 +45,7 @@ public class Product {
     public Product(ProductUpdateDto updateProductInput) {
         this.name = updateProductInput.name();
         this.price = updateProductInput.price();
-        this.categoryId = categoryId;
+        this.categoryId = getCategoryId();
     }
 
    /*

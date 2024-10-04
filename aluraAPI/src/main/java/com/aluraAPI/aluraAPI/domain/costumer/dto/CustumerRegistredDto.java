@@ -11,13 +11,4 @@ public record CustumerRegistredDto(
         boolean active
 ) {
 
-    public CustumerRegistredDto(Costumer newRegistredCostumer) {
-        this(newRegistredCostumer.getId(),
-                newRegistredCostumer.getCpf(),
-                newRegistredCostumer.getName(),
-                newRegistredCostumer.getLoyaltyId(),
-                newRegistredCostumer.isActive()
-
-        );
-    }
 }

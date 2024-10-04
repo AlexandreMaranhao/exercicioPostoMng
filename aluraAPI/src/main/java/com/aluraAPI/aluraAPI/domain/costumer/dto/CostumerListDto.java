@@ -7,18 +7,9 @@ public record CostumerListDto(
         long id,
         String cpf,
         String name,
-        Long loyaltyId,
+        Loyalty loyaltyId,
         boolean active
 )
 {
-
-    public CostumerListDto(Costumer listCostumerInput){
-        this(listCostumerInput.getId(),
-                listCostumerInput.getCpf(),
-                listCostumerInput.getName(),
-                listCostumerInput.getLoyaltyId().getId(),
-                listCostumerInput.isActive()
-        );
-    }
 
 }

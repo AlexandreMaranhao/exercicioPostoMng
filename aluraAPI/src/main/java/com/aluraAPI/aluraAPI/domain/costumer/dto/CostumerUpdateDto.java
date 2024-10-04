@@ -10,7 +10,7 @@ public record CostumerUpdateDto(
 
         String name,
 
-        long loyaltyId
+        Long loyaltyId
 
 ) {
 }

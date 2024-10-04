@@ -29,7 +29,7 @@ public class NewCostumer {
         Costumer costumer = costumerRepository.save(new Costumer(newRegistredCostumer, loyalty));
 
 
-        return new CustumerRegistredDto(costumer);
+        return costumer.castToCustumerRegistredDto();
     }
 
     public Loyalty createLoyalty(){

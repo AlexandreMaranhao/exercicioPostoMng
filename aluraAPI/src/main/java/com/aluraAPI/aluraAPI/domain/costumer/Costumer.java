@@ -1,8 +1,10 @@
 package com.aluraAPI.aluraAPI.domain.costumer;
 
 //import com.aluraAPI.aluraAPI.domain.persistence.cliente.dto.DadosAtualizaCliente;
+import com.aluraAPI.aluraAPI.domain.costumer.dto.CostumerListDto;
 import com.aluraAPI.aluraAPI.domain.costumer.dto.CostumerUpdateDto;
 import com.aluraAPI.aluraAPI.domain.costumer.dto.CostumerRegisterDto;
+import com.aluraAPI.aluraAPI.domain.costumer.dto.CustumerRegistredDto;
 import com.aluraAPI.aluraAPI.domain.loyalty.Loyalty;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -42,6 +44,33 @@ public class Costumer {
         this.loyaltyId = loyalty;
         this.active = true;
     }
+
+    public Costumer(@Valid CostumerUpdateDto updateCostumerInput) {
+        this.cpf = updateCostumerInput.cpf();
+        this.name = updateCostumerInput.name();
+        this.loyaltyId = getLoyaltyId();
+    }
+
+    public CustumerRegistredDto castToCustumerRegistredDto(){
+        return new CustumerRegistredDto(
+                this.id,
+                this.cpf,
+                this.name,
+                this.loyaltyId,
+                this.active
+        );
+    }
+
+    public CostumerListDto castToCostumerListDto(){
+        return new CostumerListDto(
+                this.id,
+                this.cpf,
+                this.name,
+                this.loyaltyId,
+                this.active
+        );
+    }
+
 
 
     public void updateCostumer(@Valid CostumerUpdateDto updateCostumerInput) { //TODO: alteracao so permite inserir fidelidade

@@ -10,13 +10,5 @@ public record ProductDetailDto(
         Category categoryId,
         boolean active
 ) {
-    public ProductDetailDto(Product product){
-        this(product.getId(),
-                product.getName(),
-                product.getPrice(),
-                product.getCategoryId(),
-                product.isActive()
-        );
 
-    }
 }

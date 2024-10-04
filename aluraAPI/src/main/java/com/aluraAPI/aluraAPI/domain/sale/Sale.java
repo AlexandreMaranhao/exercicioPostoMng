@@ -3,11 +3,10 @@ package com.aluraAPI.aluraAPI.domain.sale;
 import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.deal.Deal;
+import com.aluraAPI.aluraAPI.domain.sale.dto.SaleListDto;
 import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisteredDetailsDto;
 import com.aluraAPI.aluraAPI.domain.user.User;
-import com.aluraAPI.aluraAPI.domain.sale.dto.SaleUpdateDto;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -62,37 +61,7 @@ public class Sale {
         this.refound = false;
     }
 
-    public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, Costumer costumer, User user) {
-        this.date = sellDate;
-        this.amount = amount;
-        this.invoiceNumber = invoiceNumber;
-        this.paymentMethodId = paymentMethod;
-        this.costumerId = costumer;
-        this.userId = user;
-        this.refound = false;
-    }
-
-    public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, User user, Deal deal) {
-        this.date = sellDate;
-        this.amount = amount;
-        this.invoiceNumber = invoiceNumber;
-        this.paymentMethodId = paymentMethod;
-        this.userId = user;
-        this.dealId = deal;
-        this.refound = false;
-    }
-
-    public Sale(LocalDateTime sellDate, @NotNull float amount, String invoiceNumber, PaymentMethod paymentMethod, User user) {
-        this.date = sellDate;
-        this.amount = amount;
-        this.invoiceNumber = invoiceNumber;
-        this.paymentMethodId = paymentMethod;
-        this.userId = user;
-        this.refound = false;
-    }
-
-
-    public SaleRegisteredDetailsDto changeToSaleRegisteredDetailsDto (){
+    public SaleRegisteredDetailsDto castToSaleRegisteredDetailsDto(){
         return new SaleRegisteredDetailsDto(
                 this.id,
                 this.date,
@@ -105,19 +74,18 @@ public class Sale {
                 this.refound);
     }
 
-/*
+    public SaleListDto castoToSaleListDtl(){
+        return new SaleListDto(
+                this.id,
+                this.date,
+                this.amount,
+                this.invoiceNumber,
+                this.costumerId,
+                this.userId,
+                this.dealId
+        );
+    }
 
-    public void updateSale(@Valid SaleUpdateDto updateSaleInput){
-        if (updateSaleInput.invoiceNumber() != null){
-            this.invoiceNumber = updateSaleInput.invoiceNumber();
-        }
-        if (dados.metodopagamentoId() != 0.0d){
-            this.metodopagamentoId = dados.metodopagamentoId();
-        }
-        if (dados.clienteId() != 0.0d){
-            this.clienteId = dados.clienteId();
-        }
 
-    }*/
 
 }

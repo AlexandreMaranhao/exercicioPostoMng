@@ -1,6 +1,7 @@
 package com.aluraAPI.aluraAPI.domain.product;
 
 import com.aluraAPI.aluraAPI.domain.category.Category;
+import com.aluraAPI.aluraAPI.domain.product.dto.ProductDetailDto;
 import com.aluraAPI.aluraAPI.domain.product.dto.ProductRegisterDto;
 import com.aluraAPI.aluraAPI.domain.product.dto.ProductUpdateDto;
 import jakarta.persistence.*;
@@ -45,6 +46,28 @@ public class Product {
         this.name = updateProductInput.name();
         this.price = updateProductInput.price();
         this.categoryId = categoryId;
+    }
+
+   /*
+    public ProductListDto castToProductListDto(){
+        return new ProductListDto(
+                this.id,
+                this.name,
+                this.price,
+                this.categoryId,
+                this.isActive()
+        );
+    }
+
+    */
+    public ProductDetailDto castToProductDetailDto(){
+        return new ProductDetailDto(
+                this.id,
+                this.name,
+                this.price,
+                this.categoryId,
+                this.isActive()
+        );
     }
 
     public void updateProduct(@Valid ProductUpdateDto updateProductInput) {

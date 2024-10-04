@@ -15,7 +15,7 @@ public record SaleCompleteRegisterDto(
         long paymentMethodId,
 
         Long costumerId,
-
+        @NotNull
         Long userId,
 
         Long dealId,
@@ -34,6 +34,5 @@ public record SaleCompleteRegisterDto(
     public Object getUserId() {
         return userId;
     }
-
 
 }

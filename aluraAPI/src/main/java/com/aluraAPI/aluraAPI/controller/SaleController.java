@@ -28,25 +28,21 @@ public class SaleController {
 
     @Autowired
     private ProductRepository productRepository;
-/*
-    @PostMapping
-    public ResponseEntity newSale(@RequestBody @Valid RegisterSaleDto newSaleInput){
-        newSale.newSale(newSaleInput);
-        return ResponseEntity.ok(new Sale(newSaleInput));
-    }
-*/
+
     @PostMapping("/completa")
     public ResponseEntity registerSale(@RequestBody @Valid SaleCompleteRegisterDto newSaleInput, UriComponentsBuilder uriBuilder)  {
         SaleRegisteredDetailsDto newCompleteSale = newSale.realizeCompleteSale(newSaleInput);
         SaleReceiptDto receipt = newSale.generateReceipt(newCompleteSale, newSaleInput);
-        //return ResponseEntity.ok("");
+
         var uri = uriBuilder.path("/vendas/{id}").buildAndExpand(newCompleteSale.id()).toUri();
         return ResponseEntity.created(uri).body(receipt);
     }
 
     @GetMapping
-    public List<SaleListDto> listSale(){
-        return saleRepository.findAll().stream().map(SaleListDto::new).toList();
+    public ResponseEntity<List<SaleListDto>> listSale(){
+        var list =  saleRepository.findAll().stream()
+                .map(sale -> sale.castoToSaleListDtl())
+                .toList();
+        return ResponseEntity.ok(list);
     }
-
 }

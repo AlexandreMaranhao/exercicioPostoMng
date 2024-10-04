@@ -8,7 +8,6 @@ import com.aluraAPI.aluraAPI.domain.product.business.ProductRegister;
 import com.aluraAPI.aluraAPI.domain.product.dto.ProductDetailDto;
 import com.aluraAPI.aluraAPI.domain.product.dto.ProductRegisterDto;
 import com.aluraAPI.aluraAPI.domain.product.dto.ProductUpdateDto;
-import com.aluraAPI.aluraAPI.domain.product.dto.ProductListDto;
 import com.aluraAPI.aluraAPI.exceptions.GeneralException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -46,8 +45,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductListDto>> listProduct(){
-        var list = productRepository.findAll().stream().map(ProductListDto::new).toList();
+    public ResponseEntity<List<ProductDetailDto>> listProduct(){
+        var list = productRepository.findAll().stream()
+                .map(product -> product.castToProductDetailDto())
+                .toList();
         return ResponseEntity.ok(list);
     }
 
@@ -73,6 +74,6 @@ public class ProductController {
         // var product = productRepository.getReferenceById(id)
         var product = productRepository.findById(id)
                 .orElseThrow(() -> new GeneralException("No registred product with id: " + id));
-        return ResponseEntity.ok(new ProductListDto(product));
+        return ResponseEntity.ok(product.castToProductDetailDto());
     }
 }

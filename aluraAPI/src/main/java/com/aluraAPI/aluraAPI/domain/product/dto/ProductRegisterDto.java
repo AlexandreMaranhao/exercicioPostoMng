@@ -13,11 +13,5 @@ public record ProductRegisterDto(
         @NotNull
         long categoryId
 ) {
-    public ProductRegisterDto(Product product) {
-        this(product.getId(),
-                product.getName(),
-                product.getPrice(),
-                product.getCategoryId().getId()
-        );
-    }
+
 }

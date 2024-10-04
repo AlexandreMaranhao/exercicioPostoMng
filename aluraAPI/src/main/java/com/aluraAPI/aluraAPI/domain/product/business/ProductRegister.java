@@ -43,9 +43,8 @@ public class ProductRegister {
         Product product = new Product(newProductInput.name(), newProductInput.price(), category);
 
 
-        Product save = productRepository.save(product);
+        productRepository.save(product);
 
-        return new ProductDetailDto(save);
-
+        return product.castToProductDetailDto();
     }
 }

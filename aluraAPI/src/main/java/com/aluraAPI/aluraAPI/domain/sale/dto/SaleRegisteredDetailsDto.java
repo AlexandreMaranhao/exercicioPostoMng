@@ -1,6 +1,10 @@
 package com.aluraAPI.aluraAPI.domain.sale.dto;
 
+import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
+import com.aluraAPI.aluraAPI.domain.deal.Deal;
+import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.sale.Sale;
+import com.aluraAPI.aluraAPI.domain.user.User;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
@@ -15,17 +19,18 @@ public record SaleRegisteredDetailsDto(
 
         String invoiceNumber,
 
-        long paymentMethodId,
+        PaymentMethod paymentMethodId,
 
-        long costumerId,
+        Costumer costumerId,
 
-        long userId,
+        User userId,
 
-        long dealId,
+        Deal dealId,
 
         boolean refound
 
 ) {
+    /*
     public SaleRegisteredDetailsDto(Sale thisSale) {
         this(thisSale.getId(),
                 thisSale.getDate(),
@@ -38,6 +43,8 @@ public record SaleRegisteredDetailsDto(
                 thisSale.isRefound());
     }
 
+
+     */
     public SaleRegisteredDetailsDto(SaleRegisteredDetailsDto registeredSale) {
         this(registeredSale.id(),
                 registeredSale.date(),

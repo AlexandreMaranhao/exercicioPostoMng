@@ -3,6 +3,7 @@ package com.aluraAPI.aluraAPI.domain.sale;
 import com.aluraAPI.aluraAPI.domain.costumer.Costumer;
 import com.aluraAPI.aluraAPI.domain.paymentMethod.PaymentMethod;
 import com.aluraAPI.aluraAPI.domain.deal.Deal;
+import com.aluraAPI.aluraAPI.domain.sale.dto.SaleRegisteredDetailsDto;
 import com.aluraAPI.aluraAPI.domain.user.User;
 import com.aluraAPI.aluraAPI.domain.sale.dto.SaleUpdateDto;
 import jakarta.persistence.*;
@@ -90,6 +91,19 @@ public class Sale {
         this.refound = false;
     }
 
+
+    public SaleRegisteredDetailsDto changeToSaleRegisteredDetailsDto (){
+        return new SaleRegisteredDetailsDto(
+                this.id,
+                this.date,
+                this.amount,
+                this.invoiceNumber,
+                this.paymentMethodId,
+                this.costumerId,
+                this.userId,
+                this.dealId,
+                this.refound);
+    }
 
 /*
 

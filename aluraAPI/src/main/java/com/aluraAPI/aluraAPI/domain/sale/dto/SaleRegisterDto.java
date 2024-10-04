@@ -12,7 +12,7 @@ public record SaleRegisterDto(
         LocalDateTime date,
         @NotNull
 
-        long paymentMethodId,
+        Long paymentMethodId,
 
         Long costumerId,
 

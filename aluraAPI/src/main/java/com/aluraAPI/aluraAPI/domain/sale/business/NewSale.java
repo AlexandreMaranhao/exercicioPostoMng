@@ -72,7 +72,7 @@ public class NewSale {
         Long dealIdLong = newSaleInput.dealId();
         Integer loyaltyPointsUsed = newSaleInput.loyaltyPoints();
 
-        if (costumerIdLong != null) {
+        if (newSaleInput.costumerId() != null) {
             if (!costumerRepository.existsById(newSaleInput.costumerId())) {
                 throw new GeneralException(("No costumer was found with id: " + newSaleInput.costumerId()));
             }
@@ -80,13 +80,13 @@ public class NewSale {
         if(!userRepository.existsById(newSaleInput.userId())){
             throw new GeneralException(("No user was found with id: " + newSaleInput.userId()));
         }
-        if (dealIdLong != null) {
+        if (newSaleInput.dealId() != null) {
             saleAmount = calculatingInvoicValueAfterDeal(saleAmount);
             if (!dealRepository.existsById(newSaleInput.dealId())) {
                 throw new GeneralException(("No deal was found with id: " + newSaleInput.dealId()));
             }
         }
-        if (costumerIdLong != null){
+        if (newSaleInput.costumerId() != null){
             Costumer costumer = costumerRepository.findById(newSaleInput.costumerId()).get();
             Loyalty loyalty = loyaltyRepository.findById(costumer.getLoyaltyId().getId()).get();
             Integer loyaltyPointsInBank = loyalty.getPoints();
@@ -107,8 +107,6 @@ public class NewSale {
         }
 
 
-
-
         LocalDateTime sellDate = LocalDateTime.now();
         String invoiceNumber = CreateNew15CharNumber.generateInvoiceNumber();
 
@@ -117,30 +115,31 @@ public class NewSale {
         Sale sell = null;
 
 
-        if((costumerIdLong != null) && (dealIdLong != null)){
+        if((newSaleInput.costumerId() != null) && (newSaleInput.dealId() != null)){
             Costumer costumer = costumerRepository.findById(newSaleInput.costumerId()).get();
             Deal deal = dealRepository.findById(newSaleInput.dealId()).get();
 
             sell = new Sale(sellDate, saleAmount, invoiceNumber, paymentMethod, costumer, user, deal);
             saleRepository.save(sell);
 
-        } else if ((costumerIdLong != null) && (dealIdLong == null)) {
+        } else if ((newSaleInput.costumerId() != null) && (newSaleInput.dealId() == null)) {
             Costumer costumer = costumerRepository.findById(newSaleInput.costumerId()).get();
 
             sell = new Sale(sellDate, saleAmount, invoiceNumber, paymentMethod, costumer, user);
             saleRepository.save(sell);
 
-        }else if ((costumerIdLong == null) && (dealIdLong != null)) {
+        }else if ((newSaleInput.costumerId() == null) && (newSaleInput.dealId() != null)) {
             Deal deal = dealRepository.findById(newSaleInput.dealId()).get();
 
             sell = new Sale(sellDate, saleAmount, invoiceNumber, paymentMethod, user, deal);
             saleRepository.save(sell);
 
-        }else if ((costumerIdLong == null) && (dealIdLong == null)){
+        }else if ((newSaleInput.costumerId() == null) && (newSaleInput.dealId() == null)){
             sell = new Sale(sellDate, saleAmount, invoiceNumber, paymentMethod, user);
             saleRepository.save(sell);
         }
-        return new SaleRegisteredDetailsDto(sell);
+        //return new SaleRegisteredDetailsDto(sell);
+        return sell.changeToSaleRegisteredDetailsDto();
     }
 
     public void findProductsCompleteSale(SaleCompleteRegisterDto newSaleInput){
@@ -198,7 +197,7 @@ public class NewSale {
         Float quantity;
         Type type = Type.valueOf("SELL");
         SaleProduct saleProduct = saleProductRepository.findById(registeredSaleProduct.getId()).get();
-        User user = userRepository.getReferenceById(registeredSale.userId());
+        User user = userRepository.getReferenceById(registeredSale.userId().getId());
         //Stock stock = stockRepository.findById(saleProduct.getId()).get();
 
         Product productId = productRepository.findById(product.productId()).get();
@@ -299,11 +298,18 @@ public class NewSale {
         int pointsGenerated = generateLoyaltyPoints(newCompleteSale.amount());
         List<SaleProductRegisterDto> products = newSaleInput.products();
 
-        PaymentMethod paymentMethod = paymentMethodRepository.findById(newCompleteSale.paymentMethodId()).get();
-        Costumer costumer = costumerRepository.findById(newCompleteSale.costumerId()).get();
-        User user = userRepository.findById(newCompleteSale.userId()).get();
-        Deal deal = dealRepository.findById(newCompleteSale.dealId()).get();
+        PaymentMethod paymentMethod = paymentMethodRepository.findById(newCompleteSale.paymentMethodId().getId()).get();
+        User user = userRepository.findById(newCompleteSale.userId().getId()).get();
 
+
+        Deal deal = null;
+        if (newCompleteSale.dealId() != null){
+            deal = dealRepository.findById(newCompleteSale.dealId().getId()).get();
+        }
+        Costumer costumer = null;
+        if (newCompleteSale.costumerId() != null){
+            costumer = costumerRepository.findById(newCompleteSale.costumerId().getId()).get();
+        }
 
         SaleReceiptDto receipt = new SaleReceiptDto(
                 newCompleteSale.id(),

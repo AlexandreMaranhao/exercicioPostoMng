@@ -1,6 +1,7 @@
 package com.aluraAPI.aluraAPI.domain.deal;
 
 
+import com.aluraAPI.aluraAPI.domain.deal.dto.DealListDto;
 import com.aluraAPI.aluraAPI.domain.deal.dto.DealUpdateDto;
 import com.aluraAPI.aluraAPI.domain.deal.dto.DealRegisterDto;
 import jakarta.persistence.*;
@@ -25,10 +26,15 @@ public class Deal {
     private boolean active;
 
 
-    public Deal(@Valid DealRegisterDto dados) {
-        this.name = dados.name();
-        this.validity = dados.validity();
+    public Deal(@Valid DealRegisterDto registerDealInput) {
+        this.name = registerDealInput.name();
+        this.validity = registerDealInput.validity();
         this.active = true;
+    }
+
+    public Deal(@Valid DealUpdateDto updateDealInput) {
+        this.name = updateDealInput.name();
+        this.validity = updateDealInput.validity();
     }
 
 
@@ -40,6 +46,14 @@ public class Deal {
             this.validity = newDealInput.validity();
         }
 
+    }
+
+    public DealListDto castToDealListDto(){
+        return new DealListDto(
+                this.id,
+                this.name,
+                this.validity
+        );
     }
 
     public void disable() {this.active = false;}

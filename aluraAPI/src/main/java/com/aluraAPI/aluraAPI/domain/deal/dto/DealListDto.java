@@ -9,10 +9,5 @@ public record DealListDto(
         String name,
         Date validity
 ) {
-    public DealListDto(Deal dealInput) {
-        this(dealInput.getId(),
-                dealInput.getName(),
-                dealInput.getValidity()
-        );
-    }
+
 }

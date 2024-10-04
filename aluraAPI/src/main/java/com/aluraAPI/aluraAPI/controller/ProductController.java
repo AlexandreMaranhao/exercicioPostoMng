@@ -54,10 +54,10 @@ public class ProductController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity updateProduct(@RequestBody @Valid ProductUpdateDto updateProductUpdate){
-        Product product = productRepository.getReferenceById(updateProductUpdate.id());
-        product.updateProduct(updateProductUpdate);
-        return ResponseEntity.ok(new Product(updateProductUpdate));
+    public ResponseEntity updateProduct(@RequestBody @Valid ProductUpdateDto updateProductInput){
+        Product product = productRepository.getReferenceById(updateProductInput.id());
+        product.updateProduct(updateProductInput);
+        return ResponseEntity.ok(new Product(updateProductInput));
     }
 
     @DeleteMapping("/{id}")

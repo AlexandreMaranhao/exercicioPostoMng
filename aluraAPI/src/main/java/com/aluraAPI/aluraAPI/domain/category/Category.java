@@ -1,5 +1,6 @@
 package com.aluraAPI.aluraAPI.domain.category;
 
+import com.aluraAPI.aluraAPI.domain.category.dto.CategoryListDto;
 import com.aluraAPI.aluraAPI.domain.category.dto.CategoryUpdateDto;
 import com.aluraAPI.aluraAPI.domain.category.dto.CategoryRegisterDto;
 import jakarta.persistence.*;
@@ -26,6 +27,17 @@ public class Category {
         this.active = true;
     }
 
+    public Category(@Valid CategoryUpdateDto updateCategoryInput) {
+        this.id = updateCategoryInput.id();
+        this.name = updateCategoryInput.name();
+    }
+
+    public CategoryListDto castCategoryListDto(){
+        return new CategoryListDto(
+                this.id,
+                this.name
+        );
+    }
 
     public void updateCategory (@Valid CategoryUpdateDto updateCategoryInput) {
         if (updateCategoryInput.name() != null){
